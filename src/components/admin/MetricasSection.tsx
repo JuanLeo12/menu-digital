@@ -107,14 +107,14 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
   const getDelta = (current: number, previous: number) => {
     if (!rangeInfo) return null;
     if (previous === 0) {
-      if (current === 0) return { direction: "neutral", text: "Sin cambio vs periodo anterior" };
-      return { direction: "up", text: "Nuevo crecimiento vs periodo anterior" };
+      if (current === 0) return { direction: "neutral" as const, text: "Sin cambio vs periodo anterior" };
+      return { direction: "up" as const, text: "Nuevo crecimiento vs periodo anterior" };
     }
     const pct = ((current - previous) / previous) * 100;
     const absPct = Math.abs(pct).toFixed(1);
-    if (pct > 0) return { direction: "up", text: `+${absPct}% vs periodo anterior` };
-    if (pct < 0) return { direction: "down", text: `-${absPct}% vs periodo anterior` };
-    return { direction: "neutral", text: "Sin cambio vs periodo anterior" };
+    if (pct > 0) return { direction: "up" as const, text: `+${absPct}% vs periodo anterior` };
+    if (pct < 0) return { direction: "down" as const, text: `-${absPct}% vs periodo anterior` };
+    return { direction: "neutral" as const, text: "Sin cambio vs periodo anterior" };
   };
 
   const ventasDelta = getDelta(totalVentas, totalVentasPrev);
@@ -314,10 +314,12 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
                 <XAxis dataKey="label" tick={{ fill: "#475569", fontSize: 12 }} />
                 <YAxis allowDecimals={false} tick={{ fill: "#64748b", fontSize: 12 }} />
                 <Tooltip
-                  formatter={(value: number, _name, entry) => [
-                    `${value} pedidos (${entry.payload.porcentaje}%)`,
-                    "Cantidad",
-                  ]}
+                  formatter={
+                    ((value: unknown, _name: unknown, item: { payload?: { porcentaje?: number } }) => [
+                      `${Number(value ?? 0)} pedidos (${item?.payload?.porcentaje ?? 0}%)`,
+                      "Cantidad",
+                    ]) as any
+                  }
                 />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                   {estadoChartData.map((item) => (
@@ -338,10 +340,12 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
                 <XAxis dataKey="label" tick={{ fill: "#475569", fontSize: 12 }} />
                 <YAxis allowDecimals={false} tick={{ fill: "#64748b", fontSize: 12 }} />
                 <Tooltip
-                  formatter={(value: number, _name, entry) => [
-                    `${value} pedidos (${entry.payload.porcentaje}%)`,
-                    "Cantidad",
-                  ]}
+                  formatter={
+                    ((value: unknown, _name: unknown, item: { payload?: { porcentaje?: number } }) => [
+                      `${Number(value ?? 0)} pedidos (${item?.payload?.porcentaje ?? 0}%)`,
+                      "Cantidad",
+                    ]) as any
+                  }
                 />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                   {tipoChartData.map((item) => (

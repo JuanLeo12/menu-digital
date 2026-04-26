@@ -16,17 +16,18 @@ import {
   ListOrdered,
   BarChart3,
   Settings,
+  Tag,
 } from "lucide-react";
 
 type Categoria = { id: string; nombre: string; orden: number };
 type Plato = {
   id: string;
   nombre: string;
-  descripcion: string;
+  descripcion?: string;
   precio: number;
   imagen_url: string;
   categoria_id: string;
-  disponible: boolean;
+  disponible?: boolean;
 };
 
 type HorarioDia = { abierto: boolean; abre: string; cierra: string };
