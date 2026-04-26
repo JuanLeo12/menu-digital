@@ -313,14 +313,8 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="label" tick={{ fill: "#475569", fontSize: 12 }} />
                 <YAxis allowDecimals={false} tick={{ fill: "#64748b", fontSize: 12 }} />
-                <Tooltip
-                  formatter={
-                    ((value: unknown, _name: unknown, item: { payload?: { porcentaje?: number } }) => [
-                      `${Number(value ?? 0)} pedidos (${item?.payload?.porcentaje ?? 0}%)`,
-                      "Cantidad",
-                    ]) as any
-                  }
-                />
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <Tooltip formatter={((value: any, _name: any, item: any) => [`${value ?? 0} pedidos (${item?.payload?.porcentaje ?? 0}%)`, "Cantidad"]) as any} />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                   {estadoChartData.map((item) => (
                     <Cell key={item.label} fill={item.fill} />
@@ -339,14 +333,8 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="label" tick={{ fill: "#475569", fontSize: 12 }} />
                 <YAxis allowDecimals={false} tick={{ fill: "#64748b", fontSize: 12 }} />
-                <Tooltip
-                  formatter={
-                    ((value: unknown, _name: unknown, item: { payload?: { porcentaje?: number } }) => [
-                      `${Number(value ?? 0)} pedidos (${item?.payload?.porcentaje ?? 0}%)`,
-                      "Cantidad",
-                    ]) as any
-                  }
-                />
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <Tooltip formatter={((value: any, _name: any, item: any) => [`${value ?? 0} pedidos (${item?.payload?.porcentaje ?? 0}%)`, "Cantidad"]) as any} />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                   {tipoChartData.map((item) => (
                     <Cell key={item.label} fill={item.fill} />
