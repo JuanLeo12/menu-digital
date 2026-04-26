@@ -14,13 +14,24 @@ import {
   Clock,
   ChevronRight,
   UtensilsCrossed,
-  Sparkles
+  Sparkles,
+  MapPin,
+  Phone,
+  ArrowRight,
+  ChevronDown,
+  Award,
+  TrendingUp,
+  Users,
+  Menu as MenuIcon,
+  Camera,
+  Globe
 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useFavoritesStore } from "@/store/favoritesStore";
 import { useToast } from "@/components/Toast";
 import CheckoutModal from "@/components/CheckoutModal";
 import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
 
 type Categoria = { id: string; nombre: string; orden: number };
 type Plato = {
@@ -64,9 +75,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [busqueda, setBusqueda] = useState("");
   const [categoriaActiva, setCategoriaActiva] = useState("Todos");
-  const [activeTab, setActiveTab] = useState<"menu" | "favorites">("menu");
+  const [activeTab, setActiveTab] = useState<"landing" | "menu" | "favorites">("landing");
   
-  // Predefined particle positions (deterministic for purity)
   const particleData = useMemo(() => [
     { x: 10, y: 20, duration: 2.5 },
     { x: 30, y: 60, duration: 3.2 },
@@ -156,7 +166,6 @@ export default function Home() {
       ? platos
       : platos.filter((p) => p.categoria_id === currentCatId);
 
-  // Filtrar por favoritos si estamos en la pestaña de favoritos
   if (activeTab === "favorites") {
     platosPorCategoria = platosPorCategoria.filter(p => favorites.isFavorite(p.id));
   }
@@ -167,6 +176,9 @@ export default function Home() {
       : platosPorCategoria.filter(
           (p) => p.nombre.toLowerCase().includes(busqueda.toLowerCase())
         );
+
+  // Productos populares (los primeros 6)
+  const productosPopulares = platos.slice(0, 6);
 
   const handleToggleFavorite = (plato: Plato) => {
     favorites.toggleFavorite({
@@ -195,26 +207,370 @@ export default function Home() {
     showToast(`🛒 ${plato.nombre} agregado al carrito`, "success");
   };
 
-  if (loading)
+  // Vista Landing Page
+  if (activeTab === "landing") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-amber-50">
-        <motion.div 
-          className="flex flex-col items-center gap-4"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="relative">
-            <div className="w-16 h-16 rounded-full border-4 border-orange-200 border-t-orange-600 animate-spin" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <UtensilsCrossed className="w-6 h-6 text-orange-600" />
+      <>
+        {isStoreClosed && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            className="bg-gradient-to-r from-red-500 to-red-600 text-white text-center py-4 font-semibold sticky top-0 z-50 shadow-lg"
+          >
+            <div className="flex items-center justify-center gap-2">
+              <Clock className="w-5 h-5" />
+              <span>⚠️ Nuestro local se encuentra cerrado en este momento. Vuelve pronto.</span>
             </div>
-          </div>
-          <p className="text-orange-600 font-semibold text-lg">Preparando el menú...</p>
-        </motion.div>
-      </div>
-    );
+          </motion.div>
+        )}
+        
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50/30 font-sans text-slate-900">
+          {/* Hero Section */}
+          <motion.header 
+            className="relative h-[80vh] w-full overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
+            <Image
+              src="https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?q=80&w=1920&auto=format&fit=crop"
+              alt="Portada Villa Granja"
+              fill
+              className="object-cover"
+              priority
+            />
+            
+            {/* Animated particles */}
+            <div className="absolute inset-0 z-10 overflow-hidden">
+              {particleData.map((particle, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-3 h-3 bg-yellow-400/60 rounded-full"
+                  initial={{ 
+                    x: `${particle.x}%`, 
+                    y: `${particle.y}%`,
+                    scale: 0 
+                  }}
+                  animate={{ 
+                    y: [null, -30],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{ 
+                    duration: particle.duration,
+                    repeat: Infinity,
+                    delay: i * 0.5,
+                  }}
+                />
+              ))}
+            </div>
 
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+              >
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <motion.div
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                  >
+                    <Sparkles className="w-8 h-8 text-yellow-400" />
+                  </motion.div>
+                  <span className="text-lg font-bold text-orange-300 uppercase tracking-widest">
+                    El mejor sabor de la ciudad
+                  </span>
+                </div>
+                <h1 className="text-6xl md:text-8xl font-extrabold tracking-tight text-white mb-6">
+                  Villa Granja 🍗
+                </h1>
+                <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto mb-8">
+                  El auténtico sabor del pollo a la brasa, con el toque especial que nos caracteriza
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setActiveTab("menu")}
+                    className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl shadow-orange-500/50 flex items-center justify-center gap-2"
+                  >
+                    <UtensilsCrossed size={24} />
+                    Ver Menú y Pedir
+                  </motion.button>
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    href="#info"
+                    className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-full font-bold text-lg border-2 border-white/50 flex items-center justify-center gap-2 hover:bg-white/30 transition-all"
+                  >
+                    <Info size={24} />
+                    Más Información
+                  </motion.a>
+                </div>
+              </motion.div>
+            </div>
+
+            <motion.div 
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <ChevronDown className="w-8 h-8 text-white/70" />
+            </motion.div>
+          </motion.header>
+
+          {/* Sección de Información */}
+          <section id="info" className="py-20 px-4 max-w-7xl mx-auto">
+            <motion.div 
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-5xl font-extrabold text-slate-800 mb-4">
+                ¿Por qué elegir <span className="text-orange-500">Villa Granja</span>?
+              </h2>
+              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                Más de 20 años brindando el mejor sabor a nuestras familias
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: <Award className="w-12 h-12" />,
+                  title: "Calidad Premium",
+                  desc: "Seleccionamos los mejores ingredientes para garantizar el sabor que nos caracteriza"
+                },
+                {
+                  icon: <UtensilsCrossed className="w-12 h-12" />,
+                  title: "Receta Única",
+                  desc: "Nuestra marinada secreta y técnica de cocción nos hacen incomparables"
+                },
+                {
+                  icon: <Users className="w-12 h-12" />,
+                  title: "Atención Familiar",
+                  desc: "Te atendemos como parte de nuestra familia, con calidez y dedicación"
+                }
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  className="bg-white rounded-3xl p-8 shadow-xl border border-orange-100 text-center hover:shadow-2xl transition-shadow"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.2 }}
+                >
+                  <div className="bg-gradient-to-br from-orange-100 to-amber-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 text-orange-600">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-800 mb-4">{item.title}</h3>
+                  <p className="text-slate-600 text-lg">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* Productos Populares */}
+          <section className="py-20 px-4 bg-gradient-to-br from-orange-50/50 via-white to-amber-50/30">
+            <div className="max-w-7xl mx-auto">
+              <motion.div 
+                className="text-center mb-16"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <TrendingUp className="w-8 h-8 text-orange-500" />
+                  <span className="text-orange-500 font-bold uppercase tracking-widest">Los Más Pedidos</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-extrabold text-slate-800 mb-4">
+                  Nuestros Favoritos
+                </h2>
+                <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+                  Los platos que enamoran a nuestros clientes
+                </p>
+              </motion.div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {productosPopulares.map((plato, i) => (
+                  <motion.div
+                    key={plato.id}
+                    className="bg-white rounded-2xl overflow-hidden shadow-lg border border-orange-100 hover:shadow-2xl transition-all group"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      {plato.imagen_url ? (
+                        <Image
+                          src={plato.imagen_url}
+                          alt={plato.nombre}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                          <span className="text-gray-400">Sin imagen</span>
+                        </div>
+                      )}
+                      <div className="absolute top-3 right-3">
+                        <motion.button
+                          whileHover={{ scale: 1.2 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => handleToggleFavorite(plato)}
+                          className={`p-2 rounded-full shadow-lg ${
+                            favorites.isFavorite(plato.id)
+                              ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white"
+                              : "bg-white/90 text-gray-400 hover:text-pink-500"
+                          }`}
+                        >
+                          <Heart size={18} className={favorites.isFavorite(plato.id) ? "fill-current" : ""} />
+                        </motion.button>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-slate-800 mb-2">{plato.nombre}</h3>
+                      <p className="text-slate-600 mb-4 line-clamp-2">{plato.descripcion}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl font-extrabold text-orange-600">
+                          S/ {plato.precio.toFixed(2)}
+                        </span>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => handleAddToCart(plato)}
+                          className="bg-gradient-to-r from-orange-500 to-amber-500 text-white p-3 rounded-full shadow-lg"
+                        >
+                          <Plus size={20} />
+                        </motion.button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="text-center mt-12">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setActiveTab("menu")}
+                  className="bg-gradient-to-r from-slate-800 to-slate-900 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl flex items-center gap-2 mx-auto"
+                >
+                  Ver Menú Completo
+                  <ArrowRight size={20} />
+                </motion.button>
+              </div>
+            </div>
+          </section>
+
+          {/* Sección de Información y Contacto */}
+          <section id="contacto" className="py-20 px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+            <div className="max-w-7xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-12">
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <h2 className="text-4xl font-extrabold mb-6">Visítanos</h2>
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <div className="bg-orange-500/20 p-3 rounded-xl">
+                        <MapPin className="w-6 h-6 text-orange-500" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold mb-2">Dirección</h3>
+                        <p className="text-slate-300">Av. Principal 123, Lima - Perú</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-orange-500/20 p-3 rounded-xl">
+                        <Phone className="w-6 h-6 text-orange-500" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold mb-2">Teléfono</h3>
+                        <p className="text-slate-300">+51 999 999 999</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-orange-500/20 p-3 rounded-xl">
+                        <Clock className="w-6 h-6 text-orange-500" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold mb-2">Horario</h3>
+                        <p className="text-slate-300">Lun - Dom: 12:00 PM - 10:00 PM</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="flex flex-col justify-center"
+                >
+                  <h2 className="text-4xl font-extrabold mb-6">Síguenos</h2>
+                  <p className="text-slate-300 text-lg mb-8">
+                    Mantente actualizado con nuestras promociones y novedades
+                  </p>
+                  <div className="flex gap-4">
+                    <motion.a
+                      whileHover={{ scale: 1.1, y: -5 }}
+                      href="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-gradient-to-br from-purple-500 to-pink-500 p-4 rounded-xl shadow-lg"
+                    >
+                      <Camera size={28} />
+                    </motion.a>
+                    <motion.a
+                      whileHover={{ scale: 1.1, y: -5 }}
+                      href="https://facebook.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-gradient-to-br from-blue-500 to-blue-600 p-4 rounded-xl shadow-lg"
+                    >
+                      <Globe size={28} />
+                    </motion.a>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-slate-950 text-slate-400 py-8 px-4 text-center">
+            <p className="text-sm">
+              © {new Date().getFullYear()} Villa Granja. Todos los derechos reservados.
+            </p>
+          </footer>
+
+          {/* Botón Flotante para ir al Menú */}
+          <motion.div
+            className="fixed bottom-6 right-6 z-40"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 1, type: "spring" }}
+          >
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setActiveTab("menu")}
+              className="bg-gradient-to-r from-orange-500 to-amber-500 text-white p-4 rounded-full shadow-2xl"
+            >
+              <MenuIcon size={24} />
+            </motion.button>
+          </motion.div>
+        </div>
+      </>
+    );
+  }
+
+  // Vista Menú (página actual)
   return (
     <>
       {isStoreClosed && (
@@ -231,9 +587,9 @@ export default function Home() {
       )}
       
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50/30 pb-32 font-sans text-slate-900">
-        {/* Hero Section Mejorada */}
+        {/* Header */}
         <motion.header 
-          className="relative h-64 w-full overflow-hidden"
+          className="relative h-48 w-full overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
@@ -247,59 +603,38 @@ export default function Home() {
             priority
           />
           
-          {/* Animated particles */}
-          <div className="absolute inset-0 z-10 overflow-hidden">
-            {particleData.map((particle, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-yellow-400/60 rounded-full"
-                initial={{ 
-                  x: `${particle.x}%`, 
-                  y: `${particle.y}%`,
-                  scale: 0 
-                }}
-                animate={{ 
-                  y: [null, -20],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{ 
-                  duration: particle.duration,
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-              />
-            ))}
-          </div>
-
           <div className="absolute z-20 bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+            <div className="flex items-center justify-between">
+              <div>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  onClick={() => setActiveTab("landing")}
+                  className="text-orange-300 hover:text-orange-200 flex items-center gap-2 mb-2"
                 >
-                  <Sparkles className="w-5 h-5 text-yellow-400" />
-                </motion.div>
-                <span className="text-sm font-medium text-orange-300 uppercase tracking-wider">
-                  El mejor sabor de la ciudad
-                </span>
+                  <ArrowRight className="rotate-180" size={16} />
+                  Volver al inicio
+                </motion.button>
+                <h1 className="text-3xl font-extrabold tracking-tight">
+                  Villa Granja 🍗
+                </h1>
+                <p className="text-sm text-gray-200 flex items-center gap-2">
+                  <Info size={14} /> 
+                  Haz tu pedido aquí
+                </p>
               </div>
-              <h1 className="text-4xl font-extrabold tracking-tight mb-2">
-                Villa Granja 🍗
-              </h1>
-              <p className="text-sm text-gray-200 flex items-center gap-2">
-                <Info size={14} /> 
-                Pide tu delivery o compra en salón
-              </p>
-            </motion.div>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                onClick={() => setActiveTab("landing")}
+                className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2"
+              >
+                <Sparkles size={16} />
+                Ver Información
+              </motion.button>
+            </div>
           </div>
         </motion.header>
 
-        {/* Search Bar Flotante */}
+        {/* Search Bar */}
         <motion.div 
           className="px-4 py-4 -mt-8 relative z-30"
           initial={{ y: 20, opacity: 0 }}
@@ -326,7 +661,6 @@ export default function Home() {
                     onClick={() => setBusqueda("")}
                     className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
                   >
-                    <span className="sr-only">Limpiar búsqueda</span>
                     ✕
                   </button>
                 )}
@@ -335,7 +669,7 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Tabs de Navegación */}
+        {/* Tabs */}
         <motion.div 
           className="px-4 mt-6"
           initial={{ y: 20, opacity: 0 }}
@@ -379,7 +713,7 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Categorías - Solo mostrar en pestaña de menú */}
+        {/* Categorías */}
         {activeTab === "menu" && (
           <motion.div 
             className="mt-6 px-4 overflow-x-auto no-scrollbar"
@@ -419,7 +753,7 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* Título de Sección */}
+        {/* Título */}
         <motion.div 
           className="px-4 mt-8 max-w-md mx-auto"
           initial={{ opacity: 0 }}
@@ -477,10 +811,8 @@ export default function Home() {
                     whileHover={{ y: -2, scale: 1.01 }}
                     className="bg-white/90 backdrop-blur-sm rounded-2xl p-3 shadow-sm border border-gray-100 flex gap-4 relative overflow-hidden transition-all hover:shadow-lg hover:border-orange-200 group"
                   >
-                    {/* Efecto de brillo en hover */}
                     <div className="absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/5 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                     
-                    {/* Imagen del producto */}
                     <div className="relative w-28 h-28 shrink-0 rounded-xl overflow-hidden bg-gray-100 shadow-md">
                       {plato.imagen_url ? (
                         <Image
@@ -497,9 +829,7 @@ export default function Home() {
                       )}
                     </div>
 
-                    {/* Información del producto */}
                     <div className="flex flex-col flex-1 justify-between py-1 relative">
-                      {/* Botón de favorito */}
                       <motion.button
                         whileHover={{ scale: 1.2 }}
                         whileTap={{ scale: 0.9 }}
@@ -583,7 +913,7 @@ export default function Home() {
           )}
         </motion.main>
 
-        {/* Carrito Flotante Mejorado */}
+        {/* Carrito Flotante */}
         <AnimatePresence>
           {cart.getTotalItems() > 0 && (
             <motion.div
@@ -602,7 +932,6 @@ export default function Home() {
                 }
                 className="w-full bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 shadow-2xl shadow-orange-500/40 text-white rounded-2xl py-4 px-6 flex items-center justify-between transition-all relative overflow-hidden"
               >
-                {/* Efecto de brillo */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer" />
                 
                 <div className="flex items-center gap-3 relative z-10">
