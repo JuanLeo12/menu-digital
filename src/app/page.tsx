@@ -438,7 +438,7 @@ export default function Home() {
 
         {/* Grid de Productos */}
         <motion.main 
-          className="px-4 mt-4 max-w-md mx-auto"
+          className="px-4 mt-4 max-w-6xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -464,7 +464,7 @@ export default function Home() {
               </p>
             </motion.div>
           ) : (
-            <div className="grid gap-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {platosMostrados.map((plato) => {
                 const itemEnCarrito = cart.items.find((i) => i.id === plato.id);
                 const cantidad = itemEnCarrito?.cantidad || 0;

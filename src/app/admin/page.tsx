@@ -382,67 +382,108 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 pb-24 font-sans">
-      <div className="flex items-center justify-between mt-4 mb-6">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-800">
-            Panel de Control
-          </h1>
-          <p className="text-slate-500 mt-1">Gestiona tu menú digital</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 pb-24 font-sans">
+      {/* Header con gradiente */}
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white shadow-xl">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-extrabold tracking-tight flex items-center gap-3">
+                <span className="text-4xl">🎯</span>
+                Panel de Administración
+              </h1>
+              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu menú digital de forma moderna</p>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all border border-white/30"
+            >
+              <LogOut size={20} />
+              <span className="font-semibold">Cerrar Sesión</span>
+            </button>
+          </div>
         </div>
-        <button
-          onClick={handleLogout}
-          className="flex flex-col items-center justify-center p-3 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
-        >
-          <LogOut size={20} className="mb-1" />
-          <span className="text-xs font-semibold">Salir</span>
-        </button>
-        <button
-          onClick={() => setActiveTab("pedidos")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === "pedidos" ? "bg-white text-orange-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
-        >
-          <ListOrdered size={16} />
-          Pedidos
-        </button>
-        <button
-          onClick={() => setActiveTab("metricas")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === "metricas" ? "bg-white text-orange-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
-        >
-          <BarChart3 size={16} />
-          Dashboard
-        </button>
       </div>
 
-      <div className="flex gap-2 mb-6 bg-slate-100 p-1.5 rounded-xl w-max">
-        <button
-          onClick={() => setActiveTab("platos")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === "platos" ? "bg-white text-orange-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
-        >
-          <UtensilsCrossed size={16} />
-          Productos
-        </button>
-        <button
-          onClick={() => setActiveTab("categorias")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === "categorias" ? "bg-white text-orange-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
-        >
-          <Tag size={16} />
-          Categorías
-        </button>
-        <button
-          onClick={() => setActiveTab("configuracion")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === "configuracion" ? "bg-white text-orange-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
-        >
-          <Settings size={16} />
-          Configuración
-        </button>
+      {/* Navegación principal */}
+      <div className="max-w-7xl mx-auto px-6 -mt-4 relative z-10">
+        <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+          <button
+            onClick={() => setActiveTab("pedidos")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
+              activeTab === "pedidos"
+                ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-blue-500/30 scale-105"
+                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+            }`}
+          >
+            <ListOrdered size={18} />
+            Pedidos
+            {pedidos.filter(p => p.estado === "PENDIENTE").length > 0 && (
+              <span className={`px-2 py-0.5 rounded-full text-xs ${
+                activeTab === "pedidos" ? "bg-white/20" : "bg-blue-100 text-blue-600"
+              }`}>
+                {pedidos.filter(p => p.estado === "PENDIENTE").length}
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab("metricas")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
+              activeTab === "metricas"
+                ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-purple-500/30 scale-105"
+                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+            }`}
+          >
+            <BarChart3 size={18} />
+            Dashboard
+          </button>
+          <button
+            onClick={() => setActiveTab("platos")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
+              activeTab === "platos"
+                ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-orange-500/30 scale-105"
+                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+            }`}
+          >
+            <UtensilsCrossed size={18} />
+            Productos
+          </button>
+          <button
+            onClick={() => setActiveTab("categorias")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
+              activeTab === "categorias"
+                ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-emerald-500/30 scale-105"
+                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+            }`}
+          >
+            <Tag size={18} />
+            Categorías
+          </button>
+          <button
+            onClick={() => setActiveTab("configuracion")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
+              activeTab === "configuracion"
+                ? "bg-gradient-to-r from-slate-600 to-slate-800 text-white shadow-slate-500/30 scale-105"
+                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+            }`}
+          >
+            <Settings size={18} />
+            Configuración
+          </button>
+        </div>
       </div>
 
-      {loading && !formMode && !formCatMode ? (
-        <div className="text-center py-20 text-slate-500 animate-pulse">
-          Cargando base de datos...
-        </div>
-      ) : (
-        <>
+      {/* Contenido principal */}
+      <main className="max-w-7xl mx-auto px-6 mt-8">
+        {loading && !formMode && !formCatMode ? (
+          <div className="flex items-center justify-center py-32">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full border-4 border-indigo-200 border-t-indigo-600 animate-spin" />
+              <p className="text-slate-500 font-medium">Cargando datos...</p>
+            </div>
+          </div>
+        ) : (
+          <>
           {activeTab === "platos" && (
             <ProductosSection
               platos={platos}
@@ -483,9 +524,10 @@ export default function AdminPage() {
             />
           )}
 
-          {activeTab === "metricas" && <MetricasSection pedidos={pedidos} />}
-        </>
-      )}
+            {activeTab === "metricas" && <MetricasSection pedidos={pedidos} />}
+          </>
+        )}
+      </main>
 
       {/* MODAL FORMULARIO PRODUCTOS */}
       {formMode && (
