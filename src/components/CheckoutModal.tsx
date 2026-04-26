@@ -13,6 +13,8 @@ interface CheckoutModalProps {
 export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const cart = useCartStore()
   const [tipoPedido, setTipoPedido] = useState<'delivery' | 'salon' | 'recojo'>('delivery')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [checkoutMessage, setCheckoutMessage] = useState<{ type: 'error' | 'info'; text: string } | null>(null)
   
   // Formulario
   const [nombre, setNombre] = useState('')
@@ -23,6 +25,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const [montoEfectivo, setMontoEfectivo] = useState('')
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [config, setConfig] = useState<any>(null)
+  const canInteract = !isSubmitting
 
   useEffect(() => {
     const supabase = createClient();
@@ -69,13 +72,20 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
       }
     }, [isOpen]);
 
-  const handleEnviar = () => {
-    if (!nombre.trim()) return alert('Por favor, ingresa tu nombre.')
-    if (tipoPedido === 'delivery' && !direccion.trim()) return alert('Por favor, ingresa tu dirección.')
-    if (tipoPedido === 'salon' && !mesa.trim()) return alert('Por favor, ingresa tu número de mesa.')
+  const handleEnviar = async () => {
+    const showValidationError = (text: string) => {
+      setCheckoutMessage({ type: 'error', text })
+    }
 
-    if (!medioPago) return alert('Selecciona un medio de pago.');
-    if (medioPago === 'efectivo' && !montoEfectivo) return alert('Ingresa con cuánto vas a pagar.');
+    if (isSubmitting) return
+    setCheckoutMessage(null)
+    if (cart.items.length === 0) return showValidationError('Tu carrito esta vacio.')
+    if (!nombre.trim()) return showValidationError('Por favor, ingresa tu nombre.')
+    if (tipoPedido === 'delivery' && !direccion.trim()) return showValidationError('Por favor, ingresa tu direccion.')
+    if (tipoPedido === 'salon' && !mesa.trim()) return showValidationError('Por favor, ingresa tu numero de mesa.')
+
+    if (!medioPago) return showValidationError('Selecciona un medio de pago.');
+    if (medioPago === 'efectivo' && !montoEfectivo) return showValidationError('Ingresa con cuanto vas a pagar.');
 
     let paymentText = "";
     if (medioPago === 'efectivo') paymentText = "\n*Tipo de pago:* Efectivo\n*Pagaré con:* S/ " + montoEfectivo;
@@ -119,7 +129,10 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
 
     
-      // Guardar pedido en Supabase
+    setCheckoutMessage({ type: 'info', text: 'Registrando pedido...' })
+    setIsSubmitting(true)
+    try {
+      // Guardar pedido en Supabase antes de abrir WhatsApp.
       const supabase = createClient()
       const detalle_json = cart.items.map(item => ({
         id: item.id,
@@ -128,7 +141,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
         precio: item.precio
       }))
 
-      supabase.from("pedidos").insert([{
+      const { error } = await supabase.from("pedidos").insert([{
         cliente_nombre: nombre,
         tipo_pedido: tipoPedido,
         direccion: tipoPedido === "delivery" ? direccion : null,
@@ -137,16 +150,28 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
         total: cart.getTotal(),
         estado: "PENDIENTE",
         detalle: detalle_json
-      }]).then(({ error }) => {
-        if (error) console.error("Error guardando pedido:", error)
-      })
+      }])
+
+      if (error) {
+        console.error("Error guardando pedido:", error)
+        setCheckoutMessage({ type: 'error', text: 'No se pudo registrar tu pedido. Intentalo nuevamente.' })
+        return
+      }
 
       const DEST_PHONE = config?.whatsapp_numero || "51902246535";
       const url = `https://api.whatsapp.com/send?phone=${DEST_PHONE}&text=${encodeURIComponent(texto)}`
-    window.open(url, '_blank')
-    
-    // Al enviar, de forma opcional podríamos vaciar el carrito
-    // cart.clearCart()
+      window.open(url, '_blank')
+
+      cart.clearCart()
+      onClose()
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleClose = () => {
+    if (!canInteract) return
+    onClose()
   }
 
   return (
@@ -158,7 +183,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={handleClose}
             className="fixed inset-0 bg-black/60 z-50 backdrop-blur-sm"
           />
 
@@ -173,12 +198,28 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
             {/* Header del Modal */}
             <div className="sticky top-0 bg-white p-4 border-b border-gray-100 flex items-center justify-between z-10 rounded-t-3xl">
               <h2 className="font-bold text-lg text-gray-800">Finalizar Pedido</h2>
-              <button onClick={onClose} className="p-2 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200">
+              <button
+                onClick={handleClose}
+                disabled={!canInteract}
+                className="p-2 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
                 <X size={20} />
               </button>
             </div>
 
             <div className="p-5 space-y-6">
+              {checkoutMessage && (
+                <div
+                  className={`rounded-xl border px-4 py-3 text-sm font-medium ${
+                    checkoutMessage.type === 'error'
+                      ? 'border-red-200 bg-red-50 text-red-700'
+                      : 'border-orange-200 bg-orange-50 text-orange-700'
+                  }`}
+                >
+                  {checkoutMessage.text}
+                </div>
+              )}
+
               {/* Resumen del Carrito Corto */}
               <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
                 <div className="flex justify-between items-center mb-2">
@@ -194,33 +235,36 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                 <div className="grid grid-cols-3 gap-2">
                   <button 
                     onClick={() => setTipoPedido('delivery')}
+                    disabled={!canInteract}
                     className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all ${
                       tipoPedido === 'delivery' 
                         ? 'border-orange-500 bg-orange-50 text-orange-700' 
                         : 'border-gray-100 bg-white text-gray-500'
-                    }`}
+                    } disabled:cursor-not-allowed disabled:opacity-70`}
                   >
                     <MapPin size={22} className="mb-1" />
                     <span className="font-semibold text-xs text-center">Delivery</span>
                   </button>
                   <button 
                     onClick={() => setTipoPedido('recojo')}
+                    disabled={!canInteract}
                     className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all ${
                       tipoPedido === 'recojo' 
                         ? 'border-orange-500 bg-orange-50 text-orange-700' 
                         : 'border-gray-100 bg-white text-gray-500'
-                    }`}
+                    } disabled:cursor-not-allowed disabled:opacity-70`}
                   >
                     <ShoppingBag size={22} className="mb-1" />
                     <span className="font-semibold text-xs text-center">Recojo</span>
                   </button>
                   <button 
                     onClick={() => setTipoPedido('salon')}
+                    disabled={!canInteract}
                     className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all ${
                       tipoPedido === 'salon' 
                         ? 'border-orange-500 bg-orange-50 text-orange-700' 
                         : 'border-gray-100 bg-white text-gray-500'
-                    }`}
+                    } disabled:cursor-not-allowed disabled:opacity-70`}
                   >
                     <Store size={22} className="mb-1" />
                     <span className="font-semibold text-xs text-center">En Local</span>
@@ -236,6 +280,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     type="text" 
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
+                    disabled={!canInteract}
                     placeholder="Ej. Juan Pérez" 
                     className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all font-medium"
                   />
@@ -249,6 +294,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                         type="text" 
                         value={direccion}
                         onChange={(e) => setDireccion(e.target.value)}
+                        disabled={!canInteract}
                         placeholder="Ej. Av. Larco 123, Miraflores" 
                         className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all font-medium"
                       />
@@ -259,6 +305,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                         type="text" 
                         value={referencia}
                         onChange={(e) => setReferencia(e.target.value)}
+                        disabled={!canInteract}
                         placeholder="Ej. Frente al parque, reja negra" 
                         className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all font-medium"
                       />
@@ -275,7 +322,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                       onChange={(e) => setMesa(e.target.value)}
                       placeholder="Ej. 4" 
                       className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all font-medium"
-                      readOnly={typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('mesa')}
+                      readOnly={!canInteract || (typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('mesa'))}
                     />
                     {typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('mesa') && (
                       <p className="text-xs text-orange-600 mt-1">Mesa asignada automáticamente por el QR.</p>
@@ -290,16 +337,16 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
               <div className="space-y-3 mt-6">
                 <label className="font-semibold text-gray-700 text-sm">¿Cómo vas a pagar?</label>
                 <div className="grid grid-cols-2 gap-2">
-                  <button onClick={() => setMedioPago('yape')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'yape' ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-100 bg-white text-gray-500'}`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('yape')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'yape' ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-100 bg-white text-gray-500'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <Smartphone size={20} className="mr-2" /> <span className="font-bold text-sm">Yape</span>
                   </button>
-                  <button onClick={() => setMedioPago('plin')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'plin' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-100 bg-white text-gray-500'}`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('plin')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'plin' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-100 bg-white text-gray-500'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <Smartphone size={20} className="mr-2" /> <span className="font-bold text-sm">Plin</span>
                   </button>
-                  <button onClick={() => setMedioPago('efectivo')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'efectivo' ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-100 bg-white text-gray-500'}`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('efectivo')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'efectivo' ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-100 bg-white text-gray-500'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <Banknote size={20} className="mr-2" /> <span className="font-bold text-sm">Efectivo</span>
                   </button>
-                  <button onClick={() => setMedioPago('tarjeta')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'tarjeta' ? 'border-orange-500 bg-orange-50 text-orange-700' : 'border-gray-100 bg-white text-gray-500'}`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('tarjeta')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'tarjeta' ? 'border-orange-500 bg-orange-50 text-orange-700' : 'border-gray-100 bg-white text-gray-500'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <CreditCard size={20} className="mr-2" /> <span className="font-bold text-sm">Tarjeta (POS)</span>
                   </button>
                 </div>
@@ -308,7 +355,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                 {medioPago === 'efectivo' && (
                   <div className="mt-3">
                     <label className="text-xs font-semibold text-gray-500 uppercase">¿Con cuánto vas a pagar? (S/)</label>
-                    <input type="number" step="0.5" value={montoEfectivo} onChange={(e) => setMontoEfectivo(e.target.value)} placeholder="Ej. 100" className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-green-500 transition-all font-medium" />
+                    <input type="number" step="0.5" value={montoEfectivo} onChange={(e) => setMontoEfectivo(e.target.value)} disabled={!canInteract} placeholder="Ej. 100" className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-green-500 transition-all font-medium disabled:opacity-70" />
                   </div>
                 )}
                 {medioPago === 'yape' && config && (
@@ -338,12 +385,16 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
               </div>
 
               {/* Botón de Enviar a WhatsApp */}
+              <p className="text-xs text-gray-500 -mt-2">
+                Primero registramos tu pedido y luego te redirigimos a WhatsApp para enviarlo.
+              </p>
               <button 
                 onClick={handleEnviar}
-                className="w-full bg-[#25D366] hover:bg-[#20BE5A] text-white rounded-2xl py-4 font-bold text-lg flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/30 transition-all active:scale-95 mt-6"
+                disabled={!canInteract}
+                className="w-full bg-[#25D366] hover:bg-[#20BE5A] text-white rounded-2xl py-4 font-bold text-lg flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/30 transition-all active:scale-95 mt-6 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 <Send size={20} />
-                Enviar Pedido por WhatsApp
+                {isSubmitting ? 'Registrando pedido...' : 'Enviar Pedido por WhatsApp'}
               </button>
             </div>
           </motion.div>

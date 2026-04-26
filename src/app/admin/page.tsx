@@ -3,24 +3,19 @@
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import PedidosSection from "@/components/admin/PedidosSection";
+import MetricasSection from "@/components/admin/MetricasSection";
+import CategoriasSection from "@/components/admin/CategoriasSection";
+import ProductosSection from "@/components/admin/ProductosSection";
+import ConfiguracionSection from "@/components/admin/ConfiguracionSection";
 import {
-  Plus,
-  Edit2,
-  Trash2,
   LogOut,
   CheckCircle2,
   Upload,
-  Tag,
   UtensilsCrossed,
   ListOrdered,
   BarChart3,
-  X,
-  Undo2,
   Settings,
-  Store,
-  Smartphone,
-  Wallet,
-  Clock,
 } from "lucide-react";
 
 type Categoria = { id: string; nombre: string; orden: number };
@@ -448,585 +443,46 @@ export default function AdminPage() {
       ) : (
         <>
           {activeTab === "platos" && (
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-slate-700">
-                  Mis Productos
-                </h2>
-                <button
-                  onClick={openCrear}
-                  className="bg-orange-500 text-white px-5 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-orange-600 active:scale-95 transition-all shadow-sm text-sm"
-                >
-                  <Plus size={18} />
-                  Nuevo Producto
-                </button>
-              </div>
-
-              {platos.length === 0 ? (
-                <div className="bg-orange-50 border-2 border-dashed border-orange-200 rounded-2xl p-10 text-center text-orange-800">
-                  Aún no tienes productos creados. Añade tu primer producto para
-                  que tus clientes puedan comprar.
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {platos.map((p) => {
-                    const catNombre =
-                      categorias.find((c) => c.id === p.categoria_id)?.nombre ||
-                      "Sin categoría";
-                    return (
-                      <div
-                        key={p.id}
-                        className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100 gap-4"
-                      >
-                        <div className="flex items-center gap-4">
-                          {p.imagen_url ? (
-                            <>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img
-                                src={p.imagen_url}
-                                alt={p.nombre}
-                                className="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-200"
-                              />
-                            </>
-                          ) : (
-                            <div className="w-16 h-16 rounded-xl shrink-0 bg-slate-200 flex items-center justify-center text-slate-400 text-xs font-medium">
-                              Sin Img
-                            </div>
-                          )}
-                          <div>
-                            <p className="text-xs font-bold text-orange-500 mb-1 uppercase tracking-wider">
-                              {catNombre}
-                            </p>
-                            <h3 className="font-bold text-slate-800 text-lg leading-tight">
-                              {p.nombre}
-                            </h3>
-                            <p className="font-medium text-slate-600 mt-1">
-                              S/ {(p.precio || 0).toFixed(2)}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
-                          <button
-                            onClick={() => openEditar(p)}
-                            className="flex-1 sm:flex-none justify-center bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 p-2.5 rounded-xl transition-colors flex items-center gap-2 shrink-0 shadow-sm"
-                          >
-                            <Edit2 size={16} />{" "}
-                            <span className="sm:hidden font-medium">
-                              Editar
-                            </span>
-                          </button>
-                          <button
-                            onClick={() => borrarPlato(p.id)}
-                            className="flex-1 sm:flex-none justify-center bg-white border border-slate-200 hover:bg-red-50 text-red-500 p-2.5 rounded-xl transition-colors flex items-center gap-2 shrink-0 shadow-sm"
-                          >
-                            <Trash2 size={16} />{" "}
-                            <span className="sm:hidden font-medium">
-                              Borrar
-                            </span>
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+            <ProductosSection
+              platos={platos}
+              categorias={categorias}
+              onOpenCrear={openCrear}
+              onOpenEditar={openEditar}
+              onBorrarPlato={borrarPlato}
+            />
           )}
 
           {activeTab === "categorias" && (
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-slate-700">
-                  Tus Categorías
-                </h2>
-                <button
-                  onClick={openCrearCategoria}
-                  className="bg-emerald-500 text-white px-5 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-emerald-600 active:scale-95 transition-all shadow-sm text-sm"
-                >
-                  <Plus size={18} />
-                  Nueva Categoría
-                </button>
-              </div>
-
-              {categorias.length === 0 ? (
-                <div className="bg-emerald-50 border-2 border-dashed border-emerald-200 rounded-2xl p-10 text-center text-emerald-800">
-                  Agrega categorías (Ej: Combos, Bebidas, Licores) para
-                  organizar tu menú.
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {categorias.map((c) => (
-                    <div
-                      key={c.id}
-                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-2xl bg-white border border-slate-200 shadow-sm gap-4"
-                    >
-                      <div>
-                        <h3 className="font-bold text-slate-800 text-lg leading-tight w-full truncate">
-                          {c.nombre}
-                        </h3>
-                      </div>
-                      <div className="flex items-center gap-2 w-full sm:w-auto">
-                        <button
-                          onClick={() => openEditarCategoria(c)}
-                          className="flex-1 sm:flex-none justify-center bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 p-2.5 rounded-xl transition-colors flex items-center gap-2 shrink-0"
-                        >
-                          <Edit2 size={16} />{" "}
-                          <span className="sm:hidden font-medium">Editar</span>
-                        </button>
-                        <button
-                          onClick={() => borrarCategoria(c.id)}
-                          className="flex-1 sm:flex-none justify-center bg-slate-50 border border-slate-200 hover:bg-red-50 text-red-500 p-2.5 rounded-xl transition-colors flex items-center gap-2 shrink-0"
-                        >
-                          <Trash2 size={16} />{" "}
-                          <span className="sm:hidden font-medium">Borrar</span>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <CategoriasSection
+              categorias={categorias}
+              onOpenCrearCategoria={openCrearCategoria}
+              onOpenEditarCategoria={openEditarCategoria}
+              onBorrarCategoria={borrarCategoria}
+            />
           )}
 
           {activeTab === "pedidos" && (
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-              <h2 className="text-xl font-bold text-slate-700 mb-6">
-                Pedidos Recientes
-              </h2>
-              {pedidos.length === 0 ? (
-                <div className="bg-blue-50 border-2 border-dashed border-blue-200 rounded-2xl p-10 text-center text-blue-800">
-                  No tienes pedidos todavía.
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {pedidos.map((p) => (
-                    <div
-                      key={p.id}
-                      className={`p-4 rounded-xl border ${p.estado === "PENDIENTE" ? "bg-amber-50 border-amber-200" : p.estado === "COMPLETADO" ? "bg-emerald-50 border-emerald-200" : "bg-red-50 border-red-200"}`}
-                    >
-                      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span
-                              className={`text-xs font-bold px-2 py-0.5 rounded-full ${p.estado === "PENDIENTE" ? "bg-amber-100 text-amber-700" : p.estado === "COMPLETADO" ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}
-                            >
-                              {p.estado}
-                            </span>
-                            <span className="text-xs text-slate-500 font-medium">
-                              {new Date(p.created_at).toLocaleString()}
-                            </span>
-                          </div>
-                          <h3 className="font-bold text-slate-800 text-lg">
-                            Cliente: {p.cliente_nombre}
-                          </h3>
-                          <p className="text-sm font-medium text-slate-600">
-                            Total: S/ {Number(p.total).toFixed(2)} - Tipo:{" "}
-                            {p.tipo_pedido}
-                          </p>
-                          <div className="text-xs text-slate-500 mt-2">
-                            <ul>
-                              {p.detalle.map((d, i) => (
-                                <li key={i}>
-                                  • {d.cantidad}x {d.nombre}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                        <div className="flex gap-2 shrink-0 h-max">
-                          {p.estado === "PENDIENTE" && (
-                            <>
-                              <button
-                                onClick={() =>
-                                  updatePedidoEstado(p.id, "COMPLETADO")
-                                }
-                                className="bg-emerald-500 text-white p-2 rounded-lg hover:bg-emerald-600 transition-colors"
-                                title="Marcar Completado"
-                              >
-                                <CheckCircle2 size={18} />
-                              </button>
-                              <button
-                                onClick={() =>
-                                  updatePedidoEstado(p.id, "CANCELADO")
-                                }
-                                className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors"
-                                title="Cancelar"
-                              >
-                                <X size={18} />
-                              </button>
-                            </>
-                          )}
-                          {p.estado !== "PENDIENTE" && (
-                            <button
-                              onClick={() =>
-                                updatePedidoEstado(p.id, "PENDIENTE")
-                              }
-                              className="bg-slate-200 text-slate-600 p-2 rounded-lg hover:bg-slate-300 transition-colors"
-                              title="Deshacer y Marcar Pendiente"
-                            >
-                              <Undo2 size={18} />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <PedidosSection
+              pedidos={pedidos}
+              onUpdatePedidoEstado={updatePedidoEstado}
+            />
           )}
 
           {activeTab === "configuracion" && confTemp && (
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-slate-700 flex items-center gap-2">
-                  <Settings className="text-orange-500" /> Configuración del
-                  Local
-                </h2>
-                <button
-                  onClick={guardarConfiguracion}
-                  className="bg-orange-500 text-white px-5 py-2.5 rounded-full font-semibold"
-                >
-                  Guardar Cambios
-                </button>
-              </div>
-
-              <div className="space-y-6">
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex justify-between items-center">
-                  <div className="flex gap-3 items-center">
-                    <Store
-                      size={24}
-                      className={
-                        confTemp.local_abierto
-                          ? "text-emerald-500"
-                          : "text-red-500"
-                      }
-                    />
-                    <div>
-                      <p className="font-bold text-slate-800">
-                        Estado del Local
-                      </p>
-                      <p className="text-sm text-slate-500">
-                        ¿Está abierto y recibiendo pedidos?
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() =>
-                      setConfTemp({
-                        ...confTemp,
-                        local_abierto: !confTemp.local_abierto,
-                      })
-                    }
-                    disabled={confTemp.auto_horario}
-                    className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${
-                      confTemp.local_abierto ? "bg-emerald-500" : "bg-slate-300"
-                    } ${confTemp.auto_horario ? "opacity-50 cursor-not-allowed" : ""}`}
-                  >
-                    <span
-                      className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform shadow-sm ${
-                        confTemp.local_abierto
-                          ? "translate-x-7"
-                          : "translate-x-1"
-                      }`}
-                    />
-                  </button>
-                </div>
-
-                {/* Horarios Automáticos */}
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                  <div className="flex justify-between items-center mb-4">
-                    <div className="flex gap-3 items-center">
-                      <Clock
-                        size={24}
-                        className={
-                          confTemp.auto_horario
-                            ? "text-blue-500"
-                            : "text-slate-400"
-                        }
-                      />
-                      <div>
-                        <p className="font-bold text-slate-800">
-                          Horarios Automáticos
-                        </p>
-                        <p className="text-sm text-slate-500">
-                          {confTemp.auto_horario
-                            ? "El local abre y cierra solo según el horario. (Deshabilita el botón manual)"
-                            : "Abre y cierra la tienda automáticamente por hora y día."}
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() =>
-                        setConfTemp({
-                          ...confTemp,
-                          auto_horario: !confTemp.auto_horario,
-                        })
-                      }
-                      className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${confTemp.auto_horario ? "bg-blue-500" : "bg-slate-300"}`}
-                    >
-                      <span
-                        className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform shadow-sm ${confTemp.auto_horario ? "translate-x-7" : "translate-x-1"}`}
-                      />
-                    </button>
-                  </div>
-
-                  {confTemp.auto_horario && (
-                    <div className="space-y-3 mt-4 border-t border-slate-200 pt-4">
-                      {[
-                        { id: "1", name: "Lunes" },
-                        { id: "2", name: "Martes" },
-                        { id: "3", name: "Miércoles" },
-                        { id: "4", name: "Jueves" },
-                        { id: "5", name: "Viernes" },
-                        { id: "6", name: "Sábado" },
-                        { id: "0", name: "Domingo" },
-                      ].map((dia) => (
-                        <div
-                          key={dia.id}
-                          className="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-100"
-                        >
-                          <div className="flex flex-col sm:flex-row sm:items-center w-1/3">
-                            <label className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                checked={
-                                  confTemp.horarios?.[dia.id]?.abierto ?? false
-                                }
-                                onChange={(e) => {
-                                  const newHorarios = { ...confTemp.horarios };
-                                  if (!newHorarios[dia.id])
-                                    newHorarios[dia.id] = {
-                                      abierto: true,
-                                      abre: "12:00",
-                                      cierra: "23:00",
-                                    };
-                                  newHorarios[dia.id].abierto =
-                                    e.target.checked;
-                                  setConfTemp({
-                                    ...confTemp,
-                                    horarios: newHorarios,
-                                  });
-                                }}
-                                className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                              />
-                              <span
-                                className={`font-semibold ${confTemp.horarios?.[dia.id]?.abierto ? "text-slate-800" : "text-slate-400"}`}
-                              >
-                                {dia.name}
-                              </span>
-                            </label>
-                          </div>
-
-                          {confTemp.horarios?.[dia.id]?.abierto ? (
-                            <div className="flex gap-2 items-center w-2/3 justify-end text-sm">
-                              <span className="text-slate-500">De</span>
-                              <input
-                                type="time"
-                                value={confTemp.horarios[dia.id].abre}
-                                onChange={(e) => {
-                                  const newHorarios = { ...confTemp.horarios };
-                                  newHorarios[dia.id].abre = e.target.value;
-                                  setConfTemp({
-                                    ...confTemp,
-                                    horarios: newHorarios,
-                                  });
-                                }}
-                                className="p-1 border border-slate-200 rounded outline-none focus:border-blue-500"
-                              />
-                              <span className="text-slate-500">a</span>
-                              <input
-                                type="time"
-                                value={confTemp.horarios[dia.id].cierra}
-                                onChange={(e) => {
-                                  const newHorarios = { ...confTemp.horarios };
-                                  newHorarios[dia.id].cierra = e.target.value;
-                                  setConfTemp({
-                                    ...confTemp,
-                                    horarios: newHorarios,
-                                  });
-                                }}
-                                className="p-1 border border-slate-200 rounded outline-none focus:border-blue-500"
-                              />
-                            </div>
-                          ) : (
-                            <div className="text-sm text-slate-400 italic">
-                              Cerrado todo el día
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                  <p className="font-bold text-slate-800 mb-2">
-                    <Smartphone size={18} className="inline mr-1" /> WhatsApp de
-                    recepción
-                  </p>
-                  <input
-                    type="text"
-                    value={confTemp.whatsapp_numero || ""}
-                    onChange={(e) =>
-                      setConfTemp({
-                        ...confTemp,
-                        whatsapp_numero: e.target.value,
-                      })
-                    }
-                    className="w-full p-2 border rounded-lg"
-                    placeholder="Ej: 51902246535"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-purple-50 p-4 rounded-xl border border-purple-200">
-                    <p className="font-bold text-purple-900 mb-2">
-                      <Wallet size={18} className="inline mr-1" /> Número Yape
-                    </p>
-                    <input
-                      type="text"
-                      value={confTemp.yape_numero || ""}
-                      onChange={(e) =>
-                        setConfTemp({
-                          ...confTemp,
-                          yape_numero: e.target.value,
-                        })
-                      }
-                      className="w-full p-2 border rounded-lg mb-2"
-                      placeholder="Ej: 999888777"
-                    />
-
-                    <p className="font-bold text-purple-900 mb-2 text-sm mt-4">
-                      Código QR
-                    </p>
-                    <input
-                      type="file"
-                      ref={yapeInputRef}
-                      className="hidden"
-                      onChange={(e) => setYapeFile(e.target.files?.[0] || null)}
-                    />
-                    <div
-                      onClick={() => yapeInputRef.current?.click()}
-                      className="cursor-pointer border-2 border-dashed border-purple-300 p-4 rounded-lg bg-white text-center"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      {yapeFile ? (
-                        "QR Seleccionado"
-                      ) : confTemp.yape_qr ? (
-                        <img
-                          src={confTemp.yape_qr}
-                          alt="Yape QR"
-                          className="h-20 mx-auto"
-                        />
-                      ) : (
-                        "Clic para subir QR"
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                    <p className="font-bold text-blue-900 mb-2">
-                      <Wallet size={18} className="inline mr-1" /> Número Plin
-                    </p>
-                    <input
-                      type="text"
-                      value={confTemp.plin_numero || ""}
-                      onChange={(e) =>
-                        setConfTemp({
-                          ...confTemp,
-                          plin_numero: e.target.value,
-                        })
-                      }
-                      className="w-full p-2 border rounded-lg mb-2"
-                      placeholder="Ej: 999888777"
-                    />
-
-                    <p className="font-bold text-blue-900 mb-2 text-sm mt-4">
-                      Código QR
-                    </p>
-                    <input
-                      type="file"
-                      ref={plinInputRef}
-                      className="hidden"
-                      onChange={(e) => setPlinFile(e.target.files?.[0] || null)}
-                    />
-                    <div
-                      onClick={() => plinInputRef.current?.click()}
-                      className="cursor-pointer border-2 border-dashed border-blue-300 p-4 rounded-lg bg-white text-center"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      {plinFile ? (
-                        "QR Seleccionado"
-                      ) : confTemp.plin_qr ? (
-                        <img
-                          src={confTemp.plin_qr}
-                          alt="Plin QR"
-                          className="h-20 mx-auto"
-                        />
-                      ) : (
-                        "Clic para subir QR"
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ConfiguracionSection
+              confTemp={confTemp}
+              onSetConfTemp={setConfTemp}
+              onGuardarConfiguracion={guardarConfiguracion}
+              yapeFile={yapeFile}
+              plinFile={plinFile}
+              onSetYapeFile={setYapeFile}
+              onSetPlinFile={setPlinFile}
+              yapeInputRef={yapeInputRef}
+              plinInputRef={plinInputRef}
+            />
           )}
 
-          {activeTab === "metricas" && (
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-              <h2 className="text-xl font-bold text-slate-700 mb-6">
-                Dashboard de Ventas
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-emerald-500 rounded-2xl p-6 text-white shadow-lg shadow-emerald-200">
-                  <h3 className="text-emerald-100 font-medium mb-1">
-                    Ventas Totales Completadas
-                  </h3>
-                  <p className="text-4xl font-extrabold">
-                    S/{" "}
-                    {pedidos
-                      .filter((p) => p.estado === "COMPLETADO")
-                      .reduce((acc, curr) => acc + Number(curr.total), 0)
-                      .toFixed(2)}
-                  </p>
-                </div>
-                <div className="bg-blue-500 rounded-2xl p-6 text-white shadow-lg shadow-blue-200">
-                  <h3 className="text-blue-100 font-medium mb-1">
-                    Pedidos Completados
-                  </h3>
-                  <p className="text-4xl font-extrabold">
-                    {pedidos.filter((p) => p.estado === "COMPLETADO").length}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                <h3 className="font-bold text-slate-700 mb-4">
-                  Métricas de Pedidos
-                </h3>
-                <div className="flex gap-4">
-                  <div className="flex-1 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                    <p className="text-sm text-slate-500 font-medium mb-1">
-                      En curso (Pendientes)
-                    </p>
-                    <p className="text-2xl font-bold text-amber-500">
-                      {pedidos.filter((p) => p.estado === "PENDIENTE").length}
-                    </p>
-                  </div>
-                  <div className="flex-1 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                    <p className="text-sm text-slate-500 font-medium mb-1">
-                      Cancelados
-                    </p>
-                    <p className="text-2xl font-bold text-red-500">
-                      {pedidos.filter((p) => p.estado === "CANCELADO").length}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          {activeTab === "metricas" && <MetricasSection pedidos={pedidos} />}
         </>
       )}
 

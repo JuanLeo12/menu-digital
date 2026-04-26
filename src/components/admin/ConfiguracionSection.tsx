@@ -1,0 +1,307 @@
+"use client";
+
+import { Clock, Settings, Smartphone, Store, Wallet } from "lucide-react";
+import { RefObject } from "react";
+
+type HorarioDia = { abierto: boolean; abre: string; cierra: string };
+
+type Configuracion = {
+  id: number;
+  local_abierto: boolean;
+  whatsapp_numero: string;
+  yape_numero: string;
+  yape_qr: string;
+  plin_numero: string;
+  plin_qr: string;
+  auto_horario?: boolean;
+  horarios?: { [key: string]: HorarioDia };
+};
+
+interface ConfiguracionSectionProps {
+  confTemp: Configuracion;
+  onSetConfTemp: (value: Configuracion) => void;
+  onGuardarConfiguracion: () => void;
+  yapeFile: File | null;
+  plinFile: File | null;
+  onSetYapeFile: (file: File | null) => void;
+  onSetPlinFile: (file: File | null) => void;
+  yapeInputRef: RefObject<HTMLInputElement | null>;
+  plinInputRef: RefObject<HTMLInputElement | null>;
+}
+
+export default function ConfiguracionSection({
+  confTemp,
+  onSetConfTemp,
+  onGuardarConfiguracion,
+  yapeFile,
+  plinFile,
+  onSetYapeFile,
+  onSetPlinFile,
+  yapeInputRef,
+  plinInputRef,
+}: ConfiguracionSectionProps) {
+  return (
+    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-bold text-slate-700 flex items-center gap-2">
+          <Settings className="text-orange-500" /> Configuracion del Local
+        </h2>
+        <button
+          onClick={onGuardarConfiguracion}
+          className="bg-orange-500 text-white px-5 py-2.5 rounded-full font-semibold"
+        >
+          Guardar Cambios
+        </button>
+      </div>
+
+      <div className="space-y-6">
+        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex justify-between items-center">
+          <div className="flex gap-3 items-center">
+            <Store
+              size={24}
+              className={confTemp.local_abierto ? "text-emerald-500" : "text-red-500"}
+            />
+            <div>
+              <p className="font-bold text-slate-800">Estado del Local</p>
+              <p className="text-sm text-slate-500">
+                Esta abierto y recibiendo pedidos?
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() =>
+              onSetConfTemp({
+                ...confTemp,
+                local_abierto: !confTemp.local_abierto,
+              })
+            }
+            disabled={confTemp.auto_horario}
+            className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${
+              confTemp.local_abierto ? "bg-emerald-500" : "bg-slate-300"
+            } ${confTemp.auto_horario ? "opacity-50 cursor-not-allowed" : ""}`}
+          >
+            <span
+              className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform shadow-sm ${
+                confTemp.local_abierto ? "translate-x-7" : "translate-x-1"
+              }`}
+            />
+          </button>
+        </div>
+
+        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex gap-3 items-center">
+              <Clock
+                size={24}
+                className={confTemp.auto_horario ? "text-blue-500" : "text-slate-400"}
+              />
+              <div>
+                <p className="font-bold text-slate-800">Horarios Automaticos</p>
+                <p className="text-sm text-slate-500">
+                  {confTemp.auto_horario
+                    ? "El local abre y cierra solo segun el horario. (Deshabilita el boton manual)"
+                    : "Abre y cierra la tienda automaticamente por hora y dia."}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() =>
+                onSetConfTemp({
+                  ...confTemp,
+                  auto_horario: !confTemp.auto_horario,
+                })
+              }
+              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${confTemp.auto_horario ? "bg-blue-500" : "bg-slate-300"}`}
+            >
+              <span
+                className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform shadow-sm ${confTemp.auto_horario ? "translate-x-7" : "translate-x-1"}`}
+              />
+            </button>
+          </div>
+
+          {confTemp.auto_horario && (
+            <div className="space-y-3 mt-4 border-t border-slate-200 pt-4">
+              {[
+                { id: "1", name: "Lunes" },
+                { id: "2", name: "Martes" },
+                { id: "3", name: "Miercoles" },
+                { id: "4", name: "Jueves" },
+                { id: "5", name: "Viernes" },
+                { id: "6", name: "Sabado" },
+                { id: "0", name: "Domingo" },
+              ].map((dia) => (
+                <div
+                  key={dia.id}
+                  className="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-100"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center w-1/3">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={confTemp.horarios?.[dia.id]?.abierto ?? false}
+                        onChange={(e) => {
+                          const newHorarios = { ...confTemp.horarios };
+                          if (!newHorarios[dia.id]) {
+                            newHorarios[dia.id] = {
+                              abierto: true,
+                              abre: "12:00",
+                              cierra: "23:00",
+                            };
+                          }
+                          newHorarios[dia.id].abierto = e.target.checked;
+                          onSetConfTemp({
+                            ...confTemp,
+                            horarios: newHorarios,
+                          });
+                        }}
+                        className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                      />
+                      <span
+                        className={`font-semibold ${confTemp.horarios?.[dia.id]?.abierto ? "text-slate-800" : "text-slate-400"}`}
+                      >
+                        {dia.name}
+                      </span>
+                    </label>
+                  </div>
+
+                  {confTemp.horarios?.[dia.id]?.abierto ? (
+                    <div className="flex gap-2 items-center w-2/3 justify-end text-sm">
+                      <span className="text-slate-500">De</span>
+                      <input
+                        type="time"
+                        value={confTemp.horarios[dia.id].abre}
+                        onChange={(e) => {
+                          const newHorarios = { ...confTemp.horarios };
+                          newHorarios[dia.id].abre = e.target.value;
+                          onSetConfTemp({
+                            ...confTemp,
+                            horarios: newHorarios,
+                          });
+                        }}
+                        className="p-1 border border-slate-200 rounded outline-none focus:border-blue-500"
+                      />
+                      <span className="text-slate-500">a</span>
+                      <input
+                        type="time"
+                        value={confTemp.horarios[dia.id].cierra}
+                        onChange={(e) => {
+                          const newHorarios = { ...confTemp.horarios };
+                          newHorarios[dia.id].cierra = e.target.value;
+                          onSetConfTemp({
+                            ...confTemp,
+                            horarios: newHorarios,
+                          });
+                        }}
+                        className="p-1 border border-slate-200 rounded outline-none focus:border-blue-500"
+                      />
+                    </div>
+                  ) : (
+                    <div className="text-sm text-slate-400 italic">Cerrado todo el dia</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <p className="font-bold text-slate-800 mb-2">
+            <Smartphone size={18} className="inline mr-1" /> WhatsApp de recepcion
+          </p>
+          <input
+            type="text"
+            value={confTemp.whatsapp_numero || ""}
+            onChange={(e) =>
+              onSetConfTemp({
+                ...confTemp,
+                whatsapp_numero: e.target.value,
+              })
+            }
+            className="w-full p-2 border rounded-lg"
+            placeholder="Ej: 51902246535"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-purple-50 p-4 rounded-xl border border-purple-200">
+            <p className="font-bold text-purple-900 mb-2">
+              <Wallet size={18} className="inline mr-1" /> Numero Yape
+            </p>
+            <input
+              type="text"
+              value={confTemp.yape_numero || ""}
+              onChange={(e) =>
+                onSetConfTemp({
+                  ...confTemp,
+                  yape_numero: e.target.value,
+                })
+              }
+              className="w-full p-2 border rounded-lg mb-2"
+              placeholder="Ej: 999888777"
+            />
+
+            <p className="font-bold text-purple-900 mb-2 text-sm mt-4">Codigo QR</p>
+            <input
+              type="file"
+              ref={yapeInputRef}
+              className="hidden"
+              onChange={(e) => onSetYapeFile(e.target.files?.[0] || null)}
+            />
+            <div
+              onClick={() => yapeInputRef.current?.click()}
+              className="cursor-pointer border-2 border-dashed border-purple-300 p-4 rounded-lg bg-white text-center"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {yapeFile ? (
+                "QR Seleccionado"
+              ) : confTemp.yape_qr ? (
+                <img src={confTemp.yape_qr} alt="Yape QR" className="h-20 mx-auto" />
+              ) : (
+                "Clic para subir QR"
+              )}
+            </div>
+          </div>
+
+          <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
+            <p className="font-bold text-blue-900 mb-2">
+              <Wallet size={18} className="inline mr-1" /> Numero Plin
+            </p>
+            <input
+              type="text"
+              value={confTemp.plin_numero || ""}
+              onChange={(e) =>
+                onSetConfTemp({
+                  ...confTemp,
+                  plin_numero: e.target.value,
+                })
+              }
+              className="w-full p-2 border rounded-lg mb-2"
+              placeholder="Ej: 999888777"
+            />
+
+            <p className="font-bold text-blue-900 mb-2 text-sm mt-4">Codigo QR</p>
+            <input
+              type="file"
+              ref={plinInputRef}
+              className="hidden"
+              onChange={(e) => onSetPlinFile(e.target.files?.[0] || null)}
+            />
+            <div
+              onClick={() => plinInputRef.current?.click()}
+              className="cursor-pointer border-2 border-dashed border-blue-300 p-4 rounded-lg bg-white text-center"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {plinFile ? (
+                "QR Seleccionado"
+              ) : confTemp.plin_qr ? (
+                <img src={confTemp.plin_qr} alt="Plin QR" className="h-20 mx-auto" />
+              ) : (
+                "Clic para subir QR"
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
