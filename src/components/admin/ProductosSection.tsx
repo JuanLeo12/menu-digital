@@ -46,7 +46,7 @@ export default function ProductosSection({
           clientes puedan comprar.
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {platos.map((p) => {
             const catNombre =
               categorias.find((c) => c.id === p.categoria_id)?.nombre ||
@@ -54,50 +54,49 @@ export default function ProductosSection({
             return (
               <div
                 key={p.id}
-                className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100 gap-4"
+                className="flex flex-col items-start p-4 rounded-2xl bg-slate-50 border border-slate-100 gap-3"
               >
-                <div className="flex items-center gap-4">
-                  {p.imagen_url ? (
-                    <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                <div className="w-full">
+                  <div className="flex items-center gap-3 mb-2">
+                    {p.imagen_url ? (
                       <img
                         src={p.imagen_url}
                         alt={p.nombre}
-                        className="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-200"
+                        className="w-14 h-14 rounded-xl object-cover shrink-0 border border-slate-200"
                       />
-                    </>
-                  ) : (
-                    <div className="w-16 h-16 rounded-xl shrink-0 bg-slate-200 flex items-center justify-center text-slate-400 text-xs font-medium">
-                      Sin Img
+                    ) : (
+                      <div className="w-14 h-14 rounded-xl shrink-0 bg-slate-200 flex items-center justify-center text-slate-400 text-xs font-medium">
+                        Sin Img
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-orange-500 mb-0.5 uppercase tracking-wider">
+                        {catNombre}
+                      </p>
+                      <h3 className="font-bold text-slate-800 text-base leading-tight truncate">
+                        {p.nombre}
+                      </h3>
                     </div>
-                  )}
-                  <div>
-                    <p className="text-xs font-bold text-orange-500 mb-1 uppercase tracking-wider">
-                      {catNombre}
-                    </p>
-                    <h3 className="font-bold text-slate-800 text-lg leading-tight">
-                      {p.nombre}
-                    </h3>
-                    <p className="font-medium text-slate-600 mt-1">
-                      S/ {(p.precio || 0).toFixed(2)}
-                    </p>
                   </div>
+                  <p className="font-bold text-orange-600 text-lg">
+                    S/ {(p.precio || 0).toFixed(2)}
+                  </p>
                 </div>
 
-                <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+                <div className="flex items-center gap-2 w-full">
                   <button
                     onClick={() => onOpenEditar(p)}
-                    className="flex-1 sm:flex-none justify-center bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 p-2.5 rounded-xl transition-colors flex items-center gap-2 shrink-0 shadow-sm"
+                    className="flex-1 justify-center bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 p-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
                   >
-                    <Edit2 size={16} />{" "}
-                    <span className="sm:hidden font-medium">Editar</span>
+                    <Edit2 size={16} />
+                    <span className="font-medium">Editar</span>
                   </button>
                   <button
                     onClick={() => onBorrarPlato(p.id)}
-                    className="flex-1 sm:flex-none justify-center bg-white border border-slate-200 hover:bg-red-50 text-red-500 p-2.5 rounded-xl transition-colors flex items-center gap-2 shrink-0 shadow-sm"
+                    className="flex-1 justify-center bg-white border border-slate-200 hover:bg-red-50 text-red-500 p-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
                   >
-                    <Trash2 size={16} />{" "}
-                    <span className="sm:hidden font-medium">Borrar</span>
+                    <Trash2 size={16} />
+                    <span className="font-medium">Borrar</span>
                   </button>
                 </div>
               </div>

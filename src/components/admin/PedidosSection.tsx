@@ -31,7 +31,7 @@ export default function PedidosSection({
           No tienes pedidos todavia.
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {pedidos.map((p) => (
             <div
               key={p.id}
