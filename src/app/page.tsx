@@ -15,8 +15,7 @@ import {
   UtensilsCrossed,
   Sparkles,
   ArrowRight,
-  ChevronDown,
-  Award,
+    Award,
   TrendingUp,
   Menu as MenuIcon,
   Zap,
@@ -77,55 +76,7 @@ const itemVariants = {
     }
   }
 };
-
-// Componente de partculas de fondo
-function FloatingParticles() {
-  const [particles, setParticles] = useState<{id: number, x: number, y: number, size: number, duration: number, delay: number}[]>([]);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setParticles(Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 4 + 2,
-      duration: Math.random() * 20 + 10,
-      delay: Math.random() * 5
-    })));
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-linear-to-r from-orange-400/20 to-pink-400/20 blur-sm"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: particle.size,
-            height: particle.size
-          }}
-          animate={{
-            y: [0, -100, 0],
-            x: [0, 50, 0],
-            opacity: [0, 0.5, 0],
-            scale: [0, 1.5, 0]
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            delay: particle.delay,
-            ease: "easeInOut"
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// Componente de gradiente animado de fondo extendido
-function AnimatedGradientBg() {
+function AnimatedGradientBg() {
   return (
     <div className="absolute inset-0 bg-background overflow-hidden z-[-1]">
       <motion.div
@@ -163,7 +114,6 @@ export default function Home() {
   const [busqueda, setBusqueda] = useState("");
   const [categoriaActiva, setCategoriaActiva] = useState("Todos");
   const [activeTab, setActiveTab] = useState<"landing" | "menu" | "favorites">("landing");
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -174,14 +124,7 @@ export default function Home() {
   const { showToast } = useToast();
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
-  // Efecto de seguimiento del mouse
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  
 
   useEffect(() => {
     const supabase = createClient();

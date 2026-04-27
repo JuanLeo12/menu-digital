@@ -254,7 +254,7 @@ export default function ConfiguracionSection({
               {yapeFile ? (
                 "QR Seleccionado"
               ) : confTemp.yape_qr ? (
-                // eslint-disable-next-line @next/next/no-img-eleMenút
+                // eslint-disable-next-line @next/next/no-img-element
                 <img src={confTemp.yape_qr} alt="Yape QR" className="h-20 mx-auto" />
               ) : (
                 "Clic para subir QR"
@@ -293,7 +293,7 @@ export default function ConfiguracionSection({
               {plinFile ? (
                 "QR Seleccionado"
               ) : confTemp.plin_qr ? (
-                // eslint-disable-next-line @next/next/no-img-eleMenút
+                // eslint-disable-next-line @next/next/no-img-element
                 <img src={confTemp.plin_qr} alt="Plin QR" className="h-20 mx-auto" />
               ) : (
                 "Clic para subir QR"

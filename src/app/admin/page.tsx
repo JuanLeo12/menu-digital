@@ -618,7 +618,7 @@ export default function AdminPage() {
                   {imagen ? (
                     <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-slate-200">
                       <>
-                        {/* eslint-disable-next-line @next/next/no-img-eleMenút */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={imagen}
                           alt="Preview"

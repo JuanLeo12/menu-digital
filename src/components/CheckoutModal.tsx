@@ -365,7 +365,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                       <p className="text-xl font-bold text-purple-800">{config.yape_numero}</p>
                     </div>
                     {config.yape_qr && (
-                      // eslint-disable-next-line @next/next/no-img-eleMenút
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img src={config.yape_qr} alt="QR Yape" className="w-32 h-32 object-contain bg-white p-2 rounded-lg border border-purple-200 shadow-sm" />
                     )}
                   </div>
@@ -377,7 +377,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                       <p className="text-xl font-bold text-blue-800">{config.plin_numero}</p>
                     </div>
                     {config.plin_qr && (
-                      // eslint-disable-next-line @next/next/no-img-eleMenút
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img src={config.plin_qr} alt="QR Plin" className="w-32 h-32 object-contain bg-white p-2 rounded-lg border border-blue-200 shadow-sm" />
                     )}
                   </div>
