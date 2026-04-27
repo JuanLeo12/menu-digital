@@ -87,11 +87,11 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     if (!medioPago) return showValidationError('Selecciona un medio de pago.');
     if (medioPago === 'efectivo' && !montoEfectivo) return showValidationError('Ingresa con cuanto vas a pagar.');
 
-    let paymentText = "";
-    if (medioPago === 'efectivo') paymentText = "\n*Tipo de pago:* Efectivo\n*Pagaré con:* S/ " + montoEfectivo;
-    if (medioPago === 'tarjeta') paymentText = "\n*Tipo de pago:* Tarjeta (Llevar POS)";
-    if (medioPago === 'yape') paymentText = "\n*Tipo de pago:* Yape (Envío captura en un momento)";
-    if (medioPago === 'plin') paymentText = "\n*Tipo de pago:* Plin (Envío captura en un momento)";
+    let payMenútText = "";
+    if (medioPago === 'efectivo') payMenútText = "\n*Tipo de pago:* Efectivo\n*Pagaré con:* S/ " + montoEfectivo;
+    if (medioPago === 'tarjeta') payMenútText = "\n*Tipo de pago:* Tarjeta (Llevar POS)";
+    if (medioPago === 'yape') payMenútText = "\n*Tipo de pago:* Yape (Envío captura en un moMenúto)";
+    if (medioPago === 'plin') payMenútText = "\n*Tipo de pago:* Plin (Envío captura en un moMenúto)";
 
     let texto = `*NUEVO PEDIDO - ${tipoPedido.toUpperCase()}* 🛵
 
@@ -123,7 +123,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     texto += `
 *TOTAL A PAGAR: S/ ${cart.getTotal().toFixed(2)}*
 `
-    texto += paymentText;
+    texto += payMenútText;
     
     texto += `
 Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
@@ -154,7 +154,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
 
       if (error) {
         console.error("Error guardando pedido:", error)
-        setCheckoutMessage({ type: 'error', text: 'No se pudo registrar tu pedido. Intentalo nuevamente.' })
+        setCheckoutMessage({ type: 'error', text: 'No se pudo registrar tu pedido. Intentalo nuevaMenúte.' })
         return
       }
 
@@ -220,7 +220,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                 </div>
               )}
 
-              {/* Resumen del Carrito Corto */}
+              {/* ResuMenú del Carrito Corto */}
               <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-medium text-orange-900">Total a pagar:</span>
@@ -325,7 +325,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                       readOnly={!canInteract || (typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('mesa'))}
                     />
                     {typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('mesa') && (
-                      <p className="text-xs text-orange-600 mt-1">Mesa asignada automáticamente por el QR.</p>
+                      <p className="text-xs text-orange-600 mt-1">Mesa asignada automáticaMenúte por el QR.</p>
                     )}
                   </div>
                 )}
@@ -365,7 +365,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                       <p className="text-xl font-bold text-purple-800">{config.yape_numero}</p>
                     </div>
                     {config.yape_qr && (
-                      // eslint-disable-next-line @next/next/no-img-element
+                      // eslint-disable-next-line @next/next/no-img-eleMenút
                       <img src={config.yape_qr} alt="QR Yape" className="w-32 h-32 object-contain bg-white p-2 rounded-lg border border-purple-200 shadow-sm" />
                     )}
                   </div>
@@ -377,7 +377,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                       <p className="text-xl font-bold text-blue-800">{config.plin_numero}</p>
                     </div>
                     {config.plin_qr && (
-                      // eslint-disable-next-line @next/next/no-img-element
+                      // eslint-disable-next-line @next/next/no-img-eleMenút
                       <img src={config.plin_qr} alt="QR Plin" className="w-32 h-32 object-contain bg-white p-2 rounded-lg border border-blue-200 shadow-sm" />
                     )}
                   </div>
@@ -403,4 +403,6 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
     </AnimatePresence>
   )
 }
+
+
 

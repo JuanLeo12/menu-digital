@@ -43,7 +43,7 @@ type Plato = {
   disponible: boolean;
 };
 
-// Variantes de animaci�n avanzadas
+// Variantes de animacin avanzadas
 const fadeInUp = {
   hidden: { opacity: 0, y: 60 },
   visible: { 
@@ -78,7 +78,7 @@ const itemVariants = {
   }
 };
 
-// Componente de part�culas de fondo
+// Componente de partculas de fondo
 function FloatingParticles() {
   const [particles, setParticles] = useState<{id: number, x: number, y: number, size: number, duration: number, delay: number}[]>([]);
 
@@ -277,7 +277,7 @@ export default function Home() {
     showToast(`?? ${plato.nombre} agregado al carrito`, "success");
   }, [cart, showToast]);
 
-  // Vista Landing Page - DISE�O ULTRA MODERNO
+  // Vista Landing Page - DISEO ULTRA MODERNO
   if (activeTab === "landing") {
     return (
       <>
@@ -294,140 +294,88 @@ export default function Home() {
               >
                 <Clock className="w-6 h-6" />
               </motion.div>
-              <span className="text-lg">?? Local cerrado por ahora. �Vuelve pronto!</span>
+              <span className="text-lg">?? Local cerrado por ahora. Vuelve pronto!</span>
             </div>
           </motion.div>
         )}
         
         <div className="min-h-screen bg-black text-white overflow-hidden">
-          {/* Hero Section - ULTRA MODERNO */}
+          {/* Hero Section - BANNER IMAGEN COMPLETA */}
           <motion.section 
-            className="relative h-screen flex items-center justify-center"
+            className="relative w-full h-[50vh] md:h-[60vh] flex flex-col items-center justify-center p-4 overflow-hidden border-b border-white/5"
             style={{ opacity: heroOpacity, scale: heroScale }}
           >
-            <AnimatedGradientBg />
-            <FloatingParticles />
-            
-            {/* Efecto de luz siguiendo el mouse */}
-            <div 
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(236, 72, 153, 0.15), transparent 40%)`
-              }}
-            />
-            
-            <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <div className="flex items-center justify-center gap-3 mb-6">
-                  <motion.div
-                    animate={{ 
-                      rotate: [0, 360],
-                      scale: [1, 1.2, 1]
-                    }}
-                    transition={{ 
-                      rotate: { duration: 10, repeat: Infinity, ease: "linear" },
-                      scale: { duration: 2, repeat: Infinity }
-                    }}
-                    className="bg-linear-to-r from-red-600 to-orange-500 p-3 rounded-full"
-                  >
-                    <Sparkles className="w-8 h-8 text-white" />
-                  </motion.div>
-                  <span className="text-2xl font-bold bg-linear-to-r from-red-500 to-yellow-400 bg-clip-text text-transparent uppercase tracking-widest">
+            <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+               <Image 
+                  src="/imagen_principal.png" 
+                  alt="Fondo Principal El Pollo Bravo" 
+                  fill 
+                  className="object-cover object-center"
+                  priority
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30 z-10" />
+            </div>
+
+            <div className="relative z-20 text-center flex flex-col items-center justify-center h-full w-full max-w-5xl mx-auto pt-10">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="flex items-center justify-center gap-3 mb-2"
+                >
+                  <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-yellow-400" />
+                  <span className="text-lg md:text-2xl font-bold text-yellow-400 uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     El Mejor Sabor
                   </span>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1, delay: 0.3 }}
-                  className="mb-8 flex justify-center relative w-full h-[40vh] md:h-[50vh] max-w-5xl mx-auto rounded-[3rem] overflow-hidden shadow-[0_0_50px_rgba(239,68,68,0.4)]"
-                >
-                  <Image 
-                    src="/imagen_principal.png" 
-                    alt="Pollo a la Brasa" 
-                    fill 
-                    className="object-cover"
-                    priority
-                  />
                 </motion.div>
 
                 <motion.h1 
-                  className="flex flex-col items-center gap-4 text-7xl md:text-9xl font-black mb-6 leading-tight"
-                  initial={{ opacity: 0, scale: 0.5 }}
+                  className="text-5xl sm:text-6xl md:text-8xl font-black mb-4 text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.9)]"
+                  initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.4, type: "spring" }}
+                  transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
                 >
-                  <div className="relative w-48 h-48 md:w-64 md:h-64 mb-4">
-                    
-                  </div>
-                  <span className="bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                    El Pollo Bravo
-                  </span>
+                  El Pollo Bravo
                 </motion.h1>
 
                 <motion.p 
-                  className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-3xl mx-auto"
+                  className="text-base sm:text-lg md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] font-medium leading-relaxed px-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
                 >
-                  El aut�ntico sabor del pollo a la brasa, con el toque especial que nos hace �nicos
+                  El auténtico sabor del pollo a la brasa, con el toque especial que nos hace únicos.
                 </motion.p>
 
                 <motion.div 
-                  className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-                  initial={{ opacity: 0, y: 30 }}
+                  className="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-50 pointer-events-auto"
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.8 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
                 >
-                  <motion.button
-                    whileHover={{ 
-                      scale: 1.05,
-                      boxShadow: "0 20px 40px rgba(236, 72, 153, 0.4)"
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setActiveTab("menu")}
-                    className="group relative px-10 py-5 bg-linear-to-r from-red-600 via-orange-500 to-yellow-400 rounded-full font-bold text-xl text-white shadow-2xl overflow-hidden"
+                  <button
+                    onClick={() => setActiveTab('menu')}
+                    className="group px-8 py-4 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-xl text-white shadow-[0_0_20px_rgba(239,68,68,0.5)] overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-3 cursor-pointer"
                   >
-                    <span className="relative z-10 flex items-center gap-3">
-                      <UtensilsCrossed size={24} />
-                      Ver Men� y Pedir
-                    </span>
-                    <div className="absolute inset-0 bg-linear-to-r from-yellow-400 via-orange-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  </motion.button>
+                    <UtensilsCrossed size={20} className="group-hover:rotate-12 transition-transform" />
+                    <span>Ver Menú y Pedir</span>
+                  </button>
 
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
                     onClick={() => {
-                      document.getElementById('info')?.scrollIntoView({ behavior: 'smooth' });
+                      const el = document.getElementById('info');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="px-10 py-5 border-2 border-white/30 backdrop-blur-sm rounded-full font-bold text-xl hover:bg-white/10 transition-all"
+                    className="group px-8 py-4 border-2 border-white/30 bg-black/40 backdrop-blur-md rounded-full font-bold text-xl text-white shadow-lg transition-all duration-300 hover:bg-white/20 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-3"
                   >
-                    <span className="flex items-center gap-3">
-                      <Info size={24} />
-                      M�s Informaci�n
-                    </span>
-                  </motion.button>
+                    <Info size={20} />
+                    <span>Más Información</span>
+                  </button>
                 </motion.div>
-              </motion.div>
             </div>
-
-            <motion.div 
-              className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10"
-              animate={{ y: [0, 15, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <ChevronDown className="w-10 h-10 text-white/50" />
-            </motion.div>
           </motion.section>
 
-          {/* Secci�n de Caracter�sticas - GLASSMORPHISM */}
+          {/* Sección de Características - GLASSMORPHISM */}
           <section id="info" className="py-32 px-4 relative">
             <div className="max-w-7xl mx-auto">
               <motion.div 
@@ -446,10 +394,10 @@ export default function Home() {
                   <span className="text-6xl mb-4 block">??</span>
                 </motion.div>
                 <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                  �Por Qu� Elegirnos?
+                  Por Qu Elegirnos?
                 </h2>
                 <p className="text-2xl text-gray-400 max-w-3xl mx-auto">
-                  M�s de 20 a�os creando experiencias culinarias inolvidables
+                  Ms de 20 aos creando experiencias culinarias inolvidables
                 </p>
               </motion.div>
 
@@ -465,13 +413,13 @@ export default function Home() {
                     icon: <Award className="w-16 h-16" />,
                     gradient: "from-orange-500 to-amber-500",
                     title: "Calidad Premium",
-                    desc: "Ingredientes seleccionados cuidadosamente para garantizar el sabor excepcional"
+                    desc: "Ingredientes seleccionados cuidadosaMenúte para garantizar el sabor excepcional"
                   },
                   {
                     icon: <Zap className="w-16 h-16" />,
                     gradient: "from-yellow-500 to-orange-500",
-                    title: "Receta �nica",
-                    desc: "Nuestra marinada secreta y t�cnica de cocci�n nos hacen incomparables"
+                    title: "Receta nica",
+                    desc: "Nuestra marinada secreta y tcnica de coccin nos hacen incomparables"
                   },
                   {
                     icon: <Shield className="w-16 h-16" />,
@@ -499,7 +447,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Secci�n de Productos Populares - NEUMORPHISM */}
+          {/* Seccin de Productos Populares - NEUMORPHISM */}
           <section className="py-32 px-4 relative bg-linear-to-b from-black via-gray-900 to-black">
             <div className="max-w-7xl mx-auto">
               <motion.div 
@@ -510,7 +458,7 @@ export default function Home() {
               >
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <TrendingUp className="w-8 h-8 text-orange-500" />
-                  <span className="text-orange-500 font-bold uppercase tracking-widest text-lg">Los M�s Pedidos</span>
+                  <span className="text-orange-500 font-bold uppercase tracking-widest text-lg">Los Ms Pedidos</span>
                 </div>
                 <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                   Nuestros Favoritos
@@ -608,14 +556,14 @@ export default function Home() {
                   onClick={() => setActiveTab("menu")}
                   className="group px-12 py-6 bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-xl text-white shadow-2xl flex items-center gap-4 mx-auto"
                 >
-                  Ver Men� Completo
+                  Ver Menú Completo
                   <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
                 </motion.button>
               </motion.div>
             </div>
           </section>
 
-          {/* Secci�n de Contacto - GLASSMORPHISM */}
+          {/* Seccin de Contacto - GLASSMORPHISM */}
           <section id="contacto" className="py-32 px-4 relative">
             <AnimatedGradientBg />
             <div className="max-w-7xl mx-auto relative z-10">
@@ -627,14 +575,14 @@ export default function Home() {
                   className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10"
                 >
                   <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
-                    Vis�tanos
+                    Vistanos
                   </h2>
                   <div className="space-y-6">
                     {[
-                      { icon: <MapPin className="w-6 h-6" />, title: "Direcci�n", info: "Av. Principal 123, Lima - Per�" },
-                      { icon: <Phone className="w-6 h-6" />, title: "Tel�fono", info: "+51 999 999 999" },
+                      { icon: <MapPin className="w-6 h-6" />, title: "Direccin", info: "Av. Principal 123, Lima - Per" },
+                      { icon: <Phone className="w-6 h-6" />, title: "Telfono", info: "+51 999 999 999" },
                       { icon: <Clock className="w-6 h-6" />, title: "Horario", info: "Lun - Dom: 12:00 PM - 10:00 PM" },
-                      { icon: <Truck className="w-6 h-6" />, title: "Delivery", info: "Env�os a todo Lima Metropolitana" }
+                      { icon: <Truck className="w-6 h-6" />, title: "Delivery", info: "Envos a todo Lima Metropolitana" }
                     ].map((item, i) => (
                       <motion.div 
                         key={i}
@@ -660,7 +608,7 @@ export default function Home() {
                   className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 flex flex-col justify-center"
                 >
                   <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
-                    S�guenos
+                    Sguenos
                   </h2>
                   <p className="text-xl text-gray-300 mb-8">
                     Mantente actualizado con nuestras promociones y novedades exclusivas
@@ -712,16 +660,16 @@ export default function Home() {
                   El Pollo Bravo ??
                 </h3>
                 <p className="text-gray-500 text-lg mb-6">
-                  El aut�ntico sabor del pollo a la brasa
+                  El auténtico sabor del pollo a la brasa
                 </p>
                 <p className="text-gray-600">
-                  � {new Date().getFullYear()} El Pollo Bravo. Todos los derechos reservados.
+                   {new Date().getFullYear()} El Pollo Bravo. Todos los derechos reservados.
                 </p>
               </motion.div>
             </div>
           </footer>
 
-          {/* Bot�n Flotante Men� */}
+          {/* Botn Flotante Menú */}
           <motion.div
             className="fixed bottom-8 right-8 z-40"
             initial={{ scale: 0 }}
@@ -742,7 +690,7 @@ export default function Home() {
     );
   }
 
-  // Vista Men� - DISE�O MODERNO
+  // Vista Menú - DISEO MODERNO
   return (
     <>
       {isStoreClosed && (
@@ -753,7 +701,7 @@ export default function Home() {
         >
           <div className="flex items-center justify-center gap-3">
             <Clock className="w-6 h-6" />
-            <span className="text-lg">?? Local cerrado por ahora. �Vuelve pronto!</span>
+            <span className="text-lg">?? Local cerrado por ahora. Vuelve pronto!</span>
           </div>
         </motion.div>
       )}
@@ -785,7 +733,7 @@ export default function Home() {
               <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                 El Pollo Bravo ??
               </h1>
-              <p className="text-xl text-gray-300 mt-2">Haz tu pedido aqu�</p>
+              <p className="text-xl text-gray-300 mt-2">Haz tu pedido Aquíí</p>
             </div>
           </div>
         </motion.header>
@@ -805,7 +753,7 @@ export default function Home() {
                   type="text"
                   value={busqueda}
                   onChange={(e) => setBusqueda(e.target.value)}
-                  placeholder="�Qu� se te antoja hoy?"
+                  placeholder="Qu se te antoja hoy?"
                   className="flex-1 bg-transparent px-6 py-4 text-lg outline-none text-white placeholder-gray-500"
                 />
                 {busqueda && (
@@ -831,7 +779,7 @@ export default function Home() {
           <div className="max-w-md mx-auto">
             <div className="flex bg-gray-900/90 backdrop-blur-xl rounded-2xl p-2 border border-gray-800">
               {[
-                { id: "menu", icon: <UtensilsCrossed size={18} />, label: "Men�" },
+                { id: "menu", icon: <UtensilsCrossed size={18} />, label: "Menú" },
                 { id: "favorites", icon: <Heart size={18} />, label: "Favoritos" }
               ].map((tab) => (
                 <button
@@ -860,7 +808,7 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Categor�as */}
+        {/* Categoras */}
         {activeTab === "menu" && (
           <motion.div 
             className="px-4 mb-8 overflow-x-auto"
@@ -906,20 +854,20 @@ export default function Home() {
               </div>
               <p className="text-2xl font-bold text-white mb-4">
                 {activeTab === "favorites" 
-                  ? "No tienes favoritos a�n" 
-                  : "No hay platos en esta categor�a"}
+                  ? "No tienes favoritos an" 
+                  : "No hay platos en esta categora"}
               </p>
               <p className="text-gray-400 text-lg">
                 {activeTab === "favorites"
-                  ? "Explora el men� y guarda tus platos favoritos"
-                  : "Prueba con otra categor�a"}
+                  ? "Explora el Menú y guarda tus platos favoritos"
+                  : "Prueba con otra categora"}
               </p>
             </motion.div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {platosMostrados.map((plato) => {
-                const itemEnCarrito = cart.items.find((i) => i.id === plato.id);
-                const cantidad = itemEnCarrito?.cantidad || 0;
+                const itemCarrito = cart.items.find((i) => i.id === plato.id);
+                const cantidad = itemCarrito?.cantidad || 0;
                 const isFavorite = favorites.isFavorite(plato.id);
 
                 return (
@@ -1035,7 +983,7 @@ export default function Home() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => isStoreClosed 
-                  ? showToast("El local est� cerrado en este momento.", "error")
+                  ? showToast("El local est cerrado en este moMenúto.", "error")
                   : setIsCheckoutOpen(true)
                 }
                 className="w-full bg-linear-to-r from-red-600 via-orange-600 to-yellow-600 shadow-2xl shadow-red-500/40 text-white rounded-2xl py-5 px-6 flex items-center justify-between transition-all relative overflow-hidden"
@@ -1080,5 +1028,7 @@ export default function Home() {
     </>
   );
 }
+
+
 
 

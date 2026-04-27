@@ -236,7 +236,7 @@ export default function AdminPage() {
       .upsert(payload, { onConflict: "id" })
       .eq("id", 1);
     if (error) alert("Error guardando configuracion: " + error.message);
-    else alert("?Guardado correctamente!");
+    else alert("?Guardado correctaMenúte!");
     setYapeFile(null);
     setPlinFile(null);
     await fetchData();
@@ -371,7 +371,7 @@ export default function AdminPage() {
   const borrarCategoria = async (id: string) => {
     if (
       !confirm(
-        "?Seguro que deseas eliminar esta categor?a? (Aseg?rate de no tener productos aqu?)",
+        "?Seguro que deseas eliminar esta categor?a? (Aseg?rate de no tener productos Aquíí?)",
       )
     )
       return;
@@ -391,7 +391,7 @@ export default function AdminPage() {
                 <span className="text-4xl">??</span>
                 Panel de Administraci?n
               </h1>
-              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu men? digital de forma moderna</p>
+              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu Menú? digital de forma moderna</p>
             </div>
             <button
               onClick={handleLogout}
@@ -618,7 +618,7 @@ export default function AdminPage() {
                   {imagen ? (
                     <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-slate-200">
                       <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        {/* eslint-disable-next-line @next/next/no-img-eleMenút */}
                         <img
                           src={imagen}
                           alt="Preview"
@@ -733,6 +733,8 @@ export default function AdminPage() {
     </div>
   );
 }
+
+
 
 
 

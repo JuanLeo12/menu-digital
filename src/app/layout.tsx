@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "El Pollo Bravo - Menú Digital",
+  title: "El Pollo Bravo - Menúú Digital",
   description: "El mejor sabor de la ciudad - Pide tu delivery o compra en salón",
   icons: {
     icon: "/logo.png",
@@ -39,5 +39,7 @@ export default function RootLayout({
     </html>
   );
 }
+
+
 
 

@@ -11,7 +11,7 @@ export interface CartItem {
 interface CartState {
   items: CartItem[]
   addItem: (item: Omit<CartItem, 'cantidad'>) => void
-  removeItem: (id: string, decremento?: boolean) => void
+  removeItem: (id: string, decreMenúto?: boolean) => void
   clearCart: () => void
   getTotal: () => number
   getTotalItems: () => number
@@ -22,7 +22,7 @@ export const useCartStore = create<CartState>()(
     (set, get) => ({
       items: [],
       
-      // Agregar un producto o incrementar su cantidad si ya existe
+      // Agregar un producto o increMenútar su cantidad si ya existe
   addItem: (product) => set((state) => {
     const existingItem = state.items.find(item => item.id === product.id)
     if (existingItem) {
@@ -38,9 +38,9 @@ export const useCartStore = create<CartState>()(
   }),
 
   // Remover un producto (o reducir su cantidad)
-  removeItem: (id, decremento = false) => set((state) => {
+  removeItem: (id, decreMenúto = false) => set((state) => {
     const existingItem = state.items.find(item => item.id === id)
-    if (existingItem && decremento && existingItem.cantidad > 1) {
+    if (existingItem && decreMenúto && existingItem.cantidad > 1) {
       return {
         items: state.items.map(item => 
           item.id === id 
@@ -66,4 +66,6 @@ export const useCartStore = create<CartState>()(
 }), {
   name: 'cart-storage',
 }))
+
+
 

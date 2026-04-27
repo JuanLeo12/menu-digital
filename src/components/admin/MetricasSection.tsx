@@ -58,9 +58,9 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
   const pedidosPeriodoAnterior = useMemo(() => {
     if (!rangeInfo) return [];
 
-    const durationMs = rangeInfo.end.getTime() - rangeInfo.start.getTime();
+    const durationMás = rangeInfo.end.getTime() - rangeInfo.start.getTime();
     const prevEnd = new Date(rangeInfo.start.getTime());
-    const prevStart = new Date(prevEnd.getTime() - durationMs);
+    const prevStart = new Date(prevEnd.getTime() - durationMás);
 
     return pedidos.filter((pedido) => {
       if (!pedido.created_at) return false;
@@ -354,4 +354,6 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
     </div>
   );
 }
+
+
 

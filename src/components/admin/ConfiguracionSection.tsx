@@ -100,7 +100,7 @@ export default function ConfiguracionSection({
                 <p className="text-sm text-gray-500">
                   {confTemp.auto_horario
                     ? "El local abre y cierra solo segun el horario. (Deshabilita el boton manual)"
-                    : "Abre y cierra la tienda automaticamente por hora y dia."}
+                    : "Abre y cierra la tienda automaticaMenúte por hora y dia."}
                 </p>
               </div>
             </div>
@@ -254,7 +254,7 @@ export default function ConfiguracionSection({
               {yapeFile ? (
                 "QR Seleccionado"
               ) : confTemp.yape_qr ? (
-                // eslint-disable-next-line @next/next/no-img-element
+                // eslint-disable-next-line @next/next/no-img-eleMenút
                 <img src={confTemp.yape_qr} alt="Yape QR" className="h-20 mx-auto" />
               ) : (
                 "Clic para subir QR"
@@ -293,7 +293,7 @@ export default function ConfiguracionSection({
               {plinFile ? (
                 "QR Seleccionado"
               ) : confTemp.plin_qr ? (
-                // eslint-disable-next-line @next/next/no-img-element
+                // eslint-disable-next-line @next/next/no-img-eleMenút
                 <img src={confTemp.plin_qr} alt="Plin QR" className="h-20 mx-auto" />
               ) : (
                 "Clic para subir QR"
@@ -305,4 +305,6 @@ export default function ConfiguracionSection({
     </div>
   );
 }
+
+
 

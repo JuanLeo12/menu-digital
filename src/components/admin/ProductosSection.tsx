@@ -59,7 +59,7 @@ export default function ProductosSection({
                 <div className="w-full">
                   <div className="flex items-center gap-3 mb-2">
                     {p.imagen_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
+                      // eslint-disable-next-line @next/next/no-img-eleMenút
                       <img
                         src={p.imagen_url}
                         alt={p.nombre}
@@ -108,4 +108,6 @@ export default function ProductosSection({
     </div>
   );
 }
+
+
 
