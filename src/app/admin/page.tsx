@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -111,7 +111,7 @@ export default function AdminPage() {
     if (respConf.data) {
       setConfiguracion(respConf.data as Configuracion);
     } else {
-      // Si no existe la configuraciÃ³n, creamos una por defecto
+      // Si no existe la configuración, creamos una por defecto
       const defaultConf: Configuracion = {
         id: 1,
         local_abierto: true,
@@ -140,7 +140,6 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const init = async () => {
       await fetchData();
     };
@@ -237,7 +236,7 @@ export default function AdminPage() {
       .upsert(payload, { onConflict: "id" })
       .eq("id", 1);
     if (error) alert("Error guardando configuracion: " + error.message);
-    else alert("Â¡Guardado correctamente!");
+    else alert("¡Guardado correctamente!");
     setYapeFile(null);
     setPlinFile(null);
     await fetchData();
@@ -274,7 +273,7 @@ export default function AdminPage() {
 
   const guardarPlato = async () => {
     if (!nombre || !precio || !categoria)
-      return alert("Completa los campos bÃ¡sicos");
+      return alert("Completa los campos básicos");
 
     setLoading(true);
     let uploadedUrl = imagen;
@@ -318,7 +317,7 @@ export default function AdminPage() {
   };
 
   const borrarPlato = async (id: string) => {
-    if (!confirm("Â¿Seguro que deseas eliminar este producto?")) return;
+    if (!confirm("¿Seguro que deseas eliminar este producto?")) return;
     setLoading(true);
     await supabase.from("platos").delete().eq("id", id);
     await fetchData();
@@ -349,7 +348,7 @@ export default function AdminPage() {
         .from("categorias")
         .insert([{ nombre: catNombre, orden }]);
       if (error) {
-        alert("Error al crear categorÃ­a: " + error.message);
+        alert("Error al crear categoría: " + error.message);
         setLoading(false);
         return;
       }
@@ -359,7 +358,7 @@ export default function AdminPage() {
         .update({ nombre: catNombre })
         .eq("id", editCatId);
       if (error) {
-        alert("Error al actualizar categorÃ­a: " + error.message);
+        alert("Error al actualizar categoría: " + error.message);
         setLoading(false);
         return;
       }
@@ -372,7 +371,7 @@ export default function AdminPage() {
   const borrarCategoria = async (id: string) => {
     if (
       !confirm(
-        "Â¿Seguro que deseas eliminar esta categorÃ­a? (AsegÃºrate de no tener productos aquÃ­)",
+        "¿Seguro que deseas eliminar esta categoría? (Asegúrate de no tener productos aquí)",
       )
     )
       return;
@@ -382,37 +381,37 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 pb-24 font-sans">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 pb-24 font-sans">
       {/* Header con gradiente */}
-      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white shadow-xl">
+      <div className="bg-linear-to-r from-indigo-600 via-purple-600 to-pink-500 text-white shadow-xl">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight flex items-center gap-3">
-                <span className="text-4xl">ğŸ¯</span>
-                Panel de AdministraciÃ³n
+                <span className="text-4xl">??</span>
+                Panel de Administración
               </h1>
-              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu menÃº digital de forma moderna</p>
+              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu menú digital de forma moderna</p>
             </div>
             <button
               onClick={handleLogout}
               className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all border border-white/30"
             >
               <LogOut size={20} />
-              <span className="font-semibold">Cerrar SesiÃ³n</span>
+              <span className="font-semibold">Cerrar Sesión</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* NavegaciÃ³n principal */}
+      {/* Navegación principal */}
       <div className="max-w-7xl mx-auto px-6 -mt-4 relative z-10">
         <div className="flex flex-wrap gap-3 justify-center md:justify-start">
           <button
             onClick={() => setActiveTab("pedidos")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "pedidos"
-                ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-blue-500/30 scale-105"
+                ? "bg-linear-to-r from-blue-500 to-cyan-500 text-white shadow-blue-500/30 scale-105"
                 : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
             }`}
           >
@@ -430,7 +429,7 @@ export default function AdminPage() {
             onClick={() => setActiveTab("metricas")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "metricas"
-                ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-purple-500/30 scale-105"
+                ? "bg-linear-to-r from-purple-500 to-pink-500 text-white shadow-purple-500/30 scale-105"
                 : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
             }`}
           >
@@ -441,7 +440,7 @@ export default function AdminPage() {
             onClick={() => setActiveTab("platos")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "platos"
-                ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-orange-500/30 scale-105"
+                ? "bg-linear-to-r from-orange-500 to-amber-500 text-white shadow-orange-500/30 scale-105"
                 : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
             }`}
           >
@@ -452,23 +451,23 @@ export default function AdminPage() {
             onClick={() => setActiveTab("categorias")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "categorias"
-                ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-emerald-500/30 scale-105"
+                ? "bg-linear-to-r from-emerald-500 to-teal-500 text-white shadow-emerald-500/30 scale-105"
                 : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
             }`}
           >
             <Tag size={18} />
-            CategorÃ­as
+            Categorías
           </button>
           <button
             onClick={() => setActiveTab("configuracion")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "configuracion"
-                ? "bg-gradient-to-r from-slate-600 to-slate-800 text-white shadow-slate-500/30 scale-105"
+                ? "bg-linear-to-r from-slate-600 to-slate-800 text-white shadow-slate-500/30 scale-105"
                 : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
             }`}
           >
             <Settings size={18} />
-            ConfiguraciÃ³n
+            Configuración
           </button>
         </div>
       </div>
@@ -536,8 +535,8 @@ export default function AdminPage() {
             <div className="p-6 border-b border-slate-100 shrink-0">
               <h3 className="font-bold text-2xl text-slate-800">
                 {formMode === "crear"
-                  ? "ğŸš€ Agregar Producto"
-                  : "âœï¸ Editar Producto"}
+                  ? "?? Agregar Producto"
+                  : "?? Editar Producto"}
               </h3>
             </div>
 
@@ -572,11 +571,11 @@ export default function AdminPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-slate-600 mb-1.5">
-                  CategorÃ­a *
+                  Categoría *
                 </label>
                 {categorias.length === 0 ? (
                   <p className="text-sm text-red-500 italic bg-red-50 p-2 rounded-lg">
-                    Por favor crea una categorÃ­a primero.
+                    Por favor crea una categoría primero.
                   </p>
                 ) : (
                   <select
@@ -585,7 +584,7 @@ export default function AdminPage() {
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 font-medium"
                   >
                     <option value="" disabled>
-                      Selecciona una categorÃ­a...
+                      Selecciona una categoría...
                     </option>
                     {categorias.map((c) => (
                       <option key={c.id} value={c.id}>
@@ -598,13 +597,13 @@ export default function AdminPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-slate-600 mb-1.5">
-                  DescripciÃ³n
+                  Descripción
                 </label>
                 <textarea
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 resize-none h-24"
-                  placeholder="Ej: AcompaÃ±ado de papas fritas y ensalada fresca."
+                  placeholder="Ej: Acompañado de papas fritas y ensalada fresca."
                 />
               </div>
 
@@ -641,7 +640,7 @@ export default function AdminPage() {
                         Haz clic para subir imagen
                       </p>
                       <p className="text-xs text-slate-500 mt-1">
-                        JPG, PNG o WEBP (MÃ¡x 5MB)
+                        JPG, PNG o WEBP (Máx 5MB)
                       </p>
                     </div>
                   )}
@@ -687,15 +686,15 @@ export default function AdminPage() {
             <div className="p-6 border-b border-slate-100 shrink-0">
               <h3 className="font-bold text-2xl text-slate-800">
                 {formCatMode === "crear"
-                  ? "ğŸ·ï¸ Nueva CategorÃ­a"
-                  : "âœï¸ Editar CategorÃ­a"}
+                  ? "??? Nueva Categoría"
+                  : "?? Editar Categoría"}
               </h3>
             </div>
 
             <div className="p-6 space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-slate-600 mb-1.5">
-                  Nombre de la CategorÃ­a *
+                  Nombre de la Categoría *
                 </label>
                 <input
                   type="text"

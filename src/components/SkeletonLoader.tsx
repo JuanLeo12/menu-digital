@@ -9,7 +9,7 @@ interface SkeletonProps {
 export function Skeleton({ className = "" }: SkeletonProps) {
   return (
     <motion.div
-      className={`bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-shimmer ${className}`}
+      className={`bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 animate-shimmer ${className}`}
       style={{
         backgroundSize: "200% 100%",
         animation: "shimmer 1.5s infinite linear",

@@ -1,4 +1,4 @@
-import { headers } from 'next/headers'
+// Removed unused imports
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
