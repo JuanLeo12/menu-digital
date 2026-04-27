@@ -76,7 +76,8 @@ const itemVariants = {
     }
   }
 };
-function AnimatedGradientBg() {
+
+function AnimatedGradientBg() {
   return (
     <div className="absolute inset-0 bg-background overflow-hidden z-[-1]">
       <motion.div
@@ -518,7 +519,7 @@ export default function Home() {
                   className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10"
                 >
                   <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
-                    Vistanos
+                    Visítanos
                   </h2>
                   <div className="space-y-6">
                     {[
@@ -551,7 +552,7 @@ export default function Home() {
                   className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 flex flex-col justify-center"
                 >
                   <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
-                    Sguenos
+                    Síguenos
                   </h2>
                   <p className="text-xl text-gray-300 mb-8">
                     Mantente actualizado con nuestras promociones y novedades exclusivas
@@ -676,7 +677,7 @@ export default function Home() {
               <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                 El Pollo Bravo 🍗
               </h1>
-              <p className="text-xl text-gray-300 mt-2">Haz tu pedido Aquííí</p>
+              <p className="text-xl text-gray-300 mt-2">Haz tu pedido Aquí</p>
             </div>
           </div>
         </motion.header>
