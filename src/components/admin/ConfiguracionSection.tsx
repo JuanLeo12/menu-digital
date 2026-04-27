@@ -17,7 +17,7 @@ type Configuración = {
   horarios?: { [key: string]: HorarioDia };
 };
 
-interface ConfiguraciónSectionProps {
+interface ConfiguracionSectionProps {
   confTemp: Configuración;
   onSetConfTemp: (value: Configuración) => void;
   onGuardarConfiguración: () => void;
@@ -29,7 +29,7 @@ interface ConfiguraciónSectionProps {
   plinInputRef: RefObject<HTMLInputElement | null>;
 }
 
-export default function ConfiguraciónSection({
+export default function ConfiguracionSection({
   confTemp,
   onSetConfTemp,
   onGuardarConfiguración,
@@ -39,7 +39,7 @@ export default function ConfiguraciónSection({
   onSetPlinFile,
   yapeInputRef,
   plinInputRef,
-}: ConfiguraciónSectionProps) {
+}: ConfiguracionSectionProps) {
   return (
     <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-200">
       <div className="flex items-center justify-between mb-6">

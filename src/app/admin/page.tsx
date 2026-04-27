@@ -7,7 +7,7 @@ import PedidosSection from "@/components/admin/PedidosSection";
 import MetricasSection from "@/components/admin/MetricasSection";
 import CategoriasSection from "@/components/admin/CategoriasSection";
 import ProductosSection from "@/components/admin/ProductosSection";
-import ConfiguraciónSection from "@/components/admin/ConfiguraciónSection";
+import ConfiguracionSection from "@/components/admin/ConfiguracionSection";
 import {
   LogOut,
   CheckCircle2,
@@ -510,7 +510,7 @@ export default function AdminPage() {
           )}
 
           {activeTab === "configuracion" && confTemp && (
-            <ConfiguraciónSection
+            <ConfiguracionSection
               confTemp={confTemp}
               onSetConfTemp={setConfTemp}
               onGuardarConfiguración={guardarConfiguración}
