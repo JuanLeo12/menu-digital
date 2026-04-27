@@ -7,7 +7,7 @@ import PedidosSection from "@/components/admin/PedidosSection";
 import MetricasSection from "@/components/admin/MetricasSection";
 import CategoriasSection from "@/components/admin/CategoriasSection";
 import ProductosSection from "@/components/admin/ProductosSection";
-import ConfiguracionSection from "@/components/admin/ConfiguracionSection";
+import ConfiguraciónSection from "@/components/admin/ConfiguraciónSection";
 import {
   LogOut,
   CheckCircle2,
@@ -31,7 +31,7 @@ type Plato = {
 };
 
 type HorarioDia = { abierto: boolean; abre: string; cierra: string };
-type Configuracion = {
+type Configuración = {
   id: number;
   local_abierto: boolean;
   whatsapp_numero: string;
@@ -60,7 +60,7 @@ export default function AdminPage() {
   const supabase = createClient();
   const router = useRouter();
 
-  const [configuracion, setConfiguracion] = useState<Configuracion | null>(
+  const [configuracion, setConfiguración] = useState<Configuración | null>(
     null,
   );
   const [categorias, setCategorias] = useState<Categoria[]>([]);
@@ -109,10 +109,10 @@ export default function AdminPage() {
       .single();
 
     if (respConf.data) {
-      setConfiguracion(respConf.data as Configuracion);
+      setConfiguración(respConf.data as Configuración);
     } else {
       // Si no existe la configuraci?n, creamos una por defecto
-      const defaultConf: Configuracion = {
+      const defaultConf: Configuración = {
         id: 1,
         local_abierto: true,
         whatsapp_numero: "",
@@ -131,7 +131,7 @@ export default function AdminPage() {
           "0": { abierto: true, abre: "12:00", cierra: "22:00" },
         },
       };
-      setConfiguracion(defaultConf);
+      setConfiguración(defaultConf);
     }
     if (respCat.data) setCategorias(respCat.data);
     if (respPlat.data) setPlatos(respPlat.data);
@@ -194,7 +194,7 @@ export default function AdminPage() {
   };
 
   // --- CONFIGURACION ---
-  const [confTemp, setConfTemp] = useState<Configuracion | null>(null);
+  const [confTemp, setConfTemp] = useState<Configuración | null>(null);
   const [yapeFile, setYapeFile] = useState<File | null>(null);
   const [plinFile, setPlinFile] = useState<File | null>(null);
   const yapeInputRef = useRef<HTMLInputElement>(null);
@@ -213,7 +213,7 @@ export default function AdminPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [configuracion]);
 
-  const guardarConfiguracion = async () => {
+  const guardarConfiguración = async () => {
     if (!confTemp) return;
     setLoading(true);
     const payload = { ...confTemp };
@@ -371,7 +371,7 @@ export default function AdminPage() {
   const borrarCategoria = async (id: string) => {
     if (
       !confirm(
-        "?Seguro que deseas eliminar esta categor?a? (Aseg?rate de no tener productos Aquíí?)",
+        "?Seguro que deseas eliminar esta categor?a? (Aseg?rate de no tener productos Aquííí?)",
       )
     )
       return;
@@ -510,10 +510,10 @@ export default function AdminPage() {
           )}
 
           {activeTab === "configuracion" && confTemp && (
-            <ConfiguracionSection
+            <ConfiguraciónSection
               confTemp={confTemp}
               onSetConfTemp={setConfTemp}
-              onGuardarConfiguracion={guardarConfiguracion}
+              onGuardarConfiguración={guardarConfiguración}
               yapeFile={yapeFile}
               plinFile={plinFile}
               onSetYapeFile={setYapeFile}

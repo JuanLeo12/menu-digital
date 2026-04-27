@@ -220,7 +220,7 @@ export default function Home() {
     showToast(`?? ${plato.nombre} agregado al carrito`, "success");
   }, [cart, showToast]);
 
-  // Vista Landing Page - DISEO ULTRA MODERNO
+  // Vista Landing Page - DISEÑO ULTRA MODERNO
   if (activeTab === "landing") {
     return (
       <>
@@ -287,7 +287,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
                 >
-                  El auténtico sabor del pollo a la brasa, con el toque especial que nos hace únicos.
+                  El auténtico sabor del pollo a la brasa, con el toque especial que nos hace úúnicos.
                 </motion.p>
 
                 <motion.div 
@@ -340,7 +340,7 @@ export default function Home() {
                   Por Qu Elegirnos?
                 </h2>
                 <p className="text-2xl text-gray-400 max-w-3xl mx-auto">
-                  Ms de 20 aos creando experiencias culinarias inolvidables
+                  Más de 20 aos creando experiencias culinarias inolvidables
                 </p>
               </motion.div>
 
@@ -361,8 +361,8 @@ export default function Home() {
                   {
                     icon: <Zap className="w-16 h-16" />,
                     gradient: "from-yellow-500 to-orange-500",
-                    title: "Receta nica",
-                    desc: "Nuestra marinada secreta y tcnica de coccin nos hacen incomparables"
+                    title: "Receta única",
+                    desc: "Nuestra marinada secreta y tcúnica de coccin nos hacen incomparables"
                   },
                   {
                     icon: <Shield className="w-16 h-16" />,
@@ -390,7 +390,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Seccin de Productos Populares - NEUMORPHISM */}
+          {/* Sección de Productos Populares - NEUMORPHISM */}
           <section className="py-32 px-4 relative bg-linear-to-b from-black via-gray-900 to-black">
             <div className="max-w-7xl mx-auto">
               <motion.div 
@@ -401,7 +401,7 @@ export default function Home() {
               >
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <TrendingUp className="w-8 h-8 text-orange-500" />
-                  <span className="text-orange-500 font-bold uppercase tracking-widest text-lg">Los Ms Pedidos</span>
+                  <span className="text-orange-500 font-bold uppercase tracking-widest text-lg">Los Más Pedidos</span>
                 </div>
                 <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                   Nuestros Favoritos
@@ -506,7 +506,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Seccin de Contacto - GLASSMORPHISM */}
+          {/* Sección de Contacto - GLASSMORPHISM */}
           <section id="contacto" className="py-32 px-4 relative">
             <AnimatedGradientBg />
             <div className="max-w-7xl mx-auto relative z-10">
@@ -522,10 +522,10 @@ export default function Home() {
                   </h2>
                   <div className="space-y-6">
                     {[
-                      { icon: <MapPin className="w-6 h-6" />, title: "Direccin", info: "Av. Principal 123, Lima - Per" },
-                      { icon: <Phone className="w-6 h-6" />, title: "Telfono", info: "+51 999 999 999" },
+                      { icon: <MapPin className="w-6 h-6" />, title: "Dirección", info: "Av. Principal 123, Lima - Per" },
+                      { icon: <Phone className="w-6 h-6" />, title: "Teléfono", info: "+51 999 999 999" },
                       { icon: <Clock className="w-6 h-6" />, title: "Horario", info: "Lun - Dom: 12:00 PM - 10:00 PM" },
-                      { icon: <Truck className="w-6 h-6" />, title: "Delivery", info: "Envos a todo Lima Metropolitana" }
+                      { icon: <Truck className="w-6 h-6" />, title: "Delivery", info: "Envíos a todo Lima Metropolitana" }
                     ].map((item, i) => (
                       <motion.div 
                         key={i}
@@ -633,7 +633,7 @@ export default function Home() {
     );
   }
 
-  // Vista Menú - DISEO MODERNO
+  // Vista Menú - DISEÑO MODERNO
   return (
     <>
       {isStoreClosed && (
@@ -676,7 +676,7 @@ export default function Home() {
               <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                 El Pollo Bravo ??
               </h1>
-              <p className="text-xl text-gray-300 mt-2">Haz tu pedido Aquíí</p>
+              <p className="text-xl text-gray-300 mt-2">Haz tu pedido Aquííí</p>
             </div>
           </div>
         </motion.header>
@@ -751,7 +751,7 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Categoras */}
+        {/* Categorías */}
         {activeTab === "menu" && (
           <motion.div 
             className="px-4 mb-8 overflow-x-auto"
@@ -798,12 +798,12 @@ export default function Home() {
               <p className="text-2xl font-bold text-white mb-4">
                 {activeTab === "favorites" 
                   ? "No tienes favoritos an" 
-                  : "No hay platos en esta categora"}
+                  : "No hay platos en esta categoría"}
               </p>
               <p className="text-gray-400 text-lg">
                 {activeTab === "favorites"
                   ? "Explora el Menú y guarda tus platos favoritos"
-                  : "Prueba con otra categora"}
+                  : "Prueba con otra categoría"}
               </p>
             </motion.div>
           ) : (

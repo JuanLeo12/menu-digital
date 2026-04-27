@@ -5,7 +5,7 @@ import { RefObject } from "react";
 
 type HorarioDia = { abierto: boolean; abre: string; cierra: string };
 
-type Configuracion = {
+type Configuración = {
   id: number;
   local_abierto: boolean;
   whatsapp_numero: string;
@@ -17,10 +17,10 @@ type Configuracion = {
   horarios?: { [key: string]: HorarioDia };
 };
 
-interface ConfiguracionSectionProps {
-  confTemp: Configuracion;
-  onSetConfTemp: (value: Configuracion) => void;
-  onGuardarConfiguracion: () => void;
+interface ConfiguraciónSectionProps {
+  confTemp: Configuración;
+  onSetConfTemp: (value: Configuración) => void;
+  onGuardarConfiguración: () => void;
   yapeFile: File | null;
   plinFile: File | null;
   onSetYapeFile: (file: File | null) => void;
@@ -29,25 +29,25 @@ interface ConfiguracionSectionProps {
   plinInputRef: RefObject<HTMLInputElement | null>;
 }
 
-export default function ConfiguracionSection({
+export default function ConfiguraciónSection({
   confTemp,
   onSetConfTemp,
-  onGuardarConfiguracion,
+  onGuardarConfiguración,
   yapeFile,
   plinFile,
   onSetYapeFile,
   onSetPlinFile,
   yapeInputRef,
   plinInputRef,
-}: ConfiguracionSectionProps) {
+}: ConfiguraciónSectionProps) {
   return (
     <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-200">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-700 flex items-center gap-2">
-          <Settings className="text-orange-500" /> Configuracion del Local
+          <Settings className="text-orange-500" /> Configuración del Local
         </h2>
         <button
-          onClick={onGuardarConfiguracion}
+          onClick={onGuardarConfiguración}
           className="bg-orange-500 text-white px-5 py-2.5 rounded-full font-semibold"
         >
           Guardar Cambios

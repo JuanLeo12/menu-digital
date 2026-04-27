@@ -42,7 +42,7 @@ export default function ProductosSection({
 
       {platos.length === 0 ? (
         <div className="bg-orange-50 border-2 border-dashed border-orange-200 rounded-2xl p-10 text-center text-orange-800">
-          Aun no tienes productos creados. Anade tu primer producto para que tus
+          Aún no tienes productos creados. Añade tu primer producto para que tus
           clientes puedan comprar.
         </div>
       ) : (
