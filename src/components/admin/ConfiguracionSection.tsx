@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Clock, Settings, Smartphone, Store, Wallet } from "lucide-react";
 import { RefObject } from "react";
@@ -41,9 +41,9 @@ export default function ConfiguracionSection({
   plinInputRef,
 }: ConfiguracionSectionProps) {
   return (
-    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+    <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-200">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-slate-700 flex items-center gap-2">
+        <h2 className="text-xl font-bold text-gray-700 flex items-center gap-2">
           <Settings className="text-orange-500" /> Configuracion del Local
         </h2>
         <button
@@ -55,15 +55,15 @@ export default function ConfiguracionSection({
       </div>
 
       <div className="space-y-6">
-        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex justify-between items-center">
+        <div className="bg-black p-4 rounded-xl border border-gray-200 flex justify-between items-center">
           <div className="flex gap-3 items-center">
             <Store
               size={24}
               className={confTemp.local_abierto ? "text-emerald-500" : "text-red-500"}
             />
             <div>
-              <p className="font-bold text-slate-800">Estado del Local</p>
-              <p className="text-sm text-slate-500">
+              <p className="font-bold text-gray-800">Estado del Local</p>
+              <p className="text-sm text-gray-500">
                 Esta abierto y recibiendo pedidos?
               </p>
             </div>
@@ -81,23 +81,23 @@ export default function ConfiguracionSection({
             } ${confTemp.auto_horario ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             <span
-              className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform shadow-sm ${
+              className={`inline-block h-6 w-6 transform rounded-full bg-zinc-900 border-zinc-800 transition-transform shadow-sm ${
                 confTemp.local_abierto ? "translate-x-7" : "translate-x-1"
               }`}
             />
           </button>
         </div>
 
-        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+        <div className="bg-black p-4 rounded-xl border border-gray-200">
           <div className="flex justify-between items-center mb-4">
             <div className="flex gap-3 items-center">
               <Clock
                 size={24}
-                className={confTemp.auto_horario ? "text-blue-500" : "text-slate-400"}
+                className={confTemp.auto_horario ? "text-blue-500" : "text-gray-400"}
               />
               <div>
-                <p className="font-bold text-slate-800">Horarios Automaticos</p>
-                <p className="text-sm text-slate-500">
+                <p className="font-bold text-gray-800">Horarios Automaticos</p>
+                <p className="text-sm text-gray-500">
                   {confTemp.auto_horario
                     ? "El local abre y cierra solo segun el horario. (Deshabilita el boton manual)"
                     : "Abre y cierra la tienda automaticamente por hora y dia."}
@@ -114,13 +114,13 @@ export default function ConfiguracionSection({
               className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${confTemp.auto_horario ? "bg-blue-500" : "bg-slate-300"}`}
             >
               <span
-                className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform shadow-sm ${confTemp.auto_horario ? "translate-x-7" : "translate-x-1"}`}
+                className={`inline-block h-6 w-6 transform rounded-full bg-zinc-900 border-zinc-800 transition-transform shadow-sm ${confTemp.auto_horario ? "translate-x-7" : "translate-x-1"}`}
               />
             </button>
           </div>
 
           {confTemp.auto_horario && (
-            <div className="space-y-3 mt-4 border-t border-slate-200 pt-4">
+            <div className="space-y-3 mt-4 border-t border-gray-200 pt-4">
               {[
                 { id: "1", name: "Lunes" },
                 { id: "2", name: "Martes" },
@@ -132,7 +132,7 @@ export default function ConfiguracionSection({
               ].map((dia) => (
                 <div
                   key={dia.id}
-                  className="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-100"
+                  className="flex items-center justify-between bg-zinc-900 border-zinc-800 p-3 rounded-lg border border-gray-100"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center w-1/3">
                     <label className="flex items-center gap-2 cursor-pointer">
@@ -157,7 +157,7 @@ export default function ConfiguracionSection({
                         className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                       />
                       <span
-                        className={`font-semibold ${confTemp.horarios?.[dia.id]?.abierto ? "text-slate-800" : "text-slate-400"}`}
+                        className={`font-semibold ${confTemp.horarios?.[dia.id]?.abierto ? "text-gray-800" : "text-gray-400"}`}
                       >
                         {dia.name}
                       </span>
@@ -166,7 +166,7 @@ export default function ConfiguracionSection({
 
                   {confTemp.horarios?.[dia.id]?.abierto ? (
                     <div className="flex gap-2 items-center w-2/3 justify-end text-sm">
-                      <span className="text-slate-500">De</span>
+                      <span className="text-gray-500">De</span>
                       <input
                         type="time"
                         value={confTemp.horarios[dia.id].abre}
@@ -178,9 +178,9 @@ export default function ConfiguracionSection({
                             horarios: newHorarios,
                           });
                         }}
-                        className="p-1 border border-slate-200 rounded outline-none focus:border-blue-500"
+                        className="p-1 border border-gray-200 rounded outline-none focus:border-blue-500"
                       />
-                      <span className="text-slate-500">a</span>
+                      <span className="text-gray-500">a</span>
                       <input
                         type="time"
                         value={confTemp.horarios[dia.id].cierra}
@@ -192,11 +192,11 @@ export default function ConfiguracionSection({
                             horarios: newHorarios,
                           });
                         }}
-                        className="p-1 border border-slate-200 rounded outline-none focus:border-blue-500"
+                        className="p-1 border border-gray-200 rounded outline-none focus:border-blue-500"
                       />
                     </div>
                   ) : (
-                    <div className="text-sm text-slate-400 italic">Cerrado todo el dia</div>
+                    <div className="text-sm text-gray-400 italic">Cerrado todo el dia</div>
                   )}
                 </div>
               ))}
@@ -204,8 +204,8 @@ export default function ConfiguracionSection({
           )}
         </div>
 
-        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-          <p className="font-bold text-slate-800 mb-2">
+        <div className="bg-black p-4 rounded-xl border border-gray-200">
+          <p className="font-bold text-gray-800 mb-2">
             <Smartphone size={18} className="inline mr-1" /> WhatsApp de recepcion
           </p>
           <input
@@ -249,7 +249,7 @@ export default function ConfiguracionSection({
             />
             <div
               onClick={() => yapeInputRef.current?.click()}
-              className="cursor-pointer border-2 border-dashed border-purple-300 p-4 rounded-lg bg-white text-center"
+              className="cursor-pointer border-2 border-dashed border-purple-300 p-4 rounded-lg bg-zinc-900 border-zinc-800 text-center"
             >
               {yapeFile ? (
                 "QR Seleccionado"
@@ -288,7 +288,7 @@ export default function ConfiguracionSection({
             />
             <div
               onClick={() => plinInputRef.current?.click()}
-              className="cursor-pointer border-2 border-dashed border-blue-300 p-4 rounded-lg bg-white text-center"
+              className="cursor-pointer border-2 border-dashed border-blue-300 p-4 rounded-lg bg-zinc-900 border-zinc-800 text-center"
             >
               {plinFile ? (
                 "QR Seleccionado"
@@ -305,3 +305,4 @@ export default function ConfiguracionSection({
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, MapPin, Store, Send, ShoppingBag, Banknote, CreditCard, Smartphone } from 'lucide-react'
 import { useCartStore } from '@/store/cartStore'
@@ -403,3 +403,4 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
     </AnimatePresence>
   )
 }
+

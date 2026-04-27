@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ToastProvider } from "@/components/Toast";
 import "./globals.css";
@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "El Pollo Bravo - Menú Digital",
   description: "El mejor sabor de la ciudad - Pide tu delivery o compra en salón",
+  icons: {
+    icon: "/logo.png",
+  }
 };
 
 export default function RootLayout({
@@ -36,3 +39,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+

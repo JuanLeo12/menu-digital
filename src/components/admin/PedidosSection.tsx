@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { CheckCircle2, Undo2, X } from "lucide-react";
 
@@ -24,8 +24,8 @@ export default function PedidosSection({
   onUpdatePedidoEstado,
 }: PedidosSectionProps) {
   return (
-    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-      <h2 className="text-xl font-bold text-slate-700 mb-6">Pedidos Recientes</h2>
+    <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-200">
+      <h2 className="text-xl font-bold text-gray-700 mb-6">Pedidos Recientes</h2>
       {pedidos.length === 0 ? (
         <div className="bg-blue-50 border-2 border-dashed border-blue-200 rounded-2xl p-10 text-center text-blue-800">
           No tienes pedidos todavia.
@@ -45,17 +45,17 @@ export default function PedidosSection({
                     >
                       {p.estado}
                     </span>
-                    <span className="text-xs text-slate-500 font-medium">
+                    <span className="text-xs text-gray-500 font-medium">
                       {new Date(p.created_at).toLocaleString()}
                     </span>
                   </div>
-                  <h3 className="font-bold text-slate-800 text-lg">
+                  <h3 className="font-bold text-gray-800 text-lg">
                     Cliente: {p.cliente_nombre}
                   </h3>
-                  <p className="text-sm font-medium text-slate-600">
+                  <p className="text-sm font-medium text-gray-600">
                     Total: S/ {Number(p.total).toFixed(2)} - Tipo: {p.tipo_pedido}
                   </p>
-                  <div className="text-xs text-slate-500 mt-2">
+                  <div className="text-xs text-gray-500 mt-2">
                     <ul>
                       {p.detalle.map((d, i) => (
                         <li key={i}>
@@ -87,7 +87,7 @@ export default function PedidosSection({
                   {p.estado !== "PENDIENTE" && (
                     <button
                       onClick={() => onUpdatePedidoEstado(p.id, "PENDIENTE")}
-                      className="bg-slate-200 text-slate-600 p-2 rounded-lg hover:bg-slate-300 transition-colors"
+                      className="bg-slate-200 text-gray-600 p-2 rounded-lg hover:bg-slate-300 transition-colors"
                       title="Deshacer y Marcar Pendiente"
                     >
                       <Undo2 size={18} />
@@ -102,3 +102,4 @@ export default function PedidosSection({
     </div>
   );
 }
+

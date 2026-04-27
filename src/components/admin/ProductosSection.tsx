@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Edit2, Plus, Trash2 } from "lucide-react";
 
@@ -28,9 +28,9 @@ export default function ProductosSection({
   onBorrarPlato,
 }: ProductosSectionProps) {
   return (
-    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+    <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-200">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-slate-700">Mis Productos</h2>
+        <h2 className="text-xl font-bold text-gray-700">Mis Productos</h2>
         <button
           onClick={onOpenCrear}
           className="bg-orange-500 text-white px-5 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-orange-600 active:scale-95 transition-all shadow-sm text-sm"
@@ -54,7 +54,7 @@ export default function ProductosSection({
             return (
               <div
                 key={p.id}
-                className="flex flex-col items-start p-4 rounded-2xl bg-slate-50 border border-slate-100 gap-3"
+                className="flex flex-col items-start p-4 rounded-2xl bg-black border border-gray-100 gap-3"
               >
                 <div className="w-full">
                   <div className="flex items-center gap-3 mb-2">
@@ -63,10 +63,10 @@ export default function ProductosSection({
                       <img
                         src={p.imagen_url}
                         alt={p.nombre}
-                        className="w-14 h-14 rounded-xl object-cover shrink-0 border border-slate-200"
+                        className="w-14 h-14 rounded-xl object-cover shrink-0 border border-gray-200"
                       />
                     ) : (
-                      <div className="w-14 h-14 rounded-xl shrink-0 bg-slate-200 flex items-center justify-center text-slate-400 text-xs font-medium">
+                      <div className="w-14 h-14 rounded-xl shrink-0 bg-slate-200 flex items-center justify-center text-gray-400 text-xs font-medium">
                         Sin Img
                       </div>
                     )}
@@ -74,7 +74,7 @@ export default function ProductosSection({
                       <p className="text-xs font-bold text-orange-500 mb-0.5 uppercase tracking-wider">
                         {catNombre}
                       </p>
-                      <h3 className="font-bold text-slate-800 text-base leading-tight truncate">
+                      <h3 className="font-bold text-gray-800 text-base leading-tight truncate">
                         {p.nombre}
                       </h3>
                     </div>
@@ -87,14 +87,14 @@ export default function ProductosSection({
                 <div className="flex items-center gap-2 w-full">
                   <button
                     onClick={() => onOpenEditar(p)}
-                    className="flex-1 justify-center bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 p-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
+                    className="flex-1 justify-center bg-zinc-900 border-zinc-800 border border-gray-200 hover:bg-slate-100 text-gray-700 p-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
                   >
                     <Edit2 size={16} />
                     <span className="font-medium">Editar</span>
                   </button>
                   <button
                     onClick={() => onBorrarPlato(p.id)}
-                    className="flex-1 justify-center bg-white border border-slate-200 hover:bg-red-50 text-red-500 p-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
+                    className="flex-1 justify-center bg-zinc-900 border-zinc-800 border border-gray-200 hover:bg-red-50 text-red-500 p-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
                   >
                     <Trash2 size={16} />
                     <span className="font-medium">Borrar</span>
@@ -108,3 +108,4 @@ export default function ProductosSection({
     </div>
   );
 }
+

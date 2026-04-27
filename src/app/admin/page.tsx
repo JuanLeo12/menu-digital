@@ -111,7 +111,7 @@ export default function AdminPage() {
     if (respConf.data) {
       setConfiguracion(respConf.data as Configuracion);
     } else {
-      // Si no existe la configuraci�n, creamos una por defecto
+      // Si no existe la configuraci?n, creamos una por defecto
       const defaultConf: Configuracion = {
         id: 1,
         local_abierto: true,
@@ -236,7 +236,7 @@ export default function AdminPage() {
       .upsert(payload, { onConflict: "id" })
       .eq("id", 1);
     if (error) alert("Error guardando configuracion: " + error.message);
-    else alert("�Guardado correctamente!");
+    else alert("?Guardado correctamente!");
     setYapeFile(null);
     setPlinFile(null);
     await fetchData();
@@ -273,7 +273,7 @@ export default function AdminPage() {
 
   const guardarPlato = async () => {
     if (!nombre || !precio || !categoria)
-      return alert("Completa los campos b�sicos");
+      return alert("Completa los campos b?sicos");
 
     setLoading(true);
     let uploadedUrl = imagen;
@@ -317,7 +317,7 @@ export default function AdminPage() {
   };
 
   const borrarPlato = async (id: string) => {
-    if (!confirm("�Seguro que deseas eliminar este producto?")) return;
+    if (!confirm("?Seguro que deseas eliminar este producto?")) return;
     setLoading(true);
     await supabase.from("platos").delete().eq("id", id);
     await fetchData();
@@ -348,7 +348,7 @@ export default function AdminPage() {
         .from("categorias")
         .insert([{ nombre: catNombre, orden }]);
       if (error) {
-        alert("Error al crear categor�a: " + error.message);
+        alert("Error al crear categor?a: " + error.message);
         setLoading(false);
         return;
       }
@@ -358,7 +358,7 @@ export default function AdminPage() {
         .update({ nombre: catNombre })
         .eq("id", editCatId);
       if (error) {
-        alert("Error al actualizar categor�a: " + error.message);
+        alert("Error al actualizar categor?a: " + error.message);
         setLoading(false);
         return;
       }
@@ -371,7 +371,7 @@ export default function AdminPage() {
   const borrarCategoria = async (id: string) => {
     if (
       !confirm(
-        "�Seguro que deseas eliminar esta categor�a? (Aseg�rate de no tener productos aqu�)",
+        "?Seguro que deseas eliminar esta categor?a? (Aseg?rate de no tener productos aqu?)",
       )
     )
       return;
@@ -381,38 +381,38 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 pb-24 font-sans">
+    <div className="min-h-screen bg-black pb-24 font-sans text-gray-200">
       {/* Header con gradiente */}
-      <div className="bg-linear-to-r from-indigo-600 via-purple-600 to-pink-500 text-white shadow-xl">
+      <div className="bg-linear-to-r from-red-600 via-orange-600 to-yellow-600 text-white shadow-xl">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight flex items-center gap-3">
                 <span className="text-4xl">??</span>
-                Panel de Administraci�n
+                Panel de Administraci?n
               </h1>
-              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu men� digital de forma moderna</p>
+              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu men? digital de forma moderna</p>
             </div>
             <button
               onClick={handleLogout}
               className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all border border-white/30"
             >
               <LogOut size={20} />
-              <span className="font-semibold">Cerrar Sesi�n</span>
+              <span className="font-semibold">Cerrar Sesi?n</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Navegaci�n principal */}
+      {/* Navegaci?n principal */}
       <div className="max-w-7xl mx-auto px-6 -mt-4 relative z-10">
         <div className="flex flex-wrap gap-3 justify-center md:justify-start">
           <button
             onClick={() => setActiveTab("pedidos")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "pedidos"
-                ? "bg-linear-to-r from-blue-500 to-cyan-500 text-white shadow-blue-500/30 scale-105"
-                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+                ? "bg-linear-to-r from-red-600 to-orange-500 text-white shadow-blue-500/30 scale-105"
+                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
             }`}
           >
             <ListOrdered size={18} />
@@ -429,8 +429,8 @@ export default function AdminPage() {
             onClick={() => setActiveTab("metricas")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "metricas"
-                ? "bg-linear-to-r from-purple-500 to-pink-500 text-white shadow-purple-500/30 scale-105"
-                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+                ? "bg-linear-to-r from-orange-500 to-yellow-500 text-white shadow-purple-500/30 scale-105"
+                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
             }`}
           >
             <BarChart3 size={18} />
@@ -441,7 +441,7 @@ export default function AdminPage() {
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "platos"
                 ? "bg-linear-to-r from-orange-500 to-amber-500 text-white shadow-orange-500/30 scale-105"
-                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
             }`}
           >
             <UtensilsCrossed size={18} />
@@ -452,22 +452,22 @@ export default function AdminPage() {
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "categorias"
                 ? "bg-linear-to-r from-emerald-500 to-teal-500 text-white shadow-emerald-500/30 scale-105"
-                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
             }`}
           >
             <Tag size={18} />
-            Categor�as
+            Categor?as
           </button>
           <button
             onClick={() => setActiveTab("configuracion")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "configuracion"
-                ? "bg-linear-to-r from-slate-600 to-slate-800 text-white shadow-slate-500/30 scale-105"
-                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200"
+                ? "bg-linear-to-r from-zinc-800 to-zinc-900 text-white shadow-slate-500/30 scale-105"
+                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
             }`}
           >
             <Settings size={18} />
-            Configuraci�n
+            Configuraci?n
           </button>
         </div>
       </div>
@@ -571,11 +571,11 @@ export default function AdminPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-slate-600 mb-1.5">
-                  Categor�a *
+                  Categor?a *
                 </label>
                 {categorias.length === 0 ? (
                   <p className="text-sm text-red-500 italic bg-red-50 p-2 rounded-lg">
-                    Por favor crea una categor�a primero.
+                    Por favor crea una categor?a primero.
                   </p>
                 ) : (
                   <select
@@ -584,7 +584,7 @@ export default function AdminPage() {
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 font-medium"
                   >
                     <option value="" disabled>
-                      Selecciona una categor�a...
+                      Selecciona una categor?a...
                     </option>
                     {categorias.map((c) => (
                       <option key={c.id} value={c.id}>
@@ -597,13 +597,13 @@ export default function AdminPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-slate-600 mb-1.5">
-                  Descripci�n
+                  Descripci?n
                 </label>
                 <textarea
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 resize-none h-24"
-                  placeholder="Ej: Acompa�ado de papas fritas y ensalada fresca."
+                  placeholder="Ej: Acompa?ado de papas fritas y ensalada fresca."
                 />
               </div>
 
@@ -640,7 +640,7 @@ export default function AdminPage() {
                         Haz clic para subir imagen
                       </p>
                       <p className="text-xs text-slate-500 mt-1">
-                        JPG, PNG o WEBP (M�x 5MB)
+                        JPG, PNG o WEBP (M?x 5MB)
                       </p>
                     </div>
                   )}
@@ -686,15 +686,15 @@ export default function AdminPage() {
             <div className="p-6 border-b border-slate-100 shrink-0">
               <h3 className="font-bold text-2xl text-slate-800">
                 {formCatMode === "crear"
-                  ? "??? Nueva Categor�a"
-                  : "?? Editar Categor�a"}
+                  ? "??? Nueva Categor?a"
+                  : "?? Editar Categor?a"}
               </h3>
             </div>
 
             <div className="p-6 space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-slate-600 mb-1.5">
-                  Nombre de la Categor�a *
+                  Nombre de la Categor?a *
                 </label>
                 <input
                   type="text"
@@ -733,4 +733,6 @@ export default function AdminPage() {
     </div>
   );
 }
+
+
 

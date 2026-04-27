@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
@@ -24,8 +24,6 @@ import {
   Truck,
   Phone,
   MapPin,
-  
-  
   X
 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
@@ -45,7 +43,7 @@ type Plato = {
   disponible: boolean;
 };
 
-// Variantes de animación avanzadas
+// Variantes de animaci�n avanzadas
 const fadeInUp = {
   hidden: { opacity: 0, y: 60 },
   visible: { 
@@ -80,7 +78,7 @@ const itemVariants = {
   }
 };
 
-// Componente de partículas de fondo
+// Componente de part�culas de fondo
 function FloatingParticles() {
   const [particles, setParticles] = useState<{id: number, x: number, y: number, size: number, duration: number, delay: number}[]>([]);
 
@@ -264,8 +262,8 @@ export default function Home() {
     const isNowFavorite = favorites.isFavorite(plato.id);
     showToast(
       isNowFavorite 
-        ? `❤️ ${plato.nombre} agregado a favoritos` 
-        : `💔 ${plato.nombre} eliminado de favoritos`,
+        ? `?? ${plato.nombre} agregado a favoritos` 
+        : `?? ${plato.nombre} eliminado de favoritos`,
       "info"
     );
   }, [favorites, showToast]);
@@ -276,10 +274,10 @@ export default function Home() {
       nombre: plato.nombre,
       precio: plato.precio,
     });
-    showToast(`🛒 ${plato.nombre} agregado al carrito`, "success");
+    showToast(`?? ${plato.nombre} agregado al carrito`, "success");
   }, [cart, showToast]);
 
-  // Vista Landing Page - DISEÑO ULTRA MODERNO
+  // Vista Landing Page - DISE�O ULTRA MODERNO
   if (activeTab === "landing") {
     return (
       <>
@@ -296,7 +294,7 @@ export default function Home() {
               >
                 <Clock className="w-6 h-6" />
               </motion.div>
-              <span className="text-lg">⚠️ Local cerrado por ahora. ¡Vuelve pronto!</span>
+              <span className="text-lg">?? Local cerrado por ahora. �Vuelve pronto!</span>
             </div>
           </motion.div>
         )}
@@ -347,13 +345,13 @@ export default function Home() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1, delay: 0.3 }}
-                  className="mb-8 flex justify-center relative w-64 h-64 md:w-80 md:h-80 mx-auto drop-shadow-[0_0_50px_rgba(239,68,68,0.6)]"
+                  className="mb-8 flex justify-center relative w-full h-[40vh] md:h-[50vh] max-w-5xl mx-auto rounded-[3rem] overflow-hidden shadow-[0_0_50px_rgba(239,68,68,0.4)]"
                 >
                   <Image 
                     src="/imagen_principal.png" 
                     alt="Pollo a la Brasa" 
                     fill 
-                    className="object-contain animate-float"
+                    className="object-cover"
                     priority
                   />
                 </motion.div>
@@ -365,7 +363,7 @@ export default function Home() {
                   transition={{ duration: 0.8, delay: 0.4, type: "spring" }}
                 >
                   <div className="relative w-48 h-48 md:w-64 md:h-64 mb-4">
-                    <Image src="/logo.png" alt="Logo El Pollo Bravo" fill className="object-contain" priority />
+                    
                   </div>
                   <span className="bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                     El Pollo Bravo
@@ -378,7 +376,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6 }}
                 >
-                  El auténtico sabor del pollo a la brasa, con el toque especial que nos hace únicos
+                  El aut�ntico sabor del pollo a la brasa, con el toque especial que nos hace �nicos
                 </motion.p>
 
                 <motion.div 
@@ -398,7 +396,7 @@ export default function Home() {
                   >
                     <span className="relative z-10 flex items-center gap-3">
                       <UtensilsCrossed size={24} />
-                      Ver Menú y Pedir
+                      Ver Men� y Pedir
                     </span>
                     <div className="absolute inset-0 bg-linear-to-r from-yellow-400 via-orange-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </motion.button>
@@ -413,7 +411,7 @@ export default function Home() {
                   >
                     <span className="flex items-center gap-3">
                       <Info size={24} />
-                      Más Información
+                      M�s Informaci�n
                     </span>
                   </motion.button>
                 </motion.div>
@@ -429,7 +427,7 @@ export default function Home() {
             </motion.div>
           </motion.section>
 
-          {/* Sección de Características - GLASSMORPHISM */}
+          {/* Secci�n de Caracter�sticas - GLASSMORPHISM */}
           <section id="info" className="py-32 px-4 relative">
             <div className="max-w-7xl mx-auto">
               <motion.div 
@@ -445,13 +443,13 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
                 >
-                  <span className="text-6xl mb-4 block">🎯</span>
+                  <span className="text-6xl mb-4 block">??</span>
                 </motion.div>
                 <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                  ¿Por Qué Elegirnos?
+                  �Por Qu� Elegirnos?
                 </h2>
                 <p className="text-2xl text-gray-400 max-w-3xl mx-auto">
-                  Más de 20 años creando experiencias culinarias inolvidables
+                  M�s de 20 a�os creando experiencias culinarias inolvidables
                 </p>
               </motion.div>
 
@@ -472,8 +470,8 @@ export default function Home() {
                   {
                     icon: <Zap className="w-16 h-16" />,
                     gradient: "from-yellow-500 to-orange-500",
-                    title: "Receta Única",
-                    desc: "Nuestra marinada secreta y técnica de cocción nos hacen incomparables"
+                    title: "Receta �nica",
+                    desc: "Nuestra marinada secreta y t�cnica de cocci�n nos hacen incomparables"
                   },
                   {
                     icon: <Shield className="w-16 h-16" />,
@@ -501,7 +499,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Sección de Productos Populares - NEUMORPHISM */}
+          {/* Secci�n de Productos Populares - NEUMORPHISM */}
           <section className="py-32 px-4 relative bg-linear-to-b from-black via-gray-900 to-black">
             <div className="max-w-7xl mx-auto">
               <motion.div 
@@ -512,7 +510,7 @@ export default function Home() {
               >
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <TrendingUp className="w-8 h-8 text-orange-500" />
-                  <span className="text-orange-500 font-bold uppercase tracking-widest text-lg">Los Más Pedidos</span>
+                  <span className="text-orange-500 font-bold uppercase tracking-widest text-lg">Los M�s Pedidos</span>
                 </div>
                 <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                   Nuestros Favoritos
@@ -552,7 +550,7 @@ export default function Home() {
                         />
                       ) : (
                         <div className="w-full h-full bg-linear-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                          <span className="text-gray-600 text-6xl">🍽️</span>
+                          <span className="text-gray-600 text-6xl">???</span>
                         </div>
                       )}
                       <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent" />
@@ -610,14 +608,14 @@ export default function Home() {
                   onClick={() => setActiveTab("menu")}
                   className="group px-12 py-6 bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-xl text-white shadow-2xl flex items-center gap-4 mx-auto"
                 >
-                  Ver Menú Completo
+                  Ver Men� Completo
                   <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
                 </motion.button>
               </motion.div>
             </div>
           </section>
 
-          {/* Sección de Contacto - GLASSMORPHISM */}
+          {/* Secci�n de Contacto - GLASSMORPHISM */}
           <section id="contacto" className="py-32 px-4 relative">
             <AnimatedGradientBg />
             <div className="max-w-7xl mx-auto relative z-10">
@@ -629,14 +627,14 @@ export default function Home() {
                   className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10"
                 >
                   <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
-                    Visítanos
+                    Vis�tanos
                   </h2>
                   <div className="space-y-6">
                     {[
-                      { icon: <MapPin className="w-6 h-6" />, title: "Dirección", info: "Av. Principal 123, Lima - Perú" },
-                      { icon: <Phone className="w-6 h-6" />, title: "Teléfono", info: "+51 999 999 999" },
+                      { icon: <MapPin className="w-6 h-6" />, title: "Direcci�n", info: "Av. Principal 123, Lima - Per�" },
+                      { icon: <Phone className="w-6 h-6" />, title: "Tel�fono", info: "+51 999 999 999" },
                       { icon: <Clock className="w-6 h-6" />, title: "Horario", info: "Lun - Dom: 12:00 PM - 10:00 PM" },
-                      { icon: <Truck className="w-6 h-6" />, title: "Delivery", info: "Envíos a todo Lima Metropolitana" }
+                      { icon: <Truck className="w-6 h-6" />, title: "Delivery", info: "Env�os a todo Lima Metropolitana" }
                     ].map((item, i) => (
                       <motion.div 
                         key={i}
@@ -662,15 +660,23 @@ export default function Home() {
                   className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 flex flex-col justify-center"
                 >
                   <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
-                    Síguenos
+                    S�guenos
                   </h2>
                   <p className="text-xl text-gray-300 mb-8">
                     Mantente actualizado con nuestras promociones y novedades exclusivas
                   </p>
                   <div className="flex gap-4">
                     {[
-                      { imgUrl: "https://cdn-icons-png.freepik.com/512/15707/15707869.png?ga=GA1.1.767872142.1777252202", gradient: "from-pink-500 to-rose-500", href: "https://instagram.com" },
-                      { imgUrl: "https://cdn-icons-png.freepik.com/512/15707/15707884.png?ga=GA1.1.767872142.1777252202", gradient: "from-blue-500 to-blue-600", href: "https://facebook.com" },
+                      { 
+                        icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>, 
+                        gradient: "from-pink-500 to-rose-500", 
+                        href: "https://instagram.com" 
+                      },
+                      { 
+                        icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>, 
+                        gradient: "from-blue-500 to-blue-600", 
+                        href: "https://facebook.com" 
+                      },
                       { icon: <X size={24} />, gradient: "from-gray-700 to-gray-900", href: "https://twitter.com" }
                     ].map((social, i) => (
                       <motion.a
@@ -682,13 +688,7 @@ export default function Home() {
                         rel="noopener noreferrer"
                         className={`bg-linear-to-r ${social.gradient} p-4 rounded-xl shadow-lg flex items-center justify-center text-white`}
                       >
-                        {social.imgUrl ? (
-                          <div className="relative w-6 h-6">
-                            <Image src={social.imgUrl} alt="social" fill className="object-contain filter invert" />
-                          </div>
-                        ) : (
-                          social.icon
-                        )}
+                        {social.icon}
                       </motion.a>
                     ))}
                   </div>
@@ -706,22 +706,22 @@ export default function Home() {
                 viewport={{ once: true }}
               >
                 <div className="relative w-32 h-32 mx-auto mb-4">
-                  <Image src="/logo.png" alt="Logo" fill className="object-contain" />
+                  
                 </div>
                 <h3 className="text-3xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent mb-4">
-                  El Pollo Bravo 🐔
+                  El Pollo Bravo ??
                 </h3>
                 <p className="text-gray-500 text-lg mb-6">
-                  El auténtico sabor del pollo a la brasa
+                  El aut�ntico sabor del pollo a la brasa
                 </p>
                 <p className="text-gray-600">
-                  © {new Date().getFullYear()} El Pollo Bravo. Todos los derechos reservados.
+                  � {new Date().getFullYear()} El Pollo Bravo. Todos los derechos reservados.
                 </p>
               </motion.div>
             </div>
           </footer>
 
-          {/* Botón Flotante Menú */}
+          {/* Bot�n Flotante Men� */}
           <motion.div
             className="fixed bottom-8 right-8 z-40"
             initial={{ scale: 0 }}
@@ -742,7 +742,7 @@ export default function Home() {
     );
   }
 
-  // Vista Menú - DISEÑO MODERNO
+  // Vista Men� - DISE�O MODERNO
   return (
     <>
       {isStoreClosed && (
@@ -753,7 +753,7 @@ export default function Home() {
         >
           <div className="flex items-center justify-center gap-3">
             <Clock className="w-6 h-6" />
-            <span className="text-lg">⚠️ Local cerrado por ahora. ¡Vuelve pronto!</span>
+            <span className="text-lg">?? Local cerrado por ahora. �Vuelve pronto!</span>
           </div>
         </motion.div>
       )}
@@ -780,12 +780,12 @@ export default function Home() {
               </motion.button>
               
               <div className="relative w-24 h-24 mb-2">
-                <Image src="/logo.png" alt="Logo" fill className="object-contain" priority />
+                
               </div>
               <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                El Pollo Bravo 🐔
+                El Pollo Bravo ??
               </h1>
-              <p className="text-xl text-gray-300 mt-2">Haz tu pedido aquí</p>
+              <p className="text-xl text-gray-300 mt-2">Haz tu pedido aqu�</p>
             </div>
           </div>
         </motion.header>
@@ -805,7 +805,7 @@ export default function Home() {
                   type="text"
                   value={busqueda}
                   onChange={(e) => setBusqueda(e.target.value)}
-                  placeholder="¿Qué se te antoja hoy?"
+                  placeholder="�Qu� se te antoja hoy?"
                   className="flex-1 bg-transparent px-6 py-4 text-lg outline-none text-white placeholder-gray-500"
                 />
                 {busqueda && (
@@ -831,7 +831,7 @@ export default function Home() {
           <div className="max-w-md mx-auto">
             <div className="flex bg-gray-900/90 backdrop-blur-xl rounded-2xl p-2 border border-gray-800">
               {[
-                { id: "menu", icon: <UtensilsCrossed size={18} />, label: "Menú" },
+                { id: "menu", icon: <UtensilsCrossed size={18} />, label: "Men�" },
                 { id: "favorites", icon: <Heart size={18} />, label: "Favoritos" }
               ].map((tab) => (
                 <button
@@ -860,7 +860,7 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Categorías */}
+        {/* Categor�as */}
         {activeTab === "menu" && (
           <motion.div 
             className="px-4 mb-8 overflow-x-auto"
@@ -902,17 +902,17 @@ export default function Home() {
               animate={{ scale: 1, opacity: 1 }}
             >
               <div className="text-8xl mb-6">
-                {activeTab === "favorites" ? "💔" : "🍽️"}
+                {activeTab === "favorites" ? "??" : "???"}
               </div>
               <p className="text-2xl font-bold text-white mb-4">
                 {activeTab === "favorites" 
-                  ? "No tienes favoritos aún" 
-                  : "No hay platos en esta categoría"}
+                  ? "No tienes favoritos a�n" 
+                  : "No hay platos en esta categor�a"}
               </p>
               <p className="text-gray-400 text-lg">
                 {activeTab === "favorites"
-                  ? "Explora el menú y guarda tus platos favoritos"
-                  : "Prueba con otra categoría"}
+                  ? "Explora el men� y guarda tus platos favoritos"
+                  : "Prueba con otra categor�a"}
               </p>
             </motion.div>
           ) : (
@@ -1035,7 +1035,7 @@ export default function Home() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => isStoreClosed 
-                  ? showToast("El local está cerrado en este momento.", "error")
+                  ? showToast("El local est� cerrado en este momento.", "error")
                   : setIsCheckoutOpen(true)
                 }
                 className="w-full bg-linear-to-r from-red-600 via-orange-600 to-yellow-600 shadow-2xl shadow-red-500/40 text-white rounded-2xl py-5 px-6 flex items-center justify-between transition-all relative overflow-hidden"
@@ -1080,3 +1080,5 @@ export default function Home() {
     </>
   );
 }
+
+
