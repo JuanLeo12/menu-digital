@@ -205,8 +205,8 @@ export default function Home() {
     const isNowFavorite = favorites.isFavorite(plato.id);
     showToast(
       isNowFavorite 
-        ? `?? ${plato.nombre} agregado a favoritos` 
-        : `?? ${plato.nombre} eliminado de favoritos`,
+        ? `✔️ ${plato.nombre} agregado a favoritos` 
+        : `✔️ ${plato.nombre} eliminado de favoritos`,
       "info"
     );
   }, [favorites, showToast]);
@@ -217,7 +217,7 @@ export default function Home() {
       nombre: plato.nombre,
       precio: plato.precio,
     });
-    showToast(`?? ${plato.nombre} agregado al carrito`, "success");
+    showToast(`✔️ ${plato.nombre} agregado al carrito`, "success");
   }, [cart, showToast]);
 
   // Vista Landing Page - DISEÑO ULTRA MODERNO
@@ -237,7 +237,7 @@ export default function Home() {
               >
                 <Clock className="w-6 h-6" />
               </motion.div>
-              <span className="text-lg">?? Local cerrado por ahora. Vuelve pronto!</span>
+              <span className="text-lg">🔴 Local cerrado por ahora. Vuelve pronto!</span>
             </div>
           </motion.div>
         )}
@@ -334,10 +334,10 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
                 >
-                  <span className="text-6xl mb-4 block">??</span>
+                  <span className="text-6xl mb-4 block">⭐</span>
                 </motion.div>
                 <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                  Por Qu Elegirnos?
+                  ¿Por Qué Elegirnos?
                 </h2>
                 <p className="text-2xl text-gray-400 max-w-3xl mx-auto">
                   Más de 20 aos creando experiencias culinarias inolvidables
@@ -441,7 +441,7 @@ export default function Home() {
                         />
                       ) : (
                         <div className="w-full h-full bg-linear-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                          <span className="text-gray-600 text-6xl">???</span>
+                          <span className="text-gray-600 text-6xl">❓</span>
                         </div>
                       )}
                       <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent" />
@@ -600,7 +600,7 @@ export default function Home() {
                   
                 </div>
                 <h3 className="text-3xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent mb-4">
-                  El Pollo Bravo ??
+                  El Pollo Bravo 🍗
                 </h3>
                 <p className="text-gray-500 text-lg mb-6">
                   El auténtico sabor del pollo a la brasa
@@ -644,7 +644,7 @@ export default function Home() {
         >
           <div className="flex items-center justify-center gap-3">
             <Clock className="w-6 h-6" />
-            <span className="text-lg">?? Local cerrado por ahora. Vuelve pronto!</span>
+            <span className="text-lg">🔴 Local cerrado por ahora. Vuelve pronto!</span>
           </div>
         </motion.div>
       )}
@@ -674,7 +674,7 @@ export default function Home() {
                 
               </div>
               <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                El Pollo Bravo ??
+                El Pollo Bravo 🍗
               </h1>
               <p className="text-xl text-gray-300 mt-2">Haz tu pedido Aquííí</p>
             </div>
@@ -696,7 +696,7 @@ export default function Home() {
                   type="text"
                   value={busqueda}
                   onChange={(e) => setBusqueda(e.target.value)}
-                  placeholder="Qu se te antoja hoy?"
+                  placeholder="¿Qué se te antoja hoy?"
                   className="flex-1 bg-transparent px-6 py-4 text-lg outline-none text-white placeholder-gray-500"
                 />
                 {busqueda && (
@@ -797,12 +797,12 @@ export default function Home() {
               </div>
               <p className="text-2xl font-bold text-white mb-4">
                 {activeTab === "favorites" 
-                  ? "No tienes favoritos an" 
+                  ? "No tienes favoritos aún" 
                   : "No hay platos en esta categoría"}
               </p>
               <p className="text-gray-400 text-lg">
                 {activeTab === "favorites"
-                  ? "Explora el Menú y guarda tus platos favoritos"
+                  ? "Explora el menú y guarda tus platos favoritos"
                   : "Prueba con otra categoría"}
               </p>
             </motion.div>
@@ -926,7 +926,7 @@ export default function Home() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => isStoreClosed 
-                  ? showToast("El local est cerrado en este moMenúto.", "error")
+                  ? showToast("El local está cerrado en este momento.", "error")
                   : setIsCheckoutOpen(true)
                 }
                 className="w-full bg-linear-to-r from-red-600 via-orange-600 to-yellow-600 shadow-2xl shadow-red-500/40 text-white rounded-2xl py-5 px-6 flex items-center justify-between transition-all relative overflow-hidden"

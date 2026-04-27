@@ -87,11 +87,11 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     if (!medioPago) return showValidationError('Selecciona un medio de pago.');
     if (medioPago === 'efectivo' && !montoEfectivo) return showValidationError('Ingresa con cuanto vas a pagar.');
 
-    let payMenútText = "";
-    if (medioPago === 'efectivo') payMenútText = "\n*Tipo de pago:* Efectivo\n*Pagaré con:* S/ " + montoEfectivo;
-    if (medioPago === 'tarjeta') payMenútText = "\n*Tipo de pago:* Tarjeta (Llevar POS)";
-    if (medioPago === 'yape') payMenútText = "\n*Tipo de pago:* Yape (Envío captura en un moMenúto)";
-    if (medioPago === 'plin') payMenútText = "\n*Tipo de pago:* Plin (Envío captura en un moMenúto)";
+    let paymentText = "";
+    if (medioPago === 'efectivo') paymentText = "\n*Tipo de pago:* Efectivo\n*Pagaré con:* S/ " + montoEfectivo;
+    if (medioPago === 'tarjeta') paymentText = "\n*Tipo de pago:* Tarjeta (Llevar POS)";
+    if (medioPago === 'yape') paymentText = "\n*Tipo de pago:* Yape (Envío captura en un momento)";
+    if (medioPago === 'plin') paymentText = "\n*Tipo de pago:* Plin (Envío captura en un momento)";
 
     let texto = `*NUEVO PEDIDO - ${tipoPedido.toUpperCase()}* 🛵
 
@@ -123,7 +123,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     texto += `
 *TOTAL A PAGAR: S/ ${cart.getTotal().toFixed(2)}*
 `
-    texto += payMenútText;
+    texto += paymentText;
     
     texto += `
 Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`

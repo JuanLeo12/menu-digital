@@ -236,7 +236,7 @@ export default function AdminPage() {
       .upsert(payload, { onConflict: "id" })
       .eq("id", 1);
     if (error) alert("Error guardando configuracion: " + error.message);
-    else alert("?Guardado correctaMenúte!");
+    else alert("¡Guardado correctaMenúte!");
     setYapeFile(null);
     setPlinFile(null);
     await fetchData();
@@ -273,7 +273,7 @@ export default function AdminPage() {
 
   const guardarPlato = async () => {
     if (!nombre || !precio || !categoria)
-      return alert("Completa los campos b?sicos");
+      return alert("Completa los campos básicos");
 
     setLoading(true);
     let uploadedUrl = imagen;
@@ -317,7 +317,7 @@ export default function AdminPage() {
   };
 
   const borrarPlato = async (id: string) => {
-    if (!confirm("?Seguro que deseas eliminar este producto?")) return;
+    if (!confirm("¿Seguro que deseas eliminar este producto?")) return;
     setLoading(true);
     await supabase.from("platos").delete().eq("id", id);
     await fetchData();
@@ -371,7 +371,7 @@ export default function AdminPage() {
   const borrarCategoria = async (id: string) => {
     if (
       !confirm(
-        "?Seguro que deseas eliminar esta categor?a? (Aseg?rate de no tener productos Aquííí?)",
+        "¿Seguro que deseas eliminar esta categor?a? (Asegúrate de no tener productos Aquí)",
       )
     )
       return;
@@ -388,17 +388,17 @@ export default function AdminPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight flex items-center gap-3">
-                <span className="text-4xl">??</span>
-                Panel de Administraci?n
+                <span className="text-4xl">🍗</span>
+                Panel de Administración
               </h1>
-              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu Menú? digital de forma moderna</p>
+              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu menú digital de forma moderna</p>
             </div>
             <button
               onClick={handleLogout}
               className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all border border-white/30"
             >
               <LogOut size={20} />
-              <span className="font-semibold">Cerrar Sesi?n</span>
+              <span className="font-semibold">Cerrar Sesión</span>
             </button>
           </div>
         </div>
@@ -456,7 +456,7 @@ export default function AdminPage() {
             }`}
           >
             <Tag size={18} />
-            Categor?as
+            Categorías
           </button>
           <button
             onClick={() => setActiveTab("configuracion")}
@@ -535,8 +535,8 @@ export default function AdminPage() {
             <div className="p-6 border-b border-slate-100 shrink-0">
               <h3 className="font-bold text-2xl text-slate-800">
                 {formMode === "crear"
-                  ? "?? Agregar Producto"
-                  : "?? Editar Producto"}
+                  ? "➕ Agregar Producto"
+                  : "✏️ Editar Producto"}
               </h3>
             </div>
 
@@ -571,7 +571,7 @@ export default function AdminPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-slate-600 mb-1.5">
-                  Categor?a *
+                  Categoría *
                 </label>
                 {categorias.length === 0 ? (
                   <p className="text-sm text-red-500 italic bg-red-50 p-2 rounded-lg">
@@ -597,13 +597,13 @@ export default function AdminPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-slate-600 mb-1.5">
-                  Descripci?n
+                  Descripción
                 </label>
                 <textarea
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 resize-none h-24"
-                  placeholder="Ej: Acompa?ado de papas fritas y ensalada fresca."
+                  placeholder="Ej: Acompañado de papas fritas y ensalada fresca."
                 />
               </div>
 
@@ -640,7 +640,7 @@ export default function AdminPage() {
                         Haz clic para subir imagen
                       </p>
                       <p className="text-xs text-slate-500 mt-1">
-                        JPG, PNG o WEBP (M?x 5MB)
+                        JPG, PNG o WEBP (Máx 5MB)
                       </p>
                     </div>
                   )}
@@ -686,15 +686,15 @@ export default function AdminPage() {
             <div className="p-6 border-b border-slate-100 shrink-0">
               <h3 className="font-bold text-2xl text-slate-800">
                 {formCatMode === "crear"
-                  ? "??? Nueva Categor?a"
-                  : "?? Editar Categor?a"}
+                  ? "?✔️ Nueva Categoría"
+                  : "✏️ Editar Categoría"}
               </h3>
             </div>
 
             <div className="p-6 space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-slate-600 mb-1.5">
-                  Nombre de la Categor?a *
+                  Nombre de la Categoría *
                 </label>
                 <input
                   type="text"
