@@ -16,7 +16,7 @@ import {
   Sparkles,
   ArrowRight,
   ChevronDown,
-  Award, Star,
+  Award,
   TrendingUp,
   Menu as MenuIcon,
   Zap,
@@ -334,25 +334,42 @@ export default function Home() {
                       rotate: { duration: 10, repeat: Infinity, ease: "linear" },
                       scale: { duration: 2, repeat: Infinity }
                     }}
-                    className="bg-linear-to-r from-orange-500 to-pink-500 p-3 rounded-full"
+                    className="bg-linear-to-r from-red-600 to-orange-500 p-3 rounded-full"
                   >
                     <Sparkles className="w-8 h-8 text-white" />
                   </motion.div>
-                  <span className="text-2xl font-bold bg-linear-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent uppercase tracking-widest">
+                  <span className="text-2xl font-bold bg-linear-to-r from-red-500 to-yellow-400 bg-clip-text text-transparent uppercase tracking-widest">
                     El Mejor Sabor
                   </span>
                 </div>
 
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                  className="mb-8 flex justify-center relative w-64 h-64 md:w-80 md:h-80 mx-auto drop-shadow-[0_0_50px_rgba(239,68,68,0.6)]"
+                >
+                  <Image 
+                    src="/imagen_principal.png" 
+                    alt="Pollo a la Brasa" 
+                    fill 
+                    className="object-contain animate-float"
+                    priority
+                  />
+                </motion.div>
+
                 <motion.h1 
-                  className="text-7xl md:text-9xl font-black mb-6 leading-tight"
+                  className="flex flex-col items-center gap-4 text-7xl md:text-9xl font-black mb-6 leading-tight"
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.4, type: "spring" }}
                 >
-                  <span className="bg-linear-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">
-                    Villa Granja
+                  <div className="relative w-48 h-48 md:w-64 md:h-64 mb-4">
+                    <Image src="/logo.png" alt="Logo El Pollo Bravo" fill className="object-contain" priority />
+                  </div>
+                  <span className="bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                    El Pollo Bravo
                   </span>
-                  <span className="block text-6xl md:text-8xl mt-2">🍗</span>
                 </motion.h1>
 
                 <motion.p 
@@ -377,13 +394,13 @@ export default function Home() {
                     }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setActiveTab("menu")}
-                    className="group relative px-10 py-5 bg-linear-to-r from-orange-500 via-pink-500 to-purple-500 rounded-full font-bold text-xl text-white shadow-2xl overflow-hidden"
+                    className="group relative px-10 py-5 bg-linear-to-r from-red-600 via-orange-500 to-yellow-400 rounded-full font-bold text-xl text-white shadow-2xl overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center gap-3">
                       <UtensilsCrossed size={24} />
                       Ver Menú y Pedir
                     </span>
-                    <div className="absolute inset-0 bg-linear-to-r from-pink-500 via-purple-500 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-r from-yellow-400 via-orange-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </motion.button>
 
                   <motion.button
@@ -430,7 +447,7 @@ export default function Home() {
                 >
                   <span className="text-6xl mb-4 block">🎯</span>
                 </motion.div>
-                <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">
+                <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                   ¿Por Qué Elegirnos?
                 </h2>
                 <p className="text-2xl text-gray-400 max-w-3xl mx-auto">
@@ -470,7 +487,7 @@ export default function Home() {
                     variants={fadeInUp}
                     className="group relative"
                   >
-                    <div className="absolute inset-0 bg-linear-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-r from-orange-600 to-red-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative bg-linear-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-10 h-full hover:border-gray-600 transition-colors duration-500">
                       <div className={`bg-linear-to-r ${item.gradient} w-24 h-24 rounded-2xl flex items-center justify-center mb-6 text-white shadow-2xl`}>
                         {item.icon}
@@ -497,7 +514,7 @@ export default function Home() {
                   <TrendingUp className="w-8 h-8 text-orange-500" />
                   <span className="text-orange-500 font-bold uppercase tracking-widest text-lg">Los Más Pedidos</span>
                 </div>
-                <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">
+                <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                   Nuestros Favoritos
                 </h2>
                 <p className="text-2xl text-gray-400 max-w-2xl mx-auto">
@@ -523,7 +540,7 @@ export default function Home() {
                     }}
                     className="group relative bg-linear-to-br from-gray-900 to-black border border-gray-800 rounded-3xl overflow-hidden hover:border-orange-500/50 transition-all duration-500"
                   >
-                    <div className="absolute inset-0 bg-linear-to-br from-orange-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-br from-red-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
                     <div className="relative h-64 overflow-hidden">
                       {plato.imagen_url ? (
@@ -563,7 +580,7 @@ export default function Home() {
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <span className="text-3xl font-black bg-linear-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
+                          <span className="text-3xl font-black bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
                             S/ {plato.precio.toFixed(2)}
                           </span>
                         </div>
@@ -571,7 +588,7 @@ export default function Home() {
                           whileHover={{ scale: 1.1, rotate: 90 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => handleAddToCart(plato)}
-                          className="bg-linear-to-r from-orange-500 to-pink-500 text-white p-4 rounded-full shadow-lg hover:shadow-orange-500/50 transition-shadow"
+                          className="bg-linear-to-r from-red-500 to-yellow-500 text-white p-4 rounded-full shadow-lg hover:shadow-orange-500/50 transition-shadow"
                         >
                           <Plus size={24} />
                         </motion.button>
@@ -591,7 +608,7 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab("menu")}
-                  className="group px-12 py-6 bg-linear-to-r from-violet-600 via-purple-600 to-fuchsia-600 rounded-full font-bold text-xl text-white shadow-2xl flex items-center gap-4 mx-auto"
+                  className="group px-12 py-6 bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-xl text-white shadow-2xl flex items-center gap-4 mx-auto"
                 >
                   Ver Menú Completo
                   <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
@@ -611,7 +628,7 @@ export default function Home() {
                   viewport={{ once: true }}
                   className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10"
                 >
-                  <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
+                  <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
                     Visítanos
                   </h2>
                   <div className="space-y-6">
@@ -644,7 +661,7 @@ export default function Home() {
                   viewport={{ once: true }}
                   className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 flex flex-col justify-center"
                 >
-                  <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                  <h2 className="text-4xl font-black mb-8 bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
                     Síguenos
                   </h2>
                   <p className="text-xl text-gray-300 mb-8">
@@ -652,8 +669,8 @@ export default function Home() {
                   </p>
                   <div className="flex gap-4">
                     {[
-                      { icon: <Star size={24} />, gradient: "from-purple-500 to-pink-500", href: "https://instagram.com" },
-                      { icon: <Award size={24} />, gradient: "from-blue-500 to-blue-600", href: "https://facebook.com" },
+                      { imgUrl: "https://cdn-icons-png.freepik.com/512/15707/15707869.png?ga=GA1.1.767872142.1777252202", gradient: "from-pink-500 to-rose-500", href: "https://instagram.com" },
+                      { imgUrl: "https://cdn-icons-png.freepik.com/512/15707/15707884.png?ga=GA1.1.767872142.1777252202", gradient: "from-blue-500 to-blue-600", href: "https://facebook.com" },
                       { icon: <X size={24} />, gradient: "from-gray-700 to-gray-900", href: "https://twitter.com" }
                     ].map((social, i) => (
                       <motion.a
@@ -663,9 +680,15 @@ export default function Home() {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`bg-linear-to-r ${social.gradient} p-4 rounded-xl shadow-lg text-white`}
+                        className={`bg-linear-to-r ${social.gradient} p-4 rounded-xl shadow-lg flex items-center justify-center text-white`}
                       >
-                        {social.icon}
+                        {social.imgUrl ? (
+                          <div className="relative w-6 h-6">
+                            <Image src={social.imgUrl} alt="social" fill className="object-contain filter invert" />
+                          </div>
+                        ) : (
+                          social.icon
+                        )}
                       </motion.a>
                     ))}
                   </div>
@@ -682,14 +705,17 @@ export default function Home() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-3xl font-black bg-linear-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-4">
-                  Villa Granja 🍗
+                <div className="relative w-32 h-32 mx-auto mb-4">
+                  <Image src="/logo.png" alt="Logo" fill className="object-contain" />
+                </div>
+                <h3 className="text-3xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent mb-4">
+                  El Pollo Bravo 🐔
                 </h3>
                 <p className="text-gray-500 text-lg mb-6">
                   El auténtico sabor del pollo a la brasa
                 </p>
                 <p className="text-gray-600">
-                  © {new Date().getFullYear()} Villa Granja. Todos los derechos reservados.
+                  © {new Date().getFullYear()} El Pollo Bravo. Todos los derechos reservados.
                 </p>
               </motion.div>
             </div>
@@ -706,7 +732,7 @@ export default function Home() {
               whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setActiveTab("menu")}
-              className="bg-linear-to-r from-orange-500 via-pink-500 to-purple-500 text-white p-5 rounded-full shadow-2xl"
+              className="bg-linear-to-r from-red-600 via-orange-500 to-yellow-400 text-white p-5 rounded-full shadow-2xl"
             >
               <MenuIcon size={28} />
             </motion.button>
@@ -739,11 +765,11 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <div className="absolute inset-0 bg-linear-to-br from-violet-900 via-purple-900 to-fuchsia-900" />
+          <div className="absolute inset-0 bg-linear-to-br from-red-900 via-orange-900 to-yellow-900" />
           <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
           
           <div className="relative z-10 h-full flex items-center justify-center">
-            <div className="text-center">
+            <div className="text-center flex flex-col items-center">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 onClick={() => setActiveTab("landing")}
@@ -752,8 +778,12 @@ export default function Home() {
                 <ArrowRight className="rotate-180" size={18} />
                 Volver al Inicio
               </motion.button>
-              <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">
-                Villa Granja 🍗
+              
+              <div className="relative w-24 h-24 mb-2">
+                <Image src="/logo.png" alt="Logo" fill className="object-contain" priority />
+              </div>
+              <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                El Pollo Bravo 🐔
               </h1>
               <p className="text-xl text-gray-300 mt-2">Haz tu pedido aquí</p>
             </div>
@@ -768,7 +798,7 @@ export default function Home() {
         >
           <div className="max-w-2xl mx-auto">
             <div className="relative group">
-              <div className="absolute inset-0 bg-linear-to-r from-orange-500 via-pink-500 to-purple-500 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+              <div className="absolute inset-0 bg-linear-to-r from-red-600 via-orange-500 to-yellow-400 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
               <div className="relative bg-gray-900/90 backdrop-blur-xl rounded-full shadow-2xl flex items-center p-2 border border-gray-700">
                 <Search size={24} className="ml-4 text-gray-400" />
                 <input
@@ -809,7 +839,7 @@ export default function Home() {
                   onClick={() => setActiveTab(tab.id as "menu" | "favorites")}
                   className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold transition-all ${
                     activeTab === tab.id
-                      ? "bg-linear-to-r from-orange-500 via-pink-500 to-purple-500 text-white shadow-lg"
+                      ? "bg-linear-to-r from-red-600 via-orange-500 to-yellow-400 text-white shadow-lg"
                       : "text-gray-400 hover:text-white"
                   }`}
                 >
@@ -847,7 +877,7 @@ export default function Home() {
                   onClick={() => setCategoriaActiva(cat)}
                   className={`px-6 py-3 rounded-full font-bold transition-all ${
                     categoriaActiva === cat
-                      ? "bg-linear-to-r from-orange-500 via-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/30"
+                      ? "bg-linear-to-r from-red-600 via-orange-500 to-yellow-400 text-white shadow-lg shadow-red-500/30"
                       : "bg-gray-900 text-gray-400 border border-gray-800 hover:border-gray-600 hover:text-white"
                   }`}
                 >
@@ -899,7 +929,7 @@ export default function Home() {
                     whileHover={{ y: -5, scale: 1.01 }}
                     className="group relative bg-gray-900/50 backdrop-blur-xl rounded-2xl p-4 border border-gray-800 hover:border-orange-500/50 transition-all duration-500 overflow-hidden"
                   >
-                    <div className="absolute inset-0 bg-linear-to-br from-orange-500/5 via-pink-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-br from-red-500/5 via-orange-500/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
                     <div className="relative flex gap-4">
                       <div className="relative w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-gray-800 shadow-lg">
@@ -941,7 +971,7 @@ export default function Home() {
                         </div>
 
                         <div className="flex items-center justify-between mt-3">
-                          <span className="text-2xl font-black bg-linear-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
+                          <span className="text-2xl font-black bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
                             S/ {plato.precio.toFixed(2)}
                           </span>
 
@@ -950,7 +980,7 @@ export default function Home() {
                               whileHover={{ scale: 1.1, rotate: 90 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={() => handleAddToCart(plato)}
-                              className="bg-linear-to-r from-orange-500 to-pink-500 text-white p-3 rounded-full shadow-lg"
+                              className="bg-linear-to-r from-red-500 to-yellow-500 text-white p-3 rounded-full shadow-lg"
                             >
                               <Plus size={20} />
                             </motion.button>
@@ -1008,7 +1038,7 @@ export default function Home() {
                   ? showToast("El local está cerrado en este momento.", "error")
                   : setIsCheckoutOpen(true)
                 }
-                className="w-full bg-linear-to-r from-orange-600 via-pink-600 to-purple-600 shadow-2xl shadow-pink-500/40 text-white rounded-2xl py-5 px-6 flex items-center justify-between transition-all relative overflow-hidden"
+                className="w-full bg-linear-to-r from-red-600 via-orange-600 to-yellow-600 shadow-2xl shadow-red-500/40 text-white rounded-2xl py-5 px-6 flex items-center justify-between transition-all relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer" />
                 
@@ -1016,7 +1046,7 @@ export default function Home() {
                   <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 relative">
                     <ShoppingCart size={24} />
                     <motion.span 
-                      className="absolute -top-2 -right-2 bg-linear-to-r from-orange-500 to-pink-500 text-white text-xs font-bold w-7 h-7 flex items-center justify-center rounded-full shadow-lg"
+                      className="absolute -top-2 -right-2 bg-linear-to-r from-red-500 to-yellow-500 text-white text-xs font-bold w-7 h-7 flex items-center justify-center rounded-full shadow-lg"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: "spring", stiffness: 500 }}

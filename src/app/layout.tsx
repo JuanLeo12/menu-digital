@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Villa Granja - Menú Digital",
+  title: "El Pollo Bravo - Menú Digital",
   description: "El mejor sabor de la ciudad - Pide tu delivery o compra en salón",
 };
 
