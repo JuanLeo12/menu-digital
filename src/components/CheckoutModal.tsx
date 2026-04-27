@@ -81,7 +81,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     setCheckoutMessage(null)
     if (cart.items.length === 0) return showValidationError('Tu carrito esta vacio.')
     if (!nombre.trim()) return showValidationError('Por favor, ingresa tu nombre.')
-    if (tipoPedido === 'delivery' && !direccion.trim()) return showValidationError('Por favor, ingresa tu direccion.')
+    if (tipoPedido === 'delivery' && !direccion.trim()) return showValidationError('Por favor, ingresa tu dirección.')
     if (tipoPedido === 'salon' && !mesa.trim()) return showValidationError('Por favor, ingresa tu numero de mesa.')
 
     if (!medioPago) return showValidationError('Selecciona un medio de pago.');

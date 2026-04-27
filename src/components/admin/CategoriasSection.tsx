@@ -32,7 +32,7 @@ export default function CategoriasSection({
 
       {categorias.length === 0 ? (
         <div className="bg-emerald-50 border-2 border-dashed border-emerald-200 rounded-2xl p-10 text-center text-emerald-800">
-          Agrega categorias (Ej: Combos, Bebidas, Licores) para organizar tu menu.
+          Agrega categorías (Ej: Combos, Bebidas, Licores) para organizar tu menú.
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

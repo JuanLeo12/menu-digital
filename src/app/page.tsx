@@ -793,7 +793,7 @@ export default function Home() {
               animate={{ scale: 1, opacity: 1 }}
             >
               <div className="text-8xl mb-6">
-                {activeTab === "favorites" ? "??" : "???"}
+                {activeTab === "favorites" ? "💔" : "🍽️"}
               </div>
               <p className="text-2xl font-bold text-white mb-4">
                 {activeTab === "favorites" 

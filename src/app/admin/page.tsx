@@ -111,7 +111,7 @@ export default function AdminPage() {
     if (respConf.data) {
       setConfiguración(respConf.data as Configuración);
     } else {
-      // Si no existe la configuraci?n, creamos una por defecto
+      // Si no existe la configuración, creamos una por defecto
       const defaultConf: Configuración = {
         id: 1,
         local_abierto: true,
@@ -235,7 +235,7 @@ export default function AdminPage() {
       .from("configuracion")
       .upsert(payload, { onConflict: "id" })
       .eq("id", 1);
-    if (error) alert("Error guardando configuracion: " + error.message);
+    if (error) alert("Error guardando configuración: " + error.message);
     else alert("¡Guardado correctaMenúte!");
     setYapeFile(null);
     setPlinFile(null);
@@ -348,7 +348,7 @@ export default function AdminPage() {
         .from("categorias")
         .insert([{ nombre: catNombre, orden }]);
       if (error) {
-        alert("Error al crear categor?a: " + error.message);
+        alert("Error al crear categoría: " + error.message);
         setLoading(false);
         return;
       }
@@ -358,7 +358,7 @@ export default function AdminPage() {
         .update({ nombre: catNombre })
         .eq("id", editCatId);
       if (error) {
-        alert("Error al actualizar categor?a: " + error.message);
+        alert("Error al actualizar categoría: " + error.message);
         setLoading(false);
         return;
       }
@@ -371,7 +371,7 @@ export default function AdminPage() {
   const borrarCategoria = async (id: string) => {
     if (
       !confirm(
-        "¿Seguro que deseas eliminar esta categor?a? (Asegúrate de no tener productos Aquí)",
+        "¿Seguro que deseas eliminar esta categoría? (Asegúrate de no tener productos Aquí)",
       )
     )
       return;
@@ -404,7 +404,7 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Navegaci?n principal */}
+      {/* Navegación principal */}
       <div className="max-w-7xl mx-auto px-6 -mt-4 relative z-10">
         <div className="flex flex-wrap gap-3 justify-center md:justify-start">
           <button
@@ -467,7 +467,7 @@ export default function AdminPage() {
             }`}
           >
             <Settings size={18} />
-            Configuraci?n
+            Configuración
           </button>
         </div>
       </div>
@@ -575,7 +575,7 @@ export default function AdminPage() {
                 </label>
                 {categorias.length === 0 ? (
                   <p className="text-sm text-red-500 italic bg-red-50 p-2 rounded-lg">
-                    Por favor crea una categor?a primero.
+                    Por favor crea una categoría primero.
                   </p>
                 ) : (
                   <select
@@ -584,7 +584,7 @@ export default function AdminPage() {
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 font-medium"
                   >
                     <option value="" disabled>
-                      Selecciona una categor?a...
+                      Selecciona una categoría...
                     </option>
                     {categorias.map((c) => (
                       <option key={c.id} value={c.id}>
@@ -686,7 +686,7 @@ export default function AdminPage() {
             <div className="p-6 border-b border-slate-100 shrink-0">
               <h3 className="font-bold text-2xl text-slate-800">
                 {formCatMode === "crear"
-                  ? "?✔️ Nueva Categoría"
+                  ? "➕ Nueva Categoría"
                   : "✏️ Editar Categoría"}
               </h3>
             </div>

@@ -64,7 +64,7 @@ export default function ConfiguracionSection({
             <div>
               <p className="font-bold text-gray-800">Estado del Local</p>
               <p className="text-sm text-gray-500">
-                Esta abierto y recibiendo pedidos?
+                ¿Está abierto y recibiendo pedidos?
               </p>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function ConfiguracionSection({
                 <p className="font-bold text-gray-800">Horarios Automaticos</p>
                 <p className="text-sm text-gray-500">
                   {confTemp.auto_horario
-                    ? "El local abre y cierra solo segun el horario. (Deshabilita el boton manual)"
+                    ? "El local abre y cierra solo según el horario. (Deshabilita el botón manual)"
                     : "Abre y cierra la tienda automaticaMenúte por hora y dia."}
                 </p>
               </div>
