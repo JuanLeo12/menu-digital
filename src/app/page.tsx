@@ -651,36 +651,80 @@ export default function Home() {
       )}
       
       <div className="min-h-screen bg-black text-white pb-32">
-        {/* Header con gradiente */}
-        <motion.header 
-          className="relative h-64 overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <div className="absolute inset-0 bg-linear-to-br from-red-900 via-orange-900 to-yellow-900" />
-          <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
-          
-          <div className="relative z-10 h-full flex items-center justify-center">
-            <div className="text-center flex flex-col items-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                onClick={() => setActiveTab("landing")}
-                className="text-orange-400 hover:text-orange-300 flex items-center gap-2 mb-4 mx-auto"
-              >
-                <ArrowRight className="rotate-180" size={18} />
-                Volver al Inicio
-              </motion.button>
-              
-              <div className="relative w-24 h-24 mb-2">
-                
-              </div>
-              <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                El Pollo Bravo 🍗
-              </h1>
-              <p className="text-xl text-gray-300 mt-2">Haz tu pedido Aquí</p>
+          {/* Hero Section - BANNER IMAGEN COMPLETA */}
+          <motion.section 
+            className="relative w-full h-[50vh] md:h-[60vh] flex flex-col items-center justify-center p-4 overflow-hidden border-b border-white/5"
+            style={{ opacity: heroOpacity, scale: heroScale }}
+          >
+            <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+               <Image 
+                  src="/imagen_principal.png" 
+                  alt="Fondo Principal El Pollo Bravo" 
+                  fill 
+                  className="object-cover object-center"
+                  priority
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30 z-10" />
             </div>
-          </div>
-        </motion.header>
+
+            <div className="relative z-20 text-center flex flex-col items-center justify-center h-full w-full max-w-5xl mx-auto pt-10">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="flex items-center justify-center gap-3 mb-2"
+                >
+                  <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-yellow-400" />
+                  <span className="text-lg md:text-2xl font-bold text-yellow-400 uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    El Mejor Sabor
+                  </span>
+                </motion.div>
+
+                <motion.h1 
+                  className="text-5xl sm:text-6xl md:text-8xl font-black mb-4 text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.9)]"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
+                >
+                  El Pollo Bravo
+                </motion.h1>
+
+                <motion.p 
+                  className="text-base sm:text-lg md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] font-medium leading-relaxed px-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                  El auténtico sabor del pollo a la brasa, con el toque especial que nos hace úúnicos.
+                </motion.p>
+
+                <motion.div 
+                  className="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-50 pointer-events-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                >
+                  <button
+                    onClick={() => setActiveTab('menu')}
+                    className="group px-8 py-4 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-xl text-white shadow-[0_0_20px_rgba(239,68,68,0.5)] overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-3 cursor-pointer"
+                  >
+                    <UtensilsCrossed size={20} className="group-hover:rotate-12 transition-transform" />
+                    <span>Ver Menú y Pedir</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      const el = document.getElementById('info');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="group px-8 py-4 border-2 border-white/30 bg-black/40 backdrop-blur-md rounded-full font-bold text-xl text-white shadow-lg transition-all duration-300 hover:bg-white/20 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-3"
+                  >
+                    <Info size={20} />
+                    <span>Más Información</span>
+                  </button>
+                </motion.div>
+            </div>
+          </motion.section>
 
         {/* Search Bar */}
         <motion.div 
