@@ -141,7 +141,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
         precio: item.precio
       }))
 
-      const { error } = await supabase.from("pedidos").insert([{
+      const { data: pedidoData, error } = await supabase.from("pedidos").insert([{
         cliente_nombre: nombre,
         tipo_pedido: tipoPedido,
         direccion: tipoPedido === "delivery" ? direccion : null,
@@ -150,12 +150,27 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
         total: cart.getTotal(),
         estado: "PENDIENTE",
         detalle: detalle_json
-      }])
+      }]).select().single()
 
       if (error) {
         console.error("Error guardando pedido:", error)
         setCheckoutMessage({ type: 'error', text: 'No se pudo registrar tu pedido. Intentalo nuevaMenúte.' })
         return
+      }
+
+      // Intento de insertar en la nueva tabla (no rompe el flujo si la tabla aún no existe)
+      if (pedidoData) {
+        const detallesNuevos = cart.items.map(item => ({
+          pedido_id: pedidoData.id,
+          producto_id: item.id,
+          cantidad: item.cantidad,
+          precio_unitario: item.precio
+        }));
+        try {
+          await supabase.from("detalle_pedido").insert(detallesNuevos);
+        } catch (e) {
+          console.error("No se pudo insertar en detalle_pedido. ¿La tabla existe?", e);
+        }
       }
 
       const DEST_PHONE = config?.whatsapp_numero || "51902246535";

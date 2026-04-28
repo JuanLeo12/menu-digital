@@ -91,6 +91,7 @@ export default function AdminPage() {
   );
   const [editCatId, setEditCatId] = useState<string>("");
   const [catNombre, setCatNombre] = useState("");
+  const [catOrden, setCatOrden] = useState<number | "">("");
 
   const fetchData = async (showLoading = true) => {
     if (showLoading) setLoading(true);
@@ -328,12 +329,18 @@ export default function AdminPage() {
   // --- CATEGORIAS ---
   const openCrearCategoria = () => {
     setCatNombre("");
+    const defaultOrden =
+      categorias.length > 0
+        ? Math.max(...categorias.map((c) => c.orden || 0)) + 1
+        : 1;
+    setCatOrden(defaultOrden);
     setFormCatMode("crear");
   };
 
   const openEditarCategoria = (c: Categoria) => {
     setEditCatId(c.id);
     setCatNombre(c.nombre);
+    setCatOrden(c.orden || 0);
     setFormCatMode("editar");
   };
 
@@ -342,13 +349,9 @@ export default function AdminPage() {
     setLoading(true);
 
     if (formCatMode === "crear") {
-      const orden =
-        categorias.length > 0
-          ? Math.max(...categorias.map((c) => c.orden || 0)) + 1
-          : 1;
       const { error } = await supabase
         .from("categorias")
-        .insert([{ nombre: catNombre, orden }]);
+        .insert([{ nombre: catNombre, orden: catOrden === "" ? 0 : catOrden }]);
       if (error) {
         showToast("Error al crear categoría: " + error.message);
         setLoading(false);
@@ -357,7 +360,7 @@ export default function AdminPage() {
     } else {
       const { error } = await supabase
         .from("categorias")
-        .update({ nombre: catNombre })
+        .update({ nombre: catNombre, orden: catOrden === "" ? 0 : catOrden })
         .eq("id", editCatId);
       if (error) {
         showToast("Error al actualizar categoría: " + error.message);
@@ -705,6 +708,20 @@ export default function AdminPage() {
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-slate-800 font-medium"
                   placeholder="Ej: Carnes"
                   autoFocus
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-600 mb-1.5 mt-4">
+                  Orden
+                </label>
+                <input
+                  type="number"
+                  value={catOrden}
+                  onChange={(e) => setCatOrden(e.target.value === "" ? "" : Number(e.target.value))}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-slate-800 font-medium"
+                  placeholder="Ej: 1"
+                  min="0"
                 />
               </div>
 
