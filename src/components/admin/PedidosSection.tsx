@@ -45,7 +45,7 @@ export default function PedidosSection({
                     >
                       {p.estado}
                     </span>
-                    <span className="text-xs text-gray-500 font-medium">
+                    <span className="text-xs text-gray-300 font-medium">
                       {new Date(p.created_at).toLocaleString()}
                     </span>
                   </div>
@@ -55,7 +55,7 @@ export default function PedidosSection({
                   <p className="text-sm font-medium text-gray-600">
                     Total: S/ {Number(p.total).toFixed(2)} - Tipo: {p.tipo_pedido}
                   </p>
-                  <div className="text-xs text-gray-500 mt-2">
+                  <div className="text-xs text-gray-300 mt-2">
                     <ul>
                       {p.detalle.map((d, i) => (
                         <li key={i}>

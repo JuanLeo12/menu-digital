@@ -45,7 +45,7 @@ export default function CategoriasSection({
                 <h3 className="font-bold text-gray-800 text-lg leading-tight truncate">
                   {c.nombre}
                 </h3>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-300 mt-1">
                   Orden: {c.orden || "N/A"}
                 </p>
               </div>

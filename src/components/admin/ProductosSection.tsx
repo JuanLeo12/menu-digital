@@ -66,7 +66,7 @@ export default function ProductosSection({
                         className="w-14 h-14 rounded-xl object-cover shrink-0 border border-gray-200"
                       />
                     ) : (
-                      <div className="w-14 h-14 rounded-xl shrink-0 bg-slate-200 flex items-center justify-center text-gray-400 text-xs font-medium">
+                      <div className="w-14 h-14 rounded-xl shrink-0 bg-slate-200 flex items-center justify-center text-gray-200 text-xs font-medium">
                         Sin Img
                       </div>
                     )}

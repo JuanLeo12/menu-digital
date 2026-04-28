@@ -251,13 +251,13 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
         <h3 className="font-bold text-gray-700 mb-4">Metricas de Pedidos</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex-1 bg-zinc-900 border-zinc-800 p-4 rounded-xl shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-100">
-            <p className="text-sm text-gray-500 font-medium mb-1">
+            <p className="text-sm text-gray-300 font-medium mb-1">
               En curso (Pendientes)
             </p>
             <p className="text-2xl font-bold text-amber-500">{pedidosPendientes}</p>
           </div>
           <div className="flex-1 bg-zinc-900 border-zinc-800 p-4 rounded-xl shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-100">
-            <p className="text-sm text-gray-500 font-medium mb-1">Cancelados</p>
+            <p className="text-sm text-gray-300 font-medium mb-1">Cancelados</p>
             <p className="text-2xl font-bold text-red-500">{pedidosCancelados}</p>
           </div>
         </div>
@@ -285,7 +285,7 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
         <div className="bg-zinc-900 border-zinc-800 p-5 rounded-2xl border border-gray-200 shadow-sm">
           <h3 className="font-bold text-gray-700 mb-3">Top Productos (completados)</h3>
           {topProductos.length === 0 ? (
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-300">
               Aun no hay productos vendidos en pedidos completados.
             </p>
           ) : (
@@ -347,7 +347,7 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
       </div>
 
       {pedidosPorTipo.otro > 0 && (
-        <div className="mt-4 text-xs text-gray-500">
+        <div className="mt-4 text-xs text-gray-300">
           Nota: {pedidosPorTipo.otro} pedido(s) tienen un tipo no estandar.
         </div>
       )}

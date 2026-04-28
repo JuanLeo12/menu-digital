@@ -63,7 +63,7 @@ export default function ConfiguracionSection({
             />
             <div>
               <p className="font-bold text-gray-800">Estado del Local</p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-300">
                 ¿Está abierto y recibiendo pedidos?
               </p>
             </div>
@@ -93,11 +93,11 @@ export default function ConfiguracionSection({
             <div className="flex gap-3 items-center">
               <Clock
                 size={24}
-                className={confTemp.auto_horario ? "text-blue-500" : "text-gray-400"}
+                className={confTemp.auto_horario ? "text-blue-500" : "text-gray-200"}
               />
               <div>
                 <p className="font-bold text-gray-800">Horarios Automaticos</p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-300">
                   {confTemp.auto_horario
                     ? "El local abre y cierra solo según el horario. (Deshabilita el botón manual)"
                     : "Abre y cierra la tienda automaticaMenúte por hora y dia."}
@@ -157,7 +157,7 @@ export default function ConfiguracionSection({
                         className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                       />
                       <span
-                        className={`font-semibold ${confTemp.horarios?.[dia.id]?.abierto ? "text-gray-800" : "text-gray-400"}`}
+                        className={`font-semibold ${confTemp.horarios?.[dia.id]?.abierto ? "text-gray-800" : "text-gray-200"}`}
                       >
                         {dia.name}
                       </span>
@@ -166,7 +166,7 @@ export default function ConfiguracionSection({
 
                   {confTemp.horarios?.[dia.id]?.abierto ? (
                     <div className="flex gap-2 items-center w-2/3 justify-end text-sm">
-                      <span className="text-gray-500">De</span>
+                      <span className="text-gray-300">De</span>
                       <input
                         type="time"
                         value={confTemp.horarios[dia.id].abre}
@@ -180,7 +180,7 @@ export default function ConfiguracionSection({
                         }}
                         className="p-1 border border-gray-200 rounded outline-none focus:border-blue-500"
                       />
-                      <span className="text-gray-500">a</span>
+                      <span className="text-gray-300">a</span>
                       <input
                         type="time"
                         value={confTemp.horarios[dia.id].cierra}
@@ -196,7 +196,7 @@ export default function ConfiguracionSection({
                       />
                     </div>
                   ) : (
-                    <div className="text-sm text-gray-400 italic">Cerrado todo el dia</div>
+                    <div className="text-sm text-gray-200 italic">Cerrado todo el dia</div>
                   )}
                 </div>
               ))}
