@@ -383,7 +383,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black pb-24 font-sans text-gray-200">
+    <div className="min-h-screen bg-black pb-24 font-sans text-white">
       {/* Header con gradiente */}
       <div className="bg-linear-to-r from-red-600 via-orange-600 to-yellow-600 text-white shadow-xl">
         <div className="max-w-7xl mx-auto px-6 py-8">
@@ -397,7 +397,7 @@ export default function AdminPage() {
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all border border-white/30"
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-950/20 backdrop-blur-sm hover:bg-zinc-950/30 transition-all border border-white/30"
             >
               <LogOut size={20} />
               <span className="font-semibold">Cerrar Sesión</span>
@@ -414,14 +414,14 @@ export default function AdminPage() {
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "pedidos"
                 ? "bg-linear-to-r from-red-600 to-orange-500 text-white shadow-blue-500/30 scale-105"
-                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
+                : "bg-zinc-900 border-zinc-800 text-white hover:bg-zinc-800"
             }`}
           >
             <ListOrdered size={18} />
             Pedidos
             {pedidos.filter(p => p.estado === "PENDIENTE").length > 0 && (
               <span className={`px-2 py-0.5 rounded-full text-xs ${
-                activeTab === "pedidos" ? "bg-white/20" : "bg-blue-100 text-blue-600"
+                activeTab === "pedidos" ? "bg-zinc-950/20" : "bg-blue-100 text-blue-600"
               }`}>
                 {pedidos.filter(p => p.estado === "PENDIENTE").length}
               </span>
@@ -432,7 +432,7 @@ export default function AdminPage() {
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "metricas"
                 ? "bg-linear-to-r from-orange-500 to-yellow-500 text-white shadow-purple-500/30 scale-105"
-                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
+                : "bg-zinc-900 border-zinc-800 text-white hover:bg-zinc-800"
             }`}
           >
             <BarChart3 size={18} />
@@ -443,7 +443,7 @@ export default function AdminPage() {
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "platos"
                 ? "bg-linear-to-r from-orange-500 to-amber-500 text-white shadow-orange-500/30 scale-105"
-                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
+                : "bg-zinc-900 border-zinc-800 text-white hover:bg-zinc-800"
             }`}
           >
             <UtensilsCrossed size={18} />
@@ -454,7 +454,7 @@ export default function AdminPage() {
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "categorias"
                 ? "bg-linear-to-r from-emerald-500 to-teal-500 text-white shadow-emerald-500/30 scale-105"
-                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
+                : "bg-zinc-900 border-zinc-800 text-white hover:bg-zinc-800"
             }`}
           >
             <Tag size={18} />
@@ -465,7 +465,7 @@ export default function AdminPage() {
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
               activeTab === "configuracion"
                 ? "bg-linear-to-r from-zinc-800 to-zinc-900 text-white shadow-slate-500/30 scale-105"
-                : "bg-zinc-900 border-zinc-800 text-gray-300 hover:bg-zinc-800"
+                : "bg-zinc-900 border-zinc-800 text-white hover:bg-zinc-800"
             }`}
           >
             <Settings size={18} />
@@ -533,7 +533,7 @@ export default function AdminPage() {
       {/* MODAL FORMULARIO PRODUCTOS */}
       {formMode && (
         <div className="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh]">
+          <div className="bg-zinc-950 rounded-3xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh]">
             <div className="p-6 border-b border-slate-100 shrink-0">
               <h3 className="font-bold text-2xl text-slate-800">
                 {formMode === "crear"
@@ -660,7 +660,7 @@ export default function AdminPage() {
             <div className="p-6 border-t border-slate-100 shrink-0 flex items-center gap-3 bg-slate-50 rounded-b-3xl">
               <button
                 onClick={() => setFormMode(null)}
-                className="flex-1 bg-white text-slate-600 font-semibold py-3.5 rounded-xl hover:bg-slate-100 border border-slate-200 transition-colors"
+                className="flex-1 bg-zinc-950 text-slate-600 font-semibold py-3.5 rounded-xl hover:bg-slate-100 border border-slate-200 transition-colors"
               >
                 Cancelar
               </button>
@@ -684,7 +684,7 @@ export default function AdminPage() {
       {/* MODAL FORMULARIO CATEGORIAS */}
       {formCatMode && (
         <div className="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl w-full max-w-sm shadow-2xl flex flex-col">
+          <div className="bg-zinc-950 rounded-3xl w-full max-w-sm shadow-2xl flex flex-col">
             <div className="p-6 border-b border-slate-100 shrink-0">
               <h3 className="font-bold text-2xl text-slate-800">
                 {formCatMode === "crear"
@@ -711,7 +711,7 @@ export default function AdminPage() {
               <div className="flex gap-3 pt-4">
                 <button
                   onClick={() => setFormCatMode(null)}
-                  className="flex-1 bg-slate-100 text-slate-600 font-semibold py-3.5 rounded-xl hover:bg-slate-200 transition-colors"
+                  className="flex-1 bg-slate-100 text-slate-600 font-semibold py-3.5 rounded-xl hover:bg-zinc-700 transition-colors"
                 >
                   Cancelar
                 </button>
@@ -735,6 +735,7 @@ export default function AdminPage() {
     </div>
   );
 }
+
 
 
 

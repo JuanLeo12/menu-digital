@@ -127,7 +127,7 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
   const getDeltaClasses = (direction: "up" | "down" | "neutral") => {
     if (direction === "up") return "text-emerald-100";
     if (direction === "down") return "text-red-100";
-    return "text-gray-100";
+    return "text-white";
   };
 
   const estadoSeries = [
@@ -163,16 +163,16 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
     .slice(0, 5);
 
   return (
-    <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-200">
+    <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border-zinc-800">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        <h2 className="text-xl font-bold text-gray-700">Dashboard de Ventas</h2>
+        <h2 className="text-xl font-bold text-white">Dashboard de Ventas</h2>
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setDateRange("hoy")}
             className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
               dateRange === "hoy"
                 ? "bg-slate-800 text-white border-gray-800"
-                : "bg-zinc-900 border-zinc-800 text-gray-600 border-gray-200 hover:bg-black"
+                : "bg-zinc-900 border-zinc-800 text-white border-gray-200 hover:bg-black"
             }`}
           >
             Hoy
@@ -182,7 +182,7 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
             className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
               dateRange === "7d"
                 ? "bg-slate-800 text-white border-gray-800"
-                : "bg-zinc-900 border-zinc-800 text-gray-600 border-gray-200 hover:bg-black"
+                : "bg-zinc-900 border-zinc-800 text-white border-gray-200 hover:bg-black"
             }`}
           >
             7 dias
@@ -192,7 +192,7 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
             className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
               dateRange === "30d"
                 ? "bg-slate-800 text-white border-gray-800"
-                : "bg-zinc-900 border-zinc-800 text-gray-600 border-gray-200 hover:bg-black"
+                : "bg-zinc-900 border-zinc-800 text-white border-gray-200 hover:bg-black"
             }`}
           >
             30 dias
@@ -202,7 +202,7 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
             className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
               dateRange === "todo"
                 ? "bg-slate-800 text-white border-gray-800"
-                : "bg-zinc-900 border-zinc-800 text-gray-600 border-gray-200 hover:bg-black"
+                : "bg-zinc-900 border-zinc-800 text-white border-gray-200 hover:bg-black"
             }`}
           >
             Todo
@@ -248,44 +248,44 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
         </div>
       </div>
       <div className="mt-6 bg-black p-6 rounded-2xl border border-gray-100">
-        <h3 className="font-bold text-gray-700 mb-4">Metricas de Pedidos</h3>
+        <h3 className="font-bold text-white mb-4">Metricas de Pedidos</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex-1 bg-zinc-900 border-zinc-800 p-4 rounded-xl shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-100">
-            <p className="text-sm text-gray-300 font-medium mb-1">
+            <p className="text-sm text-white font-medium mb-1">
               En curso (Pendientes)
             </p>
             <p className="text-2xl font-bold text-amber-500">{pedidosPendientes}</p>
           </div>
           <div className="flex-1 bg-zinc-900 border-zinc-800 p-4 rounded-xl shadow-[0_0_30px_rgba(239,68,68,0.1)] border border-gray-100">
-            <p className="text-sm text-gray-300 font-medium mb-1">Cancelados</p>
+            <p className="text-sm text-white font-medium mb-1">Cancelados</p>
             <p className="text-2xl font-bold text-red-500">{pedidosCancelados}</p>
           </div>
         </div>
       </div>
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-zinc-900 border-zinc-800 p-5 rounded-2xl border border-gray-200 shadow-sm">
-          <h3 className="font-bold text-gray-700 mb-3">Pedidos por Tipo</h3>
+        <div className="bg-zinc-900 border-zinc-800 p-5 rounded-2xl border-zinc-800 shadow-sm">
+          <h3 className="font-bold text-white mb-3">Pedidos por Tipo</h3>
           <div className="space-y-2 text-sm">
             <div className="flex items-center justify-between bg-black rounded-lg px-3 py-2">
-              <span className="text-gray-600">Delivery</span>
-              <span className="font-bold text-gray-800">{pedidosPorTipo.delivery}</span>
+              <span className="text-white">Delivery</span>
+              <span className="font-bold text-white">{pedidosPorTipo.delivery}</span>
             </div>
             <div className="flex items-center justify-between bg-black rounded-lg px-3 py-2">
-              <span className="text-gray-600">Recojo</span>
-              <span className="font-bold text-gray-800">{pedidosPorTipo.recojo}</span>
+              <span className="text-white">Recojo</span>
+              <span className="font-bold text-white">{pedidosPorTipo.recojo}</span>
             </div>
             <div className="flex items-center justify-between bg-black rounded-lg px-3 py-2">
-              <span className="text-gray-600">En local</span>
-              <span className="font-bold text-gray-800">{pedidosPorTipo.salon}</span>
+              <span className="text-white">En local</span>
+              <span className="font-bold text-white">{pedidosPorTipo.salon}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-zinc-900 border-zinc-800 p-5 rounded-2xl border border-gray-200 shadow-sm">
-          <h3 className="font-bold text-gray-700 mb-3">Top Productos (completados)</h3>
+        <div className="bg-zinc-900 border-zinc-800 p-5 rounded-2xl border-zinc-800 shadow-sm">
+          <h3 className="font-bold text-white mb-3">Top Productos (completados)</h3>
           {topProductos.length === 0 ? (
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-white">
               Aun no hay productos vendidos en pedidos completados.
             </p>
           ) : (
@@ -295,8 +295,8 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
                   key={nombre}
                   className="flex items-center justify-between bg-black rounded-lg px-3 py-2"
                 >
-                  <span className="text-gray-600 truncate pr-3">{nombre}</span>
-                  <span className="font-bold text-gray-800">{cantidad}</span>
+                  <span className="text-white truncate pr-3">{nombre}</span>
+                  <span className="font-bold text-white">{cantidad}</span>
                 </div>
               ))}
             </div>
@@ -305,8 +305,8 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
       </div>
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-zinc-900 border-zinc-800 p-5 rounded-2xl border border-gray-200 shadow-sm">
-          <h3 className="font-bold text-gray-700 mb-4">Distribucion por Estado</h3>
+        <div className="bg-zinc-900 border-zinc-800 p-5 rounded-2xl border-zinc-800 shadow-sm">
+          <h3 className="font-bold text-white mb-4">Distribucion por Estado</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={estadoChartData} margin={{ top: 8, right: 10, left: -20, bottom: 0 }}>
@@ -325,8 +325,8 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
           </div>
         </div>
 
-        <div className="bg-zinc-900 border-zinc-800 p-5 rounded-2xl border border-gray-200 shadow-sm">
-          <h3 className="font-bold text-gray-700 mb-4">Distribucion por Canal</h3>
+        <div className="bg-zinc-900 border-zinc-800 p-5 rounded-2xl border-zinc-800 shadow-sm">
+          <h3 className="font-bold text-white mb-4">Distribucion por Canal</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={tipoChartData} margin={{ top: 8, right: 10, left: -20, bottom: 0 }}>
@@ -347,13 +347,14 @@ export default function MetricasSection({ pedidos }: MetricasSectionProps) {
       </div>
 
       {pedidosPorTipo.otro > 0 && (
-        <div className="mt-4 text-xs text-gray-300">
+        <div className="mt-4 text-xs text-white">
           Nota: {pedidosPorTipo.otro} pedido(s) tienen un tipo no estandar.
         </div>
       )}
     </div>
   );
 }
+
 
 
 
