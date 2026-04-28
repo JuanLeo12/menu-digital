@@ -542,43 +542,39 @@ export default function Home() {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 100, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-6 left-4 right-4 z-40 max-w-md mx-auto"
+              className="fixed bottom-6 right-6 md:right-8 z-40 w-auto"
             >
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => isStoreClosed 
                   ? showToast("El local está cerrado en este momento.", "error")
                   : setIsCheckoutOpen(true)
                 }
-                className="w-full bg-linear-to-r from-red-600 via-orange-600 to-yellow-600 shadow-2xl shadow-red-500/40 text-white rounded-2xl py-5 px-6 flex items-center justify-between transition-all relative overflow-hidden"
+                className="group relative bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 shadow-[0_10px_35px_rgba(239,68,68,0.4)] rounded-full p-4 flex items-center justify-center gap-4 overflow-hidden border border-white/20 transition-all"
               >
-                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer" />
+                <div className="absolute inset-0 bg-white/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity" />
                 
-                <div className="flex items-center gap-3 relative z-10">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 relative">
-                    <ShoppingCart size={24} />
+                <div className="relative z-10 flex items-center justify-center bg-black/20 p-3 rounded-full backdrop-blur-sm">
+                  <div className="relative">
+                    <ShoppingCart size={24} className="text-white" />
                     <motion.span 
-                      className="absolute -top-2 -right-2 bg-linear-to-r from-red-500 to-yellow-500 text-white text-xs font-bold w-7 h-7 flex items-center justify-center rounded-full shadow-lg"
+                      key={cart.getTotalItems()}
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      transition={{ type: "spring", stiffness: 500 }}
+                      className="absolute -top-3 -right-3 bg-white text-red-600 w-6 h-6 rounded-full flex items-center justify-center text-sm font-black shadow-lg"
                     >
                       {cart.getTotalItems()}
                     </motion.span>
                   </div>
-                  <div className="text-left">
-                    <p className="font-bold text-sm">Ver Mi Pedido</p>
-                    <p className="text-xs text-white/70">
-                      {cart.getTotalItems()} {cart.getTotalItems() === 1 ? 'producto' : 'productos'}
-                    </p>
-                  </div>
                 </div>
-                <div className="flex items-center gap-2 relative z-10">
-                  <span className="font-extrabold text-2xl">
+
+                <div className="flex items-center gap-3 relative z-10 font-bold text-white pr-2">
+                  <span className="hidden sm:block text-lg">Ver pedido</span>
+                  <span className="font-extrabold text-xl bg-white/20 px-3 py-1 rounded-full backdrop-blur-md">
                     S/ {cart.getTotal().toFixed(2)}
                   </span>
-                  <ChevronRight size={24} />
+                  <ChevronRight size={20} className="hidden sm:block" />
                 </div>
               </motion.button>
             </motion.div>

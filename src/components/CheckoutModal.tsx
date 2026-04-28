@@ -193,15 +193,15 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl max-h-[90vh] overflow-y-auto w-full max-w-md mx-auto flex flex-col"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 rounded-t-3xl max-h-[90vh] overflow-y-auto w-full max-w-md mx-auto flex flex-col"
           >
             {/* Header del Modal */}
-            <div className="sticky top-0 bg-white p-4 border-b border-gray-100 flex items-center justify-between z-10 rounded-t-3xl">
-              <h2 className="font-bold text-lg text-gray-800">Finalizar Pedido</h2>
+            <div className="sticky top-0 bg-gray-900 p-4 border-b border-gray-800 flex items-center justify-between z-10 rounded-t-3xl">
+              <h2 className="font-bold text-lg text-white">Finalizar Pedido</h2>
               <button
                 onClick={handleClose}
                 disabled={!canInteract}
-                className="p-2 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="p-2 bg-gray-100 rounded-full text-gray-400 hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <X size={20} />
               </button>
@@ -212,8 +212,8 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                 <div
                   className={`rounded-xl border px-4 py-3 text-sm font-medium ${
                     checkoutMessage.type === 'error'
-                      ? 'border-red-200 bg-red-50 text-red-700'
-                      : 'border-orange-200 bg-orange-50 text-orange-700'
+                      ? 'border-red-900/50 bg-red-900/20 text-red-400'
+                      : 'border-orange-900/50 bg-orange-900/20 text-orange-400'
                   }`}
                 >
                   {checkoutMessage.text}
@@ -221,7 +221,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
               )}
 
               {/* ResuMenú del Carrito Corto */}
-              <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
+              <div className="bg-orange-500/100/10 rounded-xl p-4 border border-orange-100">
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-medium text-orange-900">Total a pagar:</span>
                   <span className="font-bold text-xl text-orange-700">S/ {cart.getTotal().toFixed(2)}</span>
@@ -238,8 +238,8 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     disabled={!canInteract}
                     className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all ${
                       tipoPedido === 'delivery' 
-                        ? 'border-orange-500 bg-orange-50 text-orange-700' 
-                        : 'border-gray-100 bg-white text-gray-500'
+                        ? 'border-orange-500 bg-orange-500/100/10 text-orange-700' 
+                        : 'border-gray-100 bg-gray-900 text-gray-400'
                     } disabled:cursor-not-allowed disabled:opacity-70`}
                   >
                     <MapPin size={22} className="mb-1" />
@@ -250,8 +250,8 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     disabled={!canInteract}
                     className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all ${
                       tipoPedido === 'recojo' 
-                        ? 'border-orange-500 bg-orange-50 text-orange-700' 
-                        : 'border-gray-100 bg-white text-gray-500'
+                        ? 'border-orange-500 bg-orange-500/100/10 text-orange-700' 
+                        : 'border-gray-100 bg-gray-900 text-gray-400'
                     } disabled:cursor-not-allowed disabled:opacity-70`}
                   >
                     <ShoppingBag size={22} className="mb-1" />
@@ -262,8 +262,8 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     disabled={!canInteract}
                     className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all ${
                       tipoPedido === 'salon' 
-                        ? 'border-orange-500 bg-orange-50 text-orange-700' 
-                        : 'border-gray-100 bg-white text-gray-500'
+                        ? 'border-orange-500 bg-orange-500/100/10 text-orange-700' 
+                        : 'border-gray-100 bg-gray-900 text-gray-400'
                     } disabled:cursor-not-allowed disabled:opacity-70`}
                   >
                     <Store size={22} className="mb-1" />
@@ -275,39 +275,39 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
               {/* Formulario Dinámico */}
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Tu Nombre</label>
+                  <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Tu Nombre</label>
                   <input 
                     type="text" 
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
                     disabled={!canInteract}
                     placeholder="Ej. Juan Pérez" 
-                    className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all font-medium"
+                    className="w-full mt-1 p-3 bg-gray-800/50 border border-gray-700 rounded-xl outline-none focus:border-orange-500 text-white text-white focus:ring-1 focus:ring-orange-500 transition-all font-medium"
                   />
                 </div>
 
                 {tipoPedido === 'delivery' && (
                   <>
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dirección de Envío</label>
+                      <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Dirección de Envío</label>
                       <input 
                         type="text" 
                         value={direccion}
                         onChange={(e) => setDireccion(e.target.value)}
                         disabled={!canInteract}
                         placeholder="Ej. Av. Larco 123, Miraflores" 
-                        className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all font-medium"
+                        className="w-full mt-1 p-3 bg-gray-800/50 border border-gray-700 rounded-xl outline-none focus:border-orange-500 text-white text-white focus:ring-1 focus:ring-orange-500 transition-all font-medium"
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Referencia (Opcional)</label>
+                      <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Referencia (Opcional)</label>
                       <input 
                         type="text" 
                         value={referencia}
                         onChange={(e) => setReferencia(e.target.value)}
                         disabled={!canInteract}
                         placeholder="Ej. Frente al parque, reja negra" 
-                        className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all font-medium"
+                        className="w-full mt-1 p-3 bg-gray-800/50 border border-gray-700 rounded-xl outline-none focus:border-orange-500 text-white text-white focus:ring-1 focus:ring-orange-500 transition-all font-medium"
                       />
                     </div>
                   </>
@@ -315,13 +315,13 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                 
                 {tipoPedido === 'salon' && (
                   <div>
-                    <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Número de Mesa</label>
+                    <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Número de Mesa</label>
                     <input 
                       type="number" 
                       value={mesa}
                       onChange={(e) => setMesa(e.target.value)}
                       placeholder="Ej. 4" 
-                      className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all font-medium"
+                      className="w-full mt-1 p-3 bg-gray-800/50 border border-gray-700 rounded-xl outline-none focus:border-orange-500 text-white text-white focus:ring-1 focus:ring-orange-500 transition-all font-medium"
                       readOnly={!canInteract || (typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('mesa'))}
                     />
                     {typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('mesa') && (
@@ -337,16 +337,16 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
               <div className="space-y-3 mt-6">
                 <label className="font-semibold text-gray-700 text-sm">¿Cómo vas a pagar?</label>
                 <div className="grid grid-cols-2 gap-2">
-                  <button disabled={!canInteract} onClick={() => setMedioPago('yape')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'yape' ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-100 bg-white text-gray-500'} disabled:cursor-not-allowed disabled:opacity-70`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('yape')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'yape' ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-100 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <Smartphone size={20} className="mr-2" /> <span className="font-bold text-sm">Yape</span>
                   </button>
-                  <button disabled={!canInteract} onClick={() => setMedioPago('plin')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'plin' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-100 bg-white text-gray-500'} disabled:cursor-not-allowed disabled:opacity-70`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('plin')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'plin' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-100 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <Smartphone size={20} className="mr-2" /> <span className="font-bold text-sm">Plin</span>
                   </button>
-                  <button disabled={!canInteract} onClick={() => setMedioPago('efectivo')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'efectivo' ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-100 bg-white text-gray-500'} disabled:cursor-not-allowed disabled:opacity-70`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('efectivo')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'efectivo' ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-100 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <Banknote size={20} className="mr-2" /> <span className="font-bold text-sm">Efectivo</span>
                   </button>
-                  <button disabled={!canInteract} onClick={() => setMedioPago('tarjeta')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'tarjeta' ? 'border-orange-500 bg-orange-50 text-orange-700' : 'border-gray-100 bg-white text-gray-500'} disabled:cursor-not-allowed disabled:opacity-70`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('tarjeta')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'tarjeta' ? 'border-orange-500 bg-orange-500/100/10 text-orange-700' : 'border-gray-100 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <CreditCard size={20} className="mr-2" /> <span className="font-bold text-sm">Tarjeta (POS)</span>
                   </button>
                 </div>
@@ -354,8 +354,8 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                 {/* Info adicional pago */}
                 {medioPago === 'efectivo' && (
                   <div className="mt-3">
-                    <label className="text-xs font-semibold text-gray-500 uppercase">¿Con cuánto vas a pagar? (S/)</label>
-                    <input type="number" step="0.5" value={montoEfectivo} onChange={(e) => setMontoEfectivo(e.target.value)} disabled={!canInteract} placeholder="Ej. 100" className="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-green-500 transition-all font-medium disabled:opacity-70" />
+                    <label className="text-xs font-semibold text-gray-400 uppercase">¿Con cuánto vas a pagar? (S/)</label>
+                    <input type="number" step="0.5" value={montoEfectivo} onChange={(e) => setMontoEfectivo(e.target.value)} disabled={!canInteract} placeholder="Ej. 100" className="w-full mt-1 p-3 bg-gray-800/50 border border-gray-700 rounded-xl outline-none focus:border-green-500 transition-all font-medium disabled:opacity-70" />
                   </div>
                 )}
                 {medioPago === 'yape' && config && (
@@ -366,7 +366,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     </div>
                     {config.yape_qr && (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={config.yape_qr} alt="QR Yape" className="w-32 h-32 object-contain bg-white p-2 rounded-lg border border-purple-200 shadow-sm" />
+                      <img src={config.yape_qr} alt="QR Yape" className="w-32 h-32 object-contain bg-gray-900 p-2 rounded-lg border border-purple-200 shadow-sm" />
                     )}
                   </div>
                 )}
@@ -378,14 +378,14 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     </div>
                     {config.plin_qr && (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={config.plin_qr} alt="QR Plin" className="w-32 h-32 object-contain bg-white p-2 rounded-lg border border-blue-200 shadow-sm" />
+                      <img src={config.plin_qr} alt="QR Plin" className="w-32 h-32 object-contain bg-gray-900 p-2 rounded-lg border border-blue-200 shadow-sm" />
                     )}
                   </div>
                 )}
               </div>
 
               {/* Botón de Enviar a WhatsApp */}
-              <p className="text-xs text-gray-500 -mt-2">
+              <p className="text-xs text-gray-400 -mt-2">
                 Primero registramos tu pedido y luego te redirigimos a WhatsApp para enviarlo.
               </p>
               <button 
