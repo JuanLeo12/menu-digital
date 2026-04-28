@@ -206,8 +206,8 @@ export default function Home() {
     const isNowFavorite = favorites.isFavorite(plato.id);
     showToast(
       isNowFavorite 
-        ? `? ${plato.nombre} agregado a favoritos` 
-        : `? ${plato.nombre} eliminado de favoritos`,
+        ? `💖 ${plato.nombre} agregado a favoritos` 
+        : `💔 ${plato.nombre} eliminado de favoritos`,
       "info"
     );
   }, [favorites, showToast]);
@@ -218,7 +218,7 @@ export default function Home() {
       nombre: plato.nombre,
       precio: plato.precio,
     });
-    showToast(`? ${plato.nombre} agregado al carrito`, "success");
+    showToast(`🛒 ${plato.nombre} agregado al carrito`, "success");
   }, [cart, showToast]);
 
   // Vista Landing Page - DISEÑO ULTRA MODERNO

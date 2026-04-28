@@ -54,58 +54,48 @@ export default function ProductosSection({
             return (
               <div
                 key={p.id}
-                className="flex flex-col p-4 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-orange-500/40 relative overflow-hidden group shadow-md hover:shadow-orange-500/10 transition-all duration-300 gap-4"
+                className="flex items-center justify-between p-3.5 rounded-xl bg-zinc-950 border-2 border-zinc-800 shadow-md gap-4"
               >
-                {/* Decoration */}
-                <div className="absolute top-0 right-0 p-12 bg-linear-to-bl from-orange-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                
-                <div className="w-full relative z-10 flex gap-3 h-full">
+                <div className="flex gap-4 items-center flex-1 min-w-0">
                   {p.imagen_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={p.imagen_url}
                       alt={p.nombre}
-                      className="w-20 h-20 rounded-2xl object-cover shrink-0 border border-zinc-700/50 shadow-sm"
+                      className="w-16 h-16 rounded-xl object-cover shrink-0 border border-zinc-800"
                     />
                   ) : (
-                    <div className="w-20 h-20 rounded-2xl shrink-0 bg-zinc-800/50 border border-zinc-700/50 border-dashed flex flex-col items-center justify-center text-zinc-500 text-[10px] font-bold uppercase tracking-wider">
-                      <span className="text-xl mb-1 opacity-50">🍽️</span>
+                    <div className="w-16 h-16 rounded-xl shrink-0 bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 text-xs font-bold">
                       Sin Img
                     </div>
                   )}
-                  <div className="flex flex-col flex-1 min-w-0">
-                    <p className="text-[10px] font-bold text-orange-400 bg-orange-500/10 self-start px-2 py-0.5 rounded-md mb-1.5 uppercase tracking-wider">
+                  <div className="flex flex-col min-w-0">
+                    <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider mb-1 truncate self-start rounded">
                       {catNombre}
                     </p>
-                    <h3 className="font-bold text-white text-base leading-tight line-clamp-2 pr-4 group-hover:text-orange-50 transition-colors">
+                    <h3 className="font-bold text-white text-[15px] truncate leading-tight">
                       {p.nombre}
                     </h3>
+                    <p className="font-bold text-orange-400 text-sm mt-1">
+                      S/ {(p.precio || 0).toFixed(2)}
+                    </p>
                   </div>
                 </div>
-                
-                <div className="flex items-center justify-between w-full relative z-10 mt-auto pt-3 border-t border-zinc-800">
-                  <div className="flex flex-col">
-                    <span className="text-[10px] text-zinc-400 uppercase tracking-widest font-semibold">Precio</span>
-                    <span className="text-[15px] font-bold text-orange-400 bg-linear-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">
-                      S/ {(p.precio || 0).toFixed(2)}
-                    </span>
-                  </div>
 
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2 shrink-0">
                   <button
                     onClick={() => onOpenEditar(p)}
-                    className="flex-1 justify-center bg-zinc-950 border border-zinc-700 hover:bg-zinc-800 hover:border-orange-500/30 text-white p-2.5 rounded-xl transition-all flex items-center gap-2 shadow-sm group-hover:text-orange-50"
+                    className="flex justify-center items-center bg-zinc-800 border border-zinc-700 hover:bg-zinc-700 text-white p-2 rounded-lg transition-colors"
                   >
-                    <Edit2 size={16} className="text-zinc-300 group-hover:text-orange-300 transition-colors" />
+                    <Edit2 size={16} />
                   </button>
                   <button
                     onClick={() => onBorrarPlato(p.id)}
-                    className="justify-center bg-red-950/30 border border-red-900/50 hover:bg-red-600 hover:border-red-500 text-red-400 hover:text-white p-2.5 rounded-xl transition-all flex items-center shadow-sm"
+                    className="flex justify-center items-center bg-red-950/40 border border-red-900/50 hover:bg-red-600 hover:border-red-500 text-red-500 hover:text-white p-2 rounded-lg transition-colors"
                   >
                     <Trash2 size={16} />
                   </button>
                 </div>
-              </div>
               </div>
             );
           })}
