@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/Toast";
 import PedidosSection from "@/components/admin/PedidosSection";
 import MetricasSection from "@/components/admin/MetricasSection";
 import CategoriasSection from "@/components/admin/CategoriasSection";
@@ -57,6 +58,7 @@ const generateFileName = (ext: string | undefined) => {
 };
 
 export default function AdminPage() {
+  const { showToast } = useToast();
   const supabase = createClient();
   const router = useRouter();
 
