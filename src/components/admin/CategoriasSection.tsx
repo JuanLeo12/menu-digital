@@ -39,20 +39,23 @@ export default function CategoriasSection({
           {categorias.map((c) => (
             <div
               key={c.id}
-              className="flex flex-col items-start p-4 rounded-2xl bg-zinc-900/50 border border-zinc-700/60 hover:bg-zinc-800/80 transition-colors shadow-sm gap-3"
+              className="flex flex-col items-start p-5 rounded-2xl bg-zinc-900 overflow-hidden relative group border border-zinc-800 hover:border-orange-500/50 transition-all duration-300 shadow-md hover:shadow-orange-500/10 gap-4"
             >
-              <div className="w-full">
+              {/* Decoration gradient */}
+              <div className="absolute top-0 right-0 p-8 bg-linear-to-bl from-orange-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              
+              <div className="w-full relative z-10">
                 <h3 className="font-bold text-white text-lg leading-tight truncate">
                   {c.nombre}
                 </h3>
-                <p className="text-xs text-white mt-1">
-                  Orden: {c.orden || "N/A"}
+                <p className="text-xs text-orange-200/60 mt-1 uppercase tracking-widest font-semibold flex items-center gap-1">
+                  <span>#</span> Orden: {c.orden || "N/A"}
                 </p>
               </div>
-              <div className="flex items-center gap-2 w-full">
+              <div className="flex items-center gap-2 w-full relative z-10 mt-auto pt-2 border-t border-zinc-800">
                 <button
                   onClick={() => onOpenEditarCategoria(c)}
-                  className="flex-1 justify-center bg-zinc-950 border border-zinc-700 hover:bg-zinc-800 text-white p-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
+                  className="flex-1 justify-center bg-zinc-950 border border-zinc-700 hover:bg-zinc-800 hover:border-orange-500/30 text-white p-2.5 rounded-xl transition-all flex items-center gap-2 shadow-sm group-hover:text-orange-50"
                 >
                   <Edit2 size={16} />
                   <span className="font-medium">Editar</span>
@@ -72,6 +75,8 @@ export default function CategoriasSection({
     </div>
   );
 }
+
+
 
 
 
