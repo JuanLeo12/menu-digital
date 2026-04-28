@@ -298,7 +298,7 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.7 }}
                 >
                   <button
-                    onClick={() => setActiveTab('menu')}
+                    onClick={() => window.location.href="/menu"}
                     className="group px-8 py-4 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-xl text-white shadow-[0_0_20px_rgba(239,68,68,0.5)] overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-3 cursor-pointer"
                   >
                     <UtensilsCrossed size={20} className="group-hover:rotate-12 transition-transform" />
@@ -628,23 +628,6 @@ export default function Home() {
               </motion.div>
             </div>
           </footer>
-
-          {/* Botn Flotante Menú */}
-          <motion.div
-            className="fixed bottom-8 right-8 z-40"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 1, type: "spring" }}
-          >
-            <motion.button
-              whileHover={{ scale: 1.1, rotate: 90 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => window.location.href="/menu"}
-              className="bg-linear-to-r from-red-600 via-orange-500 to-yellow-400 text-white p-5 rounded-full shadow-2xl"
-            >
-              <MenuIcon size={28} />
-            </motion.button>
-          </motion.div>
         </div>
       </>
     </>

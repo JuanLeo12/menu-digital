@@ -287,27 +287,17 @@ export default function Home() {
                 </motion.p>
 
                 <motion.div 
-                  className="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-50 pointer-events-auto"
+                  className="flex justify-center items-center relative z-50 pointer-events-auto"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.7 }}
                 >
                   <button
-                    onClick={() => setActiveTab('menu')}
+                    onClick={() => window.location.href="/inicio"}
                     className="group px-8 py-4 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-xl text-white shadow-[0_0_20px_rgba(239,68,68,0.5)] overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-3 cursor-pointer"
                   >
-                    <UtensilsCrossed size={20} className="group-hover:rotate-12 transition-transform" />
-                    <span>Ver Menú y Pedir</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      window.location.href="/inicio#info";
-                    }}
-                    className="group px-8 py-4 border-2 border-white/30 bg-black/40 backdrop-blur-md rounded-full font-bold text-xl text-white shadow-lg transition-all duration-300 hover:bg-white/20 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-3"
-                  >
-                    <Info size={20} />
-                    <span>Más Información</span>
+                    <ArrowRight size={20} className="group-hover:-translate-x-1 rotate-180 transition-transform" />
+                    <span>Volver al Inicio</span>
                   </button>
                 </motion.div>
             </div>
