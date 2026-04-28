@@ -333,8 +333,16 @@ export default function Home() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
+                  className="flex justify-center mb-6"
                 >
-                  <span className="text-6xl mb-4 block">?</span>
+                  <div className="relative w-32 h-32 md:w-36 md:h-36">
+                    <Image 
+                      src="/logo.png" 
+                      alt="Logo El Pollo Bravo" 
+                      fill
+                      className="object-contain drop-shadow-2xl"
+                    />
+                  </div>
                 </motion.div>
                 <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                   ¿Por Qué Elegirnos?
@@ -559,16 +567,20 @@ export default function Home() {
                   <div className="flex gap-4">
                     {[
                       { 
-                        icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>, 
-                        gradient: "from-pink-500 to-rose-500", 
+                        icon: <img src="https://cdn-icons-png.freepik.com/512/779/779093.png?ga=GA1.1.767872142.1777252202" alt="Instagram" className="w-8 h-8 object-contain" />, 
+                        bg: "bg-white", 
                         href: "https://instagram.com" 
                       },
                       { 
-                        icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>, 
-                        gradient: "from-blue-500 to-blue-600", 
+                        icon: <img src="https://cdn-icons-png.freepik.com/512/13170/13170340.png?ga=GA1.1.767872142.1777252202" alt="Facebook" className="w-8 h-8 object-contain" />, 
+                        bg: "bg-white", 
                         href: "https://facebook.com" 
                       },
-                      { icon: <X size={24} />, gradient: "from-gray-700 to-gray-900", href: "https://twitter.com" }
+                      { 
+                        icon: <img src="https://cdn-icons-png.freepik.com/512/5968/5968830.png?ga=GA1.1.767872142.1777252202" alt="X / Twitter" className="w-8 h-8 object-contain" />, 
+                        bg: "bg-white", 
+                        href: "https://twitter.com" 
+                      }
                     ].map((social, i) => (
                       <motion.a
                         key={i}
@@ -577,7 +589,7 @@ export default function Home() {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`bg-linear-to-r ${social.gradient} p-4 rounded-xl shadow-lg flex items-center justify-center text-white`}
+                        className={`${social.bg} p-3 rounded-2xl shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow`}
                       >
                         {social.icon}
                       </motion.a>
@@ -597,7 +609,12 @@ export default function Home() {
                 viewport={{ once: true }}
               >
                 <div className="relative w-32 h-32 mx-auto mb-4">
-                  
+                  <Image 
+                    src="/logo.png" 
+                    alt="Logo El Pollo Bravo" 
+                    fill
+                    className="object-contain"
+                  />
                 </div>
                 <h3 className="text-3xl font-black bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent mb-4">
                   El Pollo Bravo 🍗
