@@ -235,8 +235,8 @@ export default function AdminPage() {
       .from("configuracion")
       .upsert(payload, { onConflict: "id" })
       .eq("id", 1);
-    if (error) alert("Error guardando configuración: " + error.message);
-    else alert("¡Guardado correctaMenúte!");
+    if (error) showToast("Error guardando configuración: " + error.message);
+    else showToast("¡Guardado correctaMenúte!");
     setYapeFile(null);
     setPlinFile(null);
     await fetchData();
@@ -273,7 +273,7 @@ export default function AdminPage() {
 
   const guardarPlato = async () => {
     if (!nombre || !precio || !categoria)
-      return alert("Completa los campos básicos");
+      return showToast("Completa los campos básicos");
 
     setLoading(true);
     let uploadedUrl = imagen;
@@ -286,7 +286,7 @@ export default function AdminPage() {
         .upload(fileName, imageFile);
 
       if (uploadError) {
-        alert("Error subiendo imagen: " + uploadError.message);
+        showToast("Error subiendo imagen: " + uploadError.message);
         setLoading(false);
         return;
       }
@@ -336,7 +336,7 @@ export default function AdminPage() {
   };
 
   const guardarCategoria = async () => {
-    if (!catNombre) return alert("El nombre es obligatorio");
+    if (!catNombre) return showToast("El nombre es obligatorio");
     setLoading(true);
 
     if (formCatMode === "crear") {
@@ -348,7 +348,7 @@ export default function AdminPage() {
         .from("categorias")
         .insert([{ nombre: catNombre, orden }]);
       if (error) {
-        alert("Error al crear categoría: " + error.message);
+        showToast("Error al crear categoría: " + error.message);
         setLoading(false);
         return;
       }
@@ -358,7 +358,7 @@ export default function AdminPage() {
         .update({ nombre: catNombre })
         .eq("id", editCatId);
       if (error) {
-        alert("Error al actualizar categoría: " + error.message);
+        showToast("Error al actualizar categoría: " + error.message);
         setLoading(false);
         return;
       }
@@ -733,6 +733,8 @@ export default function AdminPage() {
     </div>
   );
 }
+
+
 
 
 

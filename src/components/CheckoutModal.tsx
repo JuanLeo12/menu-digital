@@ -201,7 +201,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
               <button
                 onClick={handleClose}
                 disabled={!canInteract}
-                className="p-2 bg-gray-100 rounded-full text-gray-400 hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="p-2 bg-gray-700 rounded-full text-gray-400 hover:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <X size={20} />
               </button>
@@ -239,7 +239,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all ${
                       tipoPedido === 'delivery' 
                         ? 'border-orange-500 bg-orange-500/100/10 text-orange-700' 
-                        : 'border-gray-100 bg-gray-900 text-gray-400'
+                        : 'border-gray-800 bg-gray-900 text-gray-400'
                     } disabled:cursor-not-allowed disabled:opacity-70`}
                   >
                     <MapPin size={22} className="mb-1" />
@@ -251,7 +251,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all ${
                       tipoPedido === 'recojo' 
                         ? 'border-orange-500 bg-orange-500/100/10 text-orange-700' 
-                        : 'border-gray-100 bg-gray-900 text-gray-400'
+                        : 'border-gray-800 bg-gray-900 text-gray-400'
                     } disabled:cursor-not-allowed disabled:opacity-70`}
                   >
                     <ShoppingBag size={22} className="mb-1" />
@@ -263,7 +263,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all ${
                       tipoPedido === 'salon' 
                         ? 'border-orange-500 bg-orange-500/100/10 text-orange-700' 
-                        : 'border-gray-100 bg-gray-900 text-gray-400'
+                        : 'border-gray-800 bg-gray-900 text-gray-400'
                     } disabled:cursor-not-allowed disabled:opacity-70`}
                   >
                     <Store size={22} className="mb-1" />
@@ -337,16 +337,16 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
               <div className="space-y-3 mt-6">
                 <label className="font-semibold text-gray-700 text-sm">¿Cómo vas a pagar?</label>
                 <div className="grid grid-cols-2 gap-2">
-                  <button disabled={!canInteract} onClick={() => setMedioPago('yape')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'yape' ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-100 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('yape')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'yape' ? 'border-purple-500 bg-purple-50 text-purple-700' : 'border-gray-800 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <Smartphone size={20} className="mr-2" /> <span className="font-bold text-sm">Yape</span>
                   </button>
-                  <button disabled={!canInteract} onClick={() => setMedioPago('plin')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'plin' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-100 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('plin')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'plin' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-800 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <Smartphone size={20} className="mr-2" /> <span className="font-bold text-sm">Plin</span>
                   </button>
-                  <button disabled={!canInteract} onClick={() => setMedioPago('efectivo')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'efectivo' ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-100 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('efectivo')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'efectivo' ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-800 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <Banknote size={20} className="mr-2" /> <span className="font-bold text-sm">Efectivo</span>
                   </button>
-                  <button disabled={!canInteract} onClick={() => setMedioPago('tarjeta')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'tarjeta' ? 'border-orange-500 bg-orange-500/100/10 text-orange-700' : 'border-gray-100 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
+                  <button disabled={!canInteract} onClick={() => setMedioPago('tarjeta')} className={`flex items-center justify-center p-3 rounded-xl border-2 transition-all ${medioPago === 'tarjeta' ? 'border-orange-500 bg-orange-500/100/10 text-orange-700' : 'border-gray-800 bg-gray-900 text-gray-400'} disabled:cursor-not-allowed disabled:opacity-70`}>
                     <CreditCard size={20} className="mr-2" /> <span className="font-bold text-sm">Tarjeta (POS)</span>
                   </button>
                 </div>
@@ -403,6 +403,10 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
     </AnimatePresence>
   )
 }
+
+
+
+
 
 
 
