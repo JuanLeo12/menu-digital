@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Lock, User } from 'lucide-react'
+import Image from 'next/image'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -43,7 +44,7 @@ export default function LoginPage() {
       <div className="bg-zinc-900/90 backdrop-blur-xl p-8 rounded-3xl shadow-[0_0_50px_rgba(239,68,68,0.2)] w-full max-w-md border border-orange-500/20 relative z-10">
         <div className="flex justify-center mb-6">
           <div className="p-4 bg-linear-to-br from-red-600 via-orange-500 to-yellow-500 rounded-full shadow-[0_0_30px_rgba(239,68,68,0.5)] border-4 border-yellow-500">
-            <span className="text-4xl">🍗</span>
+            <Image src="/logo.png" alt="Logo de la Pollería" width={80} height={80} className="object-contain transform hover:scale-110 transition-transform cursor-pointer" priority />
           </div>
         </div>
         
@@ -100,6 +101,8 @@ export default function LoginPage() {
     </div>
   )
 }
+
+
 
 
 

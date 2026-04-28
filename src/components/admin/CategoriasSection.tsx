@@ -39,7 +39,7 @@ export default function CategoriasSection({
           {categorias.map((c) => (
             <div
               key={c.id}
-              className="flex flex-col items-start p-4 rounded-2xl bg-zinc-900 border-zinc-800 border-zinc-800 shadow-sm gap-3"
+              className="flex flex-col items-start p-4 rounded-2xl bg-zinc-900/50 border border-zinc-700/60 hover:bg-zinc-800/80 transition-colors shadow-sm gap-3"
             >
               <div className="w-full">
                 <h3 className="font-bold text-white text-lg leading-tight truncate">
@@ -52,7 +52,7 @@ export default function CategoriasSection({
               <div className="flex items-center gap-2 w-full">
                 <button
                   onClick={() => onOpenEditarCategoria(c)}
-                  className="flex-1 justify-center bg-black border-zinc-800 hover:bg-slate-100 text-white p-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
+                  className="flex-1 justify-center bg-zinc-950 border border-zinc-700 hover:bg-zinc-800 text-white p-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
                 >
                   <Edit2 size={16} />
                   <span className="font-medium">Editar</span>
@@ -72,6 +72,9 @@ export default function CategoriasSection({
     </div>
   );
 }
+
+
+
 
 
 

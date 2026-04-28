@@ -41,7 +41,7 @@ export default function ConfiguracionSection({
   plinInputRef,
 }: ConfiguracionSectionProps) {
   return (
-    <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border-zinc-800">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           <Settings className="text-orange-500" /> Configuración del Local
@@ -217,14 +217,14 @@ export default function ConfiguracionSection({
                 whatsapp_numero: e.target.value,
               })
             }
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-3 bg-zinc-950 border border-zinc-800 rounded-xl text-white outline-none focus:border-orange-500 transition-colors"
             placeholder="Ej: 51902246535"
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-purple-50 p-4 rounded-xl border border-purple-200">
-            <p className="font-bold text-purple-900 mb-2">
+          <div className="bg-purple-950/30 p-4 rounded-xl border border-purple-500/30">
+            <p className="font-bold text-purple-300 mb-2">
               <Wallet size={18} className="inline mr-1" /> Numero Yape
             </p>
             <input
@@ -236,11 +236,11 @@ export default function ConfiguracionSection({
                   yape_numero: e.target.value,
                 })
               }
-              className="w-full p-2 border rounded-lg mb-2"
+              className="w-full p-3 bg-zinc-950 border border-zinc-800 rounded-xl text-white outline-none focus:border-orange-500 transition-colors mb-2"
               placeholder="Ej: 999888777"
             />
 
-            <p className="font-bold text-purple-900 mb-2 text-sm mt-4">Codigo QR</p>
+            <p className="font-bold text-purple-300 mb-2 text-sm mt-4">Codigo QR</p>
             <input
               type="file"
               ref={yapeInputRef}
@@ -249,7 +249,7 @@ export default function ConfiguracionSection({
             />
             <div
               onClick={() => yapeInputRef.current?.click()}
-              className="cursor-pointer border-2 border-dashed border-purple-300 p-4 rounded-lg bg-zinc-900 border-zinc-800 text-center"
+              className="cursor-pointer border-2 border-dashed border-purple-500/50 p-4 rounded-lg bg-zinc-900 border-zinc-800 text-center"
             >
               {yapeFile ? (
                 "QR Seleccionado"
@@ -262,8 +262,8 @@ export default function ConfiguracionSection({
             </div>
           </div>
 
-          <div className="bg-zinc-800/80 p-4 rounded-xl border border-zinc-700">
-            <p className="font-bold text-blue-900 mb-2">
+          <div className="bg-sky-950/30 p-4 rounded-xl border border-sky-500/30">
+            <p className="font-bold text-sky-300 mb-2">
               <Wallet size={18} className="inline mr-1" /> Numero Plin
             </p>
             <input
@@ -275,11 +275,11 @@ export default function ConfiguracionSection({
                   plin_numero: e.target.value,
                 })
               }
-              className="w-full p-2 border rounded-lg mb-2"
+              className="w-full p-3 bg-zinc-950 border border-zinc-800 rounded-xl text-white outline-none focus:border-orange-500 transition-colors mb-2"
               placeholder="Ej: 999888777"
             />
 
-            <p className="font-bold text-blue-900 mb-2 text-sm mt-4">Codigo QR</p>
+            <p className="font-bold text-sky-300 mb-2 text-sm mt-4">Codigo QR</p>
             <input
               type="file"
               ref={plinInputRef}
@@ -288,7 +288,7 @@ export default function ConfiguracionSection({
             />
             <div
               onClick={() => plinInputRef.current?.click()}
-              className="cursor-pointer border-2 border-dashed border-blue-300 p-4 rounded-lg bg-zinc-900 border-zinc-800 text-center"
+              className="cursor-pointer border-2 border-dashed border-sky-500/50 p-4 rounded-lg bg-zinc-900 border-zinc-800 text-center"
             >
               {plinFile ? (
                 "QR Seleccionado"
@@ -305,6 +305,7 @@ export default function ConfiguracionSection({
     </div>
   );
 }
+
 
 
 
