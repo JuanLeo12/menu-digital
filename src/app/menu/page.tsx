@@ -155,7 +155,7 @@ export default function Home() {
       }
       
       const [catsRes, platosRes] = await Promise.all([
-        supabase.from("categorias").select("*").order("orden", { ascending: true }),
+        supabase.from("categorias").select("*").order("orden", { ascending: true }).order("nombre", { ascending: true }),
         supabase.from("platos").select("*").eq("disponible", true),
       ]);
       if (catsRes.data) setCategorias(catsRes.data);

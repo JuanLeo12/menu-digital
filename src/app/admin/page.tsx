@@ -98,7 +98,8 @@ export default function AdminPage() {
     const respCat = await supabase
       .from("categorias")
       .select("*")
-      .order("orden", { ascending: true });
+      .order("orden", { ascending: true })
+      .order("nombre", { ascending: true });
     const respPlat = await supabase.from("platos").select("*");
     const respPeds = await supabase
       .from("pedidos")
