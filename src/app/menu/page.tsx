@@ -445,7 +445,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-linear-to-br from-red-500/5 via-orange-500/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
                     <div className="relative flex gap-4">
-                      <div className="relative w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-gray-800 shadow-lg">
+                        <div className="relative w-24 h-24 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden bg-gray-800 shadow-lg">
                         {plato.imagen_url ? (
                           <Image
                             src={plato.imagen_url}

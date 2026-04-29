@@ -299,7 +299,7 @@ export default function Home() {
                 >
                   <button
                     onClick={() => window.location.href="/menu"}
-                    className="group px-8 py-4 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-xl text-white shadow-[0_0_20px_rgba(239,68,68,0.5)] overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-3 cursor-pointer"
+                    className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-base sm:text-lg md:text-xl text-white shadow-[0_0_20px_rgba(239,68,68,0.5)] overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-3 cursor-pointer"
                   >
                     <UtensilsCrossed size={20} className="group-hover:rotate-12 transition-transform" />
                     <span>Ver Menú y Pedir</span>
@@ -309,7 +309,7 @@ export default function Home() {
                     onClick={() => {
                       const el = document.getElementById("info"); if(el) el.scrollIntoView({behavior:"smooth"});
                     }}
-                    className="group px-8 py-4 border-2 border-white/30 bg-black/40 backdrop-blur-md rounded-full font-bold text-xl text-white shadow-lg transition-all duration-300 hover:bg-white/20 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-3"
+                    className="group px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/30 bg-black/40 backdrop-blur-md rounded-full font-bold text-base sm:text-lg md:text-xl text-white shadow-lg transition-all duration-300 hover:bg-white/20 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-3"
                   >
                     <Info size={20} />
                     <span>Más Información</span>
@@ -319,10 +319,10 @@ export default function Home() {
           </motion.section>
 
           {/* Sección de Características - GLASSMORPHISM */}
-          <section id="info" className="py-32 px-4 relative">
+          <section id="info" className="py-16 sm:py-24 md:py-32 px-4 relative">
             <div className="max-w-7xl mx-auto">
               <motion.div 
-                className="text-center mb-20"
+                className="text-center mb-12 sm:mb-16 md:mb-20"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -335,7 +335,7 @@ export default function Home() {
                   transition={{ delay: 0.2 }}
                   className="flex justify-center mb-6"
                 >
-                  <div className="relative w-32 h-32 md:w-36 md:h-36">
+                  <div className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36">
                     <Image 
                       src="/logo.png" 
                       alt="Logo El Pollo Bravo" 
@@ -344,16 +344,16 @@ export default function Home() {
                     />
                   </div>
                 </motion.div>
-                <h2 className="text-5xl md:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                   ¿Por Qué Elegirnos?
                 </h2>
-                <p className="text-2xl text-gray-400 max-w-3xl mx-auto">
+                <p className="text-base sm:text-lg md:text-2xl text-gray-400 max-w-3xl mx-auto">
                   Más de 20 años creando experiencias culinarias inolvidables
                 </p>
               </motion.div>
 
               <motion.div 
-                className="grid md:grid-cols-3 gap-8"
+                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
                 variants={staggerContainer}
                 initial="hidden"
                 whileInView="visible"
@@ -364,7 +364,7 @@ export default function Home() {
                     icon: <Award className="w-16 h-16" />,
                     gradient: "from-orange-500 to-amber-500",
                     title: "Calidad Premium",
-                    desc: "Ingredientes seleccionados cuidadosaMenúte para garantizar el sabor excepcional"
+                    desc: "Ingredientes seleccionados cuidadosamente para garantizar el sabor excepcional"
                   },
                   {
                     icon: <Zap className="w-16 h-16" />,
@@ -385,12 +385,12 @@ export default function Home() {
                     className="group relative"
                   >
                     <div className="absolute inset-0 bg-linear-to-r from-orange-600 to-red-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative bg-linear-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-10 h-full hover:border-gray-600 transition-colors duration-500">
+                    <div className="relative bg-linear-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-4 sm:p-6 md:p-10 h-full hover:border-gray-600 transition-colors duration-500">
                       <div className={`bg-linear-to-r ${item.gradient} w-24 h-24 rounded-2xl flex items-center justify-center mb-6 text-white shadow-2xl`}>
                         {item.icon}
                       </div>
-                      <h3 className="text-3xl font-bold text-white mb-4">{item.title}</h3>
-                      <p className="text-xl text-gray-400">{item.desc}</p>
+                      <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">{item.title}</h3>
+                      <p className="text-base sm:text-lg text-gray-400">{item.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -505,7 +505,7 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => window.location.href="/menu"}
-                  className="group px-12 py-6 bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-xl text-white shadow-2xl flex items-center gap-4 mx-auto"
+                  className="group px-6 sm:px-12 py-4 sm:py-6 bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full font-bold text-base sm:text-lg md:text-xl text-white shadow-2xl flex items-center gap-4 mx-auto"
                 >
                   Ver Menú Completo
                   <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />

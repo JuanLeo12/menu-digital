@@ -208,7 +208,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 rounded-t-3xl max-h-[90vh] overflow-y-auto w-full max-w-md mx-auto flex flex-col"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 rounded-t-3xl max-h-[90vh] overflow-y-auto w-full mx-auto flex flex-col"
           >
             {/* Header del Modal */}
             <div className="sticky top-0 bg-gray-900 p-4 border-b border-gray-800 flex items-center justify-between z-10 rounded-t-3xl">
@@ -290,7 +290,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
               {/* Formulario Dinámico */}
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Tu Nombre</label>
+                  <label className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wider">Tu Nombre</label>
                   <input 
                     type="text" 
                     value={nombre}
@@ -381,7 +381,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     </div>
                     {config.yape_qr && (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={config.yape_qr} alt="QR Yape" className="w-32 h-32 object-contain bg-gray-900 p-2 rounded-lg border border-purple-200 shadow-sm" />
+                        <img src={config.yape_qr} alt="QR Yape" className="w-24 h-24 sm:w-32 sm:h-32 object-contain bg-gray-900 p-2 rounded-lg border border-purple-200 shadow-sm" />
                     )}
                   </div>
                 )}
@@ -393,7 +393,7 @@ Confírmame la recepción de este pedido y envíame tu cuenta de Yape/Plin.`
                     </div>
                     {config.plin_qr && (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={config.plin_qr} alt="QR Plin" className="w-32 h-32 object-contain bg-gray-900 p-2 rounded-lg border border-blue-200 shadow-sm" />
+                        <img src={config.plin_qr} alt="QR Plin" className="w-24 h-24 sm:w-32 sm:h-32 object-contain bg-gray-900 p-2 rounded-lg border border-blue-200 shadow-sm" />
                     )}
                   </div>
                 )}
