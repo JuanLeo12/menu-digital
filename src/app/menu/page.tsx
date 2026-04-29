@@ -429,7 +429,7 @@ export default function Home() {
               </p>
             </motion.div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {platosMostrados.map((plato) => {
                 const itemCarrito = cart.items.find((i) => i.id === plato.id);
                 const cantidad = itemCarrito?.cantidad || 0;
@@ -440,7 +440,7 @@ export default function Home() {
                     key={plato.id}
                     variants={itemVariants}
                     whileHover={{ y: -5, scale: 1.01 }}
-                    className="group relative bg-gray-900/50 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-gray-800 hover:border-orange-500/50 transition-all duration-500 overflow-hidden"
+                    className="group relative bg-gray-900/50 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-gray-800 hover:border-orange-500/50 transition-all duration-500 overflow-hidden min-w-0"
                   >
                     <div className="absolute inset-0 bg-linear-to-br from-red-500/5 via-orange-500/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
@@ -460,7 +460,7 @@ export default function Home() {
                           )}
                         </div>
 
-                        <div className="flex flex-col flex-1 justify-between relative order-1 sm:order-2">
+                        <div className="flex flex-col flex-1 justify-between relative order-1 sm:order-2 min-w-0">
                         <motion.button
                           whileHover={{ scale: 1.2, rotate: 15 }}
                           whileTap={{ scale: 0.9 }}
