@@ -481,14 +481,9 @@ export default function Home() {
                             S/ {plato.precio.toFixed(2)}
                           </span>
                         </div>
-                        <motion.button
-                          whileHover={{ scale: 1.1, rotate: 90 }}
-                          whileTap={{ scale: 0.9 }}
-                          onClick={() => handleAddToCart(plato)}
-                          className="bg-linear-to-r from-red-500 to-yellow-500 text-white p-4 rounded-full shadow-lg hover:shadow-orange-500/50 transition-shadow"
-                        >
-                          <Plus size={24} />
-                        </motion.button>
+                          <div className="text-center text-xs text-gray-500 px-2 py-2 rounded-full bg-gray-800/50 font-semibold uppercase tracking-wider">
+                            Solo visualización
+                          </div>
                       </div>
                     </div>
                   </motion.div>

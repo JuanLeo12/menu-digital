@@ -440,27 +440,27 @@ export default function Home() {
                     key={plato.id}
                     variants={itemVariants}
                     whileHover={{ y: -5, scale: 1.01 }}
-                    className="group relative bg-gray-900/50 backdrop-blur-xl rounded-2xl p-4 border border-gray-800 hover:border-orange-500/50 transition-all duration-500 overflow-hidden"
+                    className="group relative bg-gray-900/50 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-gray-800 hover:border-orange-500/50 transition-all duration-500 overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-linear-to-br from-red-500/5 via-orange-500/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
-                    <div className="relative flex gap-4">
-                        <div className="relative w-24 h-24 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden bg-gray-800 shadow-lg">
-                        {plato.imagen_url ? (
-                          <Image
-                            src={plato.imagen_url}
-                            alt={plato.nombre}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-600">
-                            Sin Img
-                          </div>
-                        )}
-                      </div>
+                      <div className="relative flex flex-col sm:flex-row gap-2 sm:gap-4">
+                        <div className="relative w-24 h-24 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden bg-gray-800 shadow-lg order-2 sm:order-1 mx-auto sm:mx-0">
+                          {plato.imagen_url ? (
+                            <Image
+                              src={plato.imagen_url}
+                              alt={plato.nombre}
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-600">
+                              Sin Img
+                            </div>
+                          )}
+                        </div>
 
-                      <div className="flex flex-col flex-1 justify-between relative">
+                        <div className="flex flex-col flex-1 justify-between relative order-1 sm:order-2">
                         <motion.button
                           whileHover={{ scale: 1.2, rotate: 15 }}
                           whileTap={{ scale: 0.9 }}
@@ -475,16 +475,16 @@ export default function Home() {
                         </motion.button>
 
                         <div>
-                          <h3 className="font-bold text-lg text-white leading-tight">
+                          <h3 className="font-bold text-base sm:text-lg text-white leading-tight">
                             {plato.nombre}
                           </h3>
-                          <p className="text-sm text-gray-400 mt-1 line-clamp-2">
+                          <p className="text-xs sm:text-sm text-gray-400 mt-1 line-clamp-2">
                             {plato.descripcion}
                           </p>
                         </div>
 
-                        <div className="flex items-center justify-between mt-3">
-                          <span className="text-2xl font-black bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
+                        <div className="flex items-center justify-between mt-2 sm:mt-3">
+                          <span className="text-lg sm:text-2xl font-black bg-linear-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
                             S/ {plato.precio.toFixed(2)}
                           </span>
 
@@ -493,9 +493,10 @@ export default function Home() {
                               whileHover={{ scale: 1.1, rotate: 90 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={() => handleAddToCart(plato)}
-                              className="bg-linear-to-r from-red-500 to-yellow-500 text-white p-3 rounded-full shadow-lg"
+                              className="bg-linear-to-r from-red-500 to-yellow-500 text-white p-2 sm:p-3 rounded-full shadow-lg"
                             >
-                              <Plus size={20} />
+                              <Plus size={16} className="sm:hidden" />
+                              <Plus size={20} className="hidden sm:block" />
                             </motion.button>
                           ) : (
                             <motion.div 
