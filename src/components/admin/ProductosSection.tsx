@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { Edit2, GripVertical, Plus, Search, Trash2, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Categoria = { id: string; nombre: string };
 
@@ -32,11 +32,47 @@ export default function ProductosSection({
   onReorderPlatos,
 }: ProductosSectionProps) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [orderedPlatos, setOrderedPlatos] = useState<Plato[]>(platos);
   const [draggedId, setDraggedId] = useState<string | null>(null);
-  const [dragOverId, setDragOverId] = useState<string | null>(null);
-  const [isDropping, setIsDropping] = useState(false);
+  const [isCommitting, setIsCommitting] = useState(false);
 
-  const filteredPlatos = platos.filter((p) =>
+  const [touchDrag, setTouchDrag] = useState<{
+    id: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    offsetX: number;
+    offsetY: number;
+  } | null>(null);
+  const touchPointerIdRef = useRef<number | null>(null);
+  const touchStartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchMovedRef = useRef(false);
+  const listRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!draggedId && !touchDrag) setOrderedPlatos(platos);
+  }, [platos, draggedId, touchDrag]);
+
+  const movePlato = (list: Plato[], fromId: string, toId: string) => {
+    const fromIndex = list.findIndex((p) => p.id === fromId);
+    const toIndex = list.findIndex((p) => p.id === toId);
+    if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return list;
+    const next = [...list];
+    const [moved] = next.splice(fromIndex, 1);
+    next.splice(toIndex, 0, moved);
+    return next;
+  };
+
+  const commitOrder = (list: Plato[]) => {
+    setIsCommitting(true);
+    const payload = list.map((p, index) => ({ ...p, orden: index }));
+    setOrderedPlatos(payload);
+    onReorderPlatos(payload);
+    setTimeout(() => setIsCommitting(false), 220);
+  };
+
+  const filteredPlatos = orderedPlatos.filter((p) =>
     p.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -47,40 +83,92 @@ export default function ProductosSection({
 
   const handleDragOver = (e: React.DragEvent, id: string) => {
     e.preventDefault();
-    setDragOverId(id);
+    if (!draggedId || draggedId === id) return;
+    setOrderedPlatos((prev) => movePlato(prev, draggedId, id));
   };
 
   const handleDrop = (e: React.DragEvent, targetId: string) => {
     e.preventDefault();
-    if (!draggedId || draggedId === targetId) {
-      setDraggedId(null);
-      setDragOverId(null);
-      return;
-    }
-
-    const draggedIndex = platos.findIndex((p) => p.id === draggedId);
-    const targetIndex = platos.findIndex((p) => p.id === targetId);
-
-    const newPlatos = [...platos];
-    const [removed] = newPlatos.splice(draggedIndex, 1);
-    newPlatos.splice(targetIndex, 0, removed);
-
-    // Update orden values
-    const updatedPlatos = newPlatos.map((p, index) => ({
-      ...p,
-      orden: index,
-    }));
-
-    onReorderPlatos(updatedPlatos);
-    setIsDropping(true);
-    setTimeout(() => setIsDropping(false), 220);
+    if (!draggedId) return;
+    const next = movePlato(orderedPlatos, draggedId, targetId);
+    commitOrder(next);
     setDraggedId(null);
-    setDragOverId(null);
   };
 
   const handleDragEnd = () => {
     setDraggedId(null);
-    setDragOverId(null);
+  };
+
+  const getTargetIdFromPoint = (x: number, y: number) => {
+    const el = document.elementFromPoint(x, y);
+    const card = el?.closest("[data-plato-id]") as HTMLElement | null;
+    return card?.dataset.platoId || null;
+  };
+
+  const endTouchDrag = () => {
+    if (!touchDrag) return;
+    commitOrder(orderedPlatos);
+    setTouchDrag(null);
+    touchPointerIdRef.current = null;
+  };
+
+  const handlePointerDown = (
+    e: React.PointerEvent<HTMLDivElement>,
+    plato: Plato,
+  ) => {
+    if (e.pointerType !== "touch") return;
+    touchMovedRef.current = false;
+    touchPointerIdRef.current = e.pointerId;
+    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+
+    if (touchStartTimerRef.current) clearTimeout(touchStartTimerRef.current);
+    touchStartTimerRef.current = setTimeout(() => {
+      setDraggedId(plato.id);
+      setTouchDrag({
+        id: plato.id,
+        x: e.clientX,
+        y: e.clientY,
+        width: rect.width,
+        height: rect.height,
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top,
+      });
+    }, 170);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "touch") return;
+    touchMovedRef.current = true;
+    if (!touchDrag || touchPointerIdRef.current !== e.pointerId) return;
+
+    e.preventDefault();
+    setTouchDrag((prev) => (prev ? { ...prev, x: e.clientX, y: e.clientY } : prev));
+
+    const targetId = getTargetIdFromPoint(e.clientX, e.clientY);
+    if (!targetId || targetId === touchDrag.id) return;
+    setOrderedPlatos((prev) => movePlato(prev, touchDrag.id, targetId));
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "touch") return;
+    if (touchStartTimerRef.current) {
+      clearTimeout(touchStartTimerRef.current);
+      touchStartTimerRef.current = null;
+    }
+    if (touchPointerIdRef.current !== e.pointerId) return;
+    if (touchDrag) endTouchDrag();
+    setDraggedId(null);
+    touchPointerIdRef.current = null;
+  };
+
+  const handlePointerCancel = () => {
+    if (touchStartTimerRef.current) {
+      clearTimeout(touchStartTimerRef.current);
+      touchStartTimerRef.current = null;
+    }
+    setDraggedId(null);
+    setTouchDrag(null);
+    touchPointerIdRef.current = null;
   };
 
   return (
@@ -123,33 +211,39 @@ export default function ProductosSection({
             : "Aún no tienes productos creados. Añade tu primer producto para que tus clientes puedan comprar."}
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          ref={listRef}
+          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          style={{ touchAction: touchDrag ? "none" : "pan-y" }}
+        >
           {filteredPlatos.map((p) => {
             const catNombre =
               categorias.find((c) => c.id === p.categoria_id)?.nombre ||
               "Sin categoria";
             const isDragging = draggedId === p.id;
-            const isDragOver = dragOverId === p.id;
+            const isTouchDragging = touchDrag?.id === p.id;
 
             return (
               <div
                 key={p.id}
+                data-plato-id={p.id}
                 draggable
                 onDragStart={(e) => handleDragStart(e, p.id)}
                 onDragOver={(e) => handleDragOver(e, p.id)}
                 onDrop={(e) => handleDrop(e, p.id)}
                 onDragEnd={handleDragEnd}
-                className={`relative flex items-center justify-between p-3.5 rounded-xl bg-zinc-950 border-2 border-zinc-800 shadow-md gap-4 cursor-grab active:cursor-grabbing transition-all duration-200 will-change-transform ${
+                onPointerDown={(e) => handlePointerDown(e, p)}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerCancel}
+                className={`relative flex items-center justify-between p-3.5 rounded-xl bg-zinc-950 border-2 border-zinc-800 shadow-md gap-4 cursor-grab active:cursor-grabbing transition-all duration-200 will-change-transform select-none ${
                   isDragging
-                    ? "z-20 scale-110 -rotate-2 shadow-[0_14px_30px_rgba(249,115,22,0.35)] border-orange-400"
+                    ? "z-20 scale-105 shadow-[0_14px_30px_rgba(249,115,22,0.35)] border-orange-400"
                     : "scale-100"
-                } ${isDragOver ? "border-orange-500 scale-[1.02] bg-zinc-900" : ""} ${
-                  isDropping ? "animate-pulse" : ""
+                } ${isCommitting ? "animate-pulse" : ""} ${
+                  isTouchDragging ? "opacity-25" : ""
                 }`}
               >
-                {isDragOver && !isDragging && (
-                  <div className="absolute inset-0 rounded-xl border-2 border-dashed border-orange-400/70 pointer-events-none" />
-                )}
                 <div className="flex gap-3 items-center flex-1 min-w-0">
                   <div className="text-zinc-600 shrink-0">
                     <GripVertical size={16} />
@@ -196,6 +290,21 @@ export default function ProductosSection({
               </div>
             );
           })}
+        </div>
+      )}
+
+      {touchDrag && (
+        <div
+          className="fixed z-50 pointer-events-none"
+          style={{
+            left: touchDrag.x - touchDrag.offsetX,
+            top: touchDrag.y - touchDrag.offsetY,
+            width: touchDrag.width,
+            height: touchDrag.height,
+            transform: "scale(1.04)",
+          }}
+        >
+          <div className="h-full w-full rounded-xl border-2 border-orange-400 bg-zinc-900 shadow-[0_18px_45px_rgba(249,115,22,0.5)]" />
         </div>
       )}
     </div>
