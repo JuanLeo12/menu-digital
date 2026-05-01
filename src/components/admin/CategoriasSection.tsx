@@ -26,7 +26,7 @@ export default function CategoriasSection({
           className="bg-emerald-500 text-white px-5 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-emerald-600 active:scale-95 transition-all shadow-sm text-sm"
         >
           <Plus size={18} />
-          Nueva Categoria
+          Nueva Categoría
         </button>
       </div>
 

@@ -390,20 +390,20 @@ export default function AdminPage() {
     <div className="min-h-screen bg-black pb-24 font-sans text-white">
       {/* Header con gradiente */}
       <div className="bg-linear-to-r from-red-600 via-orange-600 to-yellow-600 text-white shadow-xl">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight flex items-center gap-3">
-                <span className="text-4xl">🍗</span>
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2 sm:gap-3">
+                <span className="text-3xl sm:text-4xl">🍗</span>
                 Panel de Administración
               </h1>
-              <p className="text-indigo-100 mt-2 text-lg">Gestiona tu menú digital de forma moderna</p>
+              <p className="text-indigo-100 mt-1 sm:mt-2 text-sm sm:text-lg">Gestiona tu menú digital de forma moderna</p>
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-950/20 backdrop-blur-sm hover:bg-zinc-950/30 transition-all border border-white/30"
+              className="flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-zinc-950/20 backdrop-blur-sm hover:bg-zinc-950/30 transition-all border border-white/30 w-full sm:w-auto justify-center"
             >
-              <LogOut size={20} />
+              <LogOut size={18} className="sm:size-20" />
               <span className="font-semibold">Cerrar Sesión</span>
             </button>
           </div>
@@ -411,8 +411,8 @@ export default function AdminPage() {
       </div>
 
       {/* Navegación principal */}
-      <div className="max-w-7xl mx-auto px-6 -mt-4 relative z-10">
-        <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-4 relative z-10">
+        <div className="flex flex-wrap gap-2 sm:gap-3 justify-center md:justify-start">
           <button
             onClick={() => setActiveTab("pedidos")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
@@ -479,7 +479,7 @@ export default function AdminPage() {
       </div>
 
       {/* Contenido principal */}
-      <main className="max-w-7xl mx-auto px-6 mt-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 mt-8">
         {loading && !formMode && !formCatMode ? (
           <div className="flex items-center justify-center py-32">
             <div className="text-center">
@@ -538,8 +538,8 @@ export default function AdminPage() {
       {formMode && (
         <div className="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-zinc-950 rounded-3xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh]">
-            <div className="p-6 border-b border-slate-100 shrink-0">
-              <h3 className="font-bold text-2xl text-slate-800">
+            <div className="p-6 border-b border-zinc-800 shrink-0">
+              <h3 className="font-bold text-2xl text-white">
                 {formMode === "crear"
                   ? "➕ Agregar Producto"
                   : "✏️ Editar Producto"}
@@ -548,20 +548,20 @@ export default function AdminPage() {
 
             <div className="p-6 overflow-y-auto space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-slate-600 mb-1.5">
+                <label className="block text-sm font-semibold text-zinc-300 mb-1.5">
                   Nombre del producto *
                 </label>
                 <input
                   type="text"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 font-medium"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-white font-medium placeholder-zinc-500"
                   placeholder="Ej: 1/4 de Pollo a la Brasa / Gaseosa"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-600 mb-1.5">
+                <label className="block text-sm font-semibold text-zinc-300 mb-1.5">
                   Precio (S/) *
                 </label>
                 <input
@@ -569,25 +569,25 @@ export default function AdminPage() {
                   step="0.5"
                   value={precio}
                   onChange={(e) => setPrecio(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 font-medium"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-white font-medium placeholder-zinc-500"
                   placeholder="Ej: 18.50"
                   min="0"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-600 mb-1.5">
+                <label className="block text-sm font-semibold text-zinc-300 mb-1.5">
                   Categoría *
                 </label>
                 {categorias.length === 0 ? (
-                  <p className="text-sm text-red-500 italic bg-red-50 p-2 rounded-lg">
+                  <p className="text-sm text-red-400 italic bg-red-900/20 p-2 rounded-lg border border-red-900/50">
                     Por favor crea una categoría primero.
                   </p>
                 ) : (
                   <select
                     value={categoria}
                     onChange={(e) => setCategoria(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 font-medium"
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-white font-medium"
                   >
                     <option value="" disabled>
                       Selecciona una categoría...
@@ -602,27 +602,27 @@ export default function AdminPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-600 mb-1.5">
+                <label className="block text-sm font-semibold text-zinc-300 mb-1.5">
                   Descripción
                 </label>
                 <textarea
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-slate-800 resize-none h-24"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-orange-500 transition-all text-white resize-none h-24 placeholder-zinc-500"
                   placeholder="Ej: Acompañado de papas fritas y ensalada fresca."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-600 mb-1.5">
+                <label className="block text-sm font-semibold text-zinc-300 mb-1.5">
                   Foto del Producto
                 </label>
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full border-2 border-dashed border-slate-300 rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 hover:border-orange-400 transition-all group bg-slate-50/50"
+                  className="w-full border-2 border-dashed border-zinc-700 rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-900 hover:border-orange-500 transition-all group bg-zinc-900/50"
                 >
                   {imagen ? (
-                    <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-slate-200">
+                    <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-zinc-700">
                       <>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -639,13 +639,13 @@ export default function AdminPage() {
                     </div>
                   ) : (
                     <div className="py-6 flex flex-col items-center">
-                      <div className="bg-orange-100 p-3 rounded-full text-orange-500 mb-3">
+                      <div className="bg-orange-900/30 p-3 rounded-full text-orange-500 mb-3">
                         <Upload size={24} />
                       </div>
-                      <p className="text-sm font-medium text-slate-700">
+                      <p className="text-sm font-medium text-zinc-300">
                         Haz clic para subir imagen
                       </p>
-                      <p className="text-xs text-slate-500 mt-1">
+                      <p className="text-xs text-zinc-500 mt-1">
                         JPG, PNG o WEBP (Máx 5MB)
                       </p>
                     </div>
@@ -661,10 +661,10 @@ export default function AdminPage() {
               </div>
             </div>
 
-            <div className="p-6 border-t border-slate-100 shrink-0 flex items-center gap-3 bg-slate-50 rounded-b-3xl">
+            <div className="p-6 border-t border-zinc-800 shrink-0 flex items-center gap-3 bg-zinc-900 rounded-b-3xl">
               <button
                 onClick={() => setFormMode(null)}
-                className="flex-1 bg-zinc-950 text-slate-600 font-semibold py-3.5 rounded-xl hover:bg-slate-100 border border-slate-200 transition-colors"
+                className="flex-1 bg-zinc-800 text-zinc-300 font-semibold py-3.5 rounded-xl hover:bg-zinc-700 border border-zinc-700 transition-colors"
               >
                 Cancelar
               </button>
@@ -689,8 +689,8 @@ export default function AdminPage() {
       {formCatMode && (
         <div className="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-zinc-950 rounded-3xl w-full max-w-sm shadow-2xl flex flex-col">
-            <div className="p-6 border-b border-slate-100 shrink-0">
-              <h3 className="font-bold text-2xl text-slate-800">
+            <div className="p-6 border-b border-zinc-800 shrink-0">
+              <h3 className="font-bold text-2xl text-white">
                 {formCatMode === "crear"
                   ? "➕ Nueva Categoría"
                   : "✏️ Editar Categoría"}
@@ -699,28 +699,28 @@ export default function AdminPage() {
 
             <div className="p-6 space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-slate-600 mb-1.5">
+                <label className="block text-sm font-semibold text-zinc-300 mb-1.5">
                   Nombre de la Categoría *
                 </label>
                 <input
                   type="text"
                   value={catNombre}
                   onChange={(e) => setCatNombre(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-slate-800 font-medium"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-white font-medium placeholder-zinc-500"
                   placeholder="Ej: Carnes"
                   autoFocus
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-600 mb-1.5 mt-4">
+                <label className="block text-sm font-semibold text-zinc-300 mb-1.5 mt-4">
                   Orden
                 </label>
                 <input
                   type="number"
                   value={catOrden}
                   onChange={(e) => setCatOrden(e.target.value === "" ? "" : Number(e.target.value))}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-slate-800 font-medium"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-white font-medium placeholder-zinc-500"
                   placeholder="Ej: 1"
                   min="0"
                 />
@@ -729,7 +729,7 @@ export default function AdminPage() {
               <div className="flex gap-3 pt-4">
                 <button
                   onClick={() => setFormCatMode(null)}
-                  className="flex-1 bg-slate-100 text-slate-600 font-semibold py-3.5 rounded-xl hover:bg-zinc-700 transition-colors"
+                  className="flex-1 bg-zinc-800 text-zinc-300 font-semibold py-3.5 rounded-xl hover:bg-zinc-700 border border-zinc-700 transition-colors"
                 >
                   Cancelar
                 </button>
