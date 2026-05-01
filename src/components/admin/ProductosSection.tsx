@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { Edit2, GripVertical, Plus, Search, Trash2, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Categoria = { id: string; nombre: string };
 
@@ -65,6 +65,61 @@ export default function ProductosSection({
   } | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
+
+  /** HTML5 drag en divs con draggable=true rompe o compite con gestos táctiles en varios móviles. */
+  const [useHtml5Drag, setUseHtml5Drag] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    const apply = () => setUseHtml5Drag(!mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  const touchLongPressStartRef = useRef<{ x: number; y: number } | null>(null);
+  const pendingTouchPlatoRef = useRef<Plato | null>(null);
+  const pendingTouchCardRef = useRef<HTMLDivElement | null>(null);
+  const globalTouchDragCleanupRef = useRef<(() => void) | null>(null);
+
+  const detachGlobalTouchDragListeners = () => {
+    const fn = globalTouchDragCleanupRef.current;
+    if (fn) {
+      fn();
+      globalTouchDragCleanupRef.current = null;
+    }
+  };
+
+  const attachGlobalTouchDragListeners = (pointerId: number) => {
+    detachGlobalTouchDragListeners();
+    const onMove = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId || !touchDragIdRef.current) return;
+      ev.preventDefault();
+      setTouchDrag((prev) => {
+        const base = prev ?? touchMetricsRef.current;
+        if (!base) return prev;
+        const next = { ...base, x: ev.clientX, y: ev.clientY };
+        touchMetricsRef.current = next;
+        return next;
+      });
+      const targetId = getTargetIdFromPoint(ev.clientX, ev.clientY);
+      const dragId = touchDragIdRef.current;
+      if (!targetId || !dragId || targetId === dragId) return;
+      applyOrder(movePlato(orderedPlatosRef.current, dragId, targetId));
+    };
+    const onEnd = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
+      detachGlobalTouchDragListeners();
+      if (touchDragIdRef.current) endTouchDrag(ev.pointerId);
+    };
+    window.addEventListener("pointermove", onMove, { passive: false });
+    window.addEventListener("pointerup", onEnd);
+    window.addEventListener("pointercancel", onEnd);
+    globalTouchDragCleanupRef.current = () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onEnd);
+      window.removeEventListener("pointercancel", onEnd);
+    };
+  };
 
   const applyOrder = (next: Plato[]) => {
     orderedPlatosRef.current = next;
@@ -197,6 +252,7 @@ export default function ProductosSection({
 
   const endTouchDrag = (pointerId: number) => {
     if (!touchDragIdRef.current) return;
+    detachGlobalTouchDragListeners();
     commitOrder([...orderedPlatosRef.current]);
     setTouchDrag(null);
     touchMetricsRef.current = null;
@@ -209,6 +265,7 @@ export default function ProductosSection({
   };
 
   const cancelTouchDrag = (pointerId: number) => {
+    detachGlobalTouchDragListeners();
     if (touchStartTimerRef.current) {
       clearTimeout(touchStartTimerRef.current);
       touchStartTimerRef.current = null;
@@ -224,101 +281,133 @@ export default function ProductosSection({
     releaseTouchCapture(pointerId);
   };
 
-  const handlePointerDown = (
+  const cancelPendingLongPress = (pointerId: number) => {
+    if (touchStartTimerRef.current) {
+      clearTimeout(touchStartTimerRef.current);
+      touchStartTimerRef.current = null;
+    }
+    touchLongPressStartRef.current = null;
+    pendingTouchPlatoRef.current = null;
+    pendingTouchCardRef.current = null;
+    releaseTouchCapture(pointerId);
+    touchPointerIdRef.current = null;
+  };
+
+  const handleGripPointerDown = (
     e: React.PointerEvent<HTMLDivElement>,
     plato: Plato,
   ) => {
     if (e.pointerType !== "touch") return;
+    const cardEl = e.currentTarget.closest(
+      "[data-plato-id]",
+    ) as HTMLDivElement | null;
+    if (!cardEl) return;
+    e.stopPropagation();
+    const grip = e.currentTarget;
+    touchAnchorRef.current = grip;
     touchPointerIdRef.current = e.pointerId;
-    touchAnchorRef.current = e.currentTarget;
-    const rect = e.currentTarget.getBoundingClientRect();
+    pendingTouchPlatoRef.current = plato;
+    pendingTouchCardRef.current = cardEl;
+    touchLongPressStartRef.current = { x: e.clientX, y: e.clientY };
+
+    try {
+      grip.setPointerCapture(e.pointerId);
+    } catch {
+      /* iOS puede fallar si no hay gesto; el intento inmediato ayuda en la mayoría */
+    }
 
     if (touchStartTimerRef.current) clearTimeout(touchStartTimerRef.current);
     touchStartTimerRef.current = setTimeout(() => {
-      const anchor = touchAnchorRef.current;
-      if (!anchor) return;
-      try {
-        anchor.setPointerCapture(e.pointerId);
-      } catch {
-        /* ignore */
-      }
+      const pendingPlato = pendingTouchPlatoRef.current;
+      const card = pendingTouchCardRef.current;
+      if (!pendingPlato || !card) return;
+
+      const rect = card.getBoundingClientRect();
       didCommitDragRef.current = false;
-      draggedIdRef.current = plato.id;
-      touchDragIdRef.current = plato.id;
+      draggedIdRef.current = pendingPlato.id;
+      touchDragIdRef.current = pendingPlato.id;
       applyOrder([...platos]);
-      setDraggedId(plato.id);
-      setTouchGhostPlato(plato);
+      setDraggedId(pendingPlato.id);
+      setTouchGhostPlato(pendingPlato);
       triggerHaptic(10);
       const metrics = {
-        id: plato.id,
-        x: e.clientX,
-        y: e.clientY,
+        id: pendingPlato.id,
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
         width: rect.width,
         height: rect.height,
-        offsetX: e.clientX - rect.left,
-        offsetY: e.clientY - rect.top,
+        offsetX: rect.width / 2,
+        offsetY: rect.height / 2,
       };
       touchMetricsRef.current = metrics;
       setTouchDrag(metrics);
-    }, 200);
+      touchLongPressStartRef.current = null;
+      const pid = touchPointerIdRef.current;
+      if (pid != null) attachGlobalTouchDragListeners(pid);
+    }, 220);
   };
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+  const handleGripPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "touch") return;
     if (touchPointerIdRef.current !== e.pointerId) return;
-    if (!touchDragIdRef.current) return;
 
-    e.preventDefault();
-    setTouchDrag((prev) => {
-      const base = prev ?? touchMetricsRef.current;
-      if (!base) return prev;
-      const next = { ...base, x: e.clientX, y: e.clientY };
-      touchMetricsRef.current = next;
-      return next;
-    });
-
-    const targetId = getTargetIdFromPoint(e.clientX, e.clientY);
-    const dragId = touchDragIdRef.current;
-    if (!targetId || targetId === dragId) return;
-    applyOrder(movePlato(orderedPlatosRef.current, dragId, targetId));
+    const start = touchLongPressStartRef.current;
+    if (start && !touchDragIdRef.current && touchStartTimerRef.current) {
+      const dx = e.clientX - start.x;
+      const dy = e.clientY - start.y;
+      if (dx * dx + dy * dy > 12 * 12) {
+        cancelPendingLongPress(e.pointerId);
+      }
+      return;
+    }
   };
 
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+  const handleGripPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "touch") return;
+    if (touchPointerIdRef.current !== e.pointerId) return;
+
     if (touchStartTimerRef.current) {
       clearTimeout(touchStartTimerRef.current);
       touchStartTimerRef.current = null;
     }
-    if (touchPointerIdRef.current !== e.pointerId) return;
 
     if (touchDragIdRef.current) {
       endTouchDrag(e.pointerId);
     } else {
-      releaseTouchCapture(e.pointerId);
-      touchPointerIdRef.current = null;
-      touchAnchorRef.current = null;
+      cancelPendingLongPress(e.pointerId);
     }
+    touchLongPressStartRef.current = null;
+    pendingTouchPlatoRef.current = null;
+    pendingTouchCardRef.current = null;
   };
 
-  const handlePointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
+  const handleGripPointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "touch") return;
+    if (touchPointerIdRef.current !== e.pointerId) return;
     if (touchStartTimerRef.current) {
       clearTimeout(touchStartTimerRef.current);
       touchStartTimerRef.current = null;
     }
-    if (touchPointerIdRef.current === e.pointerId) {
-      if (touchDrag) cancelTouchDrag(e.pointerId);
-      else {
-        releaseTouchCapture(e.pointerId);
-        touchPointerIdRef.current = null;
-      }
-    }
+    if (touchDragIdRef.current) cancelTouchDrag(e.pointerId);
+    else cancelPendingLongPress(e.pointerId);
+    touchLongPressStartRef.current = null;
+    pendingTouchPlatoRef.current = null;
+    pendingTouchCardRef.current = null;
   };
 
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)]">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <h2 className="text-xl font-bold text-white">Mis Productos</h2>
+        <div>
+          <h2 className="text-xl font-bold text-white">Mis Productos</h2>
+          {!useHtml5Drag && (
+            <p className="text-xs text-zinc-500 mt-1 max-w-md">
+              Mantén pulsado el asa{" "}
+              <span className="text-zinc-400">(⋮⋮)</span> y arrastra para
+              reordenar.
+            </p>
+          )}
+        </div>
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <div className="relative flex-1 sm:flex-initial">
             <Search
@@ -377,16 +466,20 @@ export default function ProductosSection({
               <div
                 key={p.id}
                 data-plato-id={p.id}
-                draggable
-                onDragStart={(e) => handleDragStart(e, p.id)}
-                onDragOver={(e) => handleDragOver(e, p.id)}
-                onDrop={(e) => handleDrop(e, p.id)}
-                onDragEnd={handleDragEnd}
-                onPointerDown={(e) => handlePointerDown(e, p)}
-                onPointerMove={handlePointerMove}
-                onPointerUp={handlePointerUp}
-                onPointerCancel={handlePointerCancel}
-                className={`relative flex items-center justify-between p-3.5 rounded-xl bg-zinc-950 border-2 border-zinc-800 shadow-md gap-4 cursor-grab active:cursor-grabbing transition-all duration-200 will-change-transform select-none ${
+                draggable={useHtml5Drag}
+                onDragStart={
+                  useHtml5Drag ? (e) => handleDragStart(e, p.id) : undefined
+                }
+                onDragOver={
+                  useHtml5Drag ? (e) => handleDragOver(e, p.id) : undefined
+                }
+                onDrop={useHtml5Drag ? (e) => handleDrop(e, p.id) : undefined}
+                onDragEnd={useHtml5Drag ? handleDragEnd : undefined}
+                className={`relative flex items-center justify-between p-3.5 rounded-xl bg-zinc-950 border-2 border-zinc-800 shadow-md gap-4 ${
+                  useHtml5Drag
+                    ? "cursor-grab active:cursor-grabbing"
+                    : "cursor-default"
+                } transition-all duration-200 will-change-transform select-none ${
                   isDragging
                     ? "z-20 scale-[1.03] shadow-[0_14px_30px_rgba(249,115,22,0.35)] border-orange-400 ring-2 ring-orange-500/30"
                     : "scale-100"
@@ -395,8 +488,18 @@ export default function ProductosSection({
                 }`}
               >
                 <div className="flex gap-3 items-center flex-1 min-w-0">
-                  <div className="text-zinc-600 shrink-0">
-                    <GripVertical size={16} />
+                  <div
+                    className="text-zinc-600 shrink-0 touch-none p-2 -m-2 rounded-lg active:bg-zinc-800/60"
+                    style={{ WebkitTouchCallout: "none" }}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Arrastrar para reordenar: ${p.nombre}`}
+                    onPointerDown={(e) => handleGripPointerDown(e, p)}
+                    onPointerMove={handleGripPointerMove}
+                    onPointerUp={handleGripPointerUp}
+                    onPointerCancel={handleGripPointerCancel}
+                  >
+                    <GripVertical size={18} aria-hidden />
                   </div>
                   {p.imagen_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
