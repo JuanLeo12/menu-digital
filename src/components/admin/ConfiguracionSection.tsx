@@ -41,21 +41,21 @@ export default function ConfiguracionSection({
   plinInputRef,
 }: ConfiguracionSectionProps) {
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] max-w-3xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 sm:p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] max-w-3xl mx-auto">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           <Settings className="text-orange-500" /> Configuración del Local
         </h2>
         <button
           onClick={onGuardarConfiguración}
-          className="bg-orange-500 text-white px-5 py-2.5 rounded-full font-semibold"
+          className="bg-orange-500 text-white px-5 py-2.5 rounded-full font-semibold w-full sm:w-auto"
         >
           Guardar Cambios
         </button>
       </div>
 
       <div className="space-y-6">
-        <div className="bg-black p-4 rounded-xl border-zinc-800 flex justify-between items-center">
+        <div className="bg-black p-4 rounded-xl border-zinc-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="flex gap-3 items-center">
             <Store
               size={24}
@@ -89,7 +89,7 @@ export default function ConfiguracionSection({
         </div>
 
         <div className="bg-black p-4 rounded-xl border-zinc-800">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div className="flex gap-3 items-center">
               <Clock
                 size={24}
@@ -120,7 +120,7 @@ export default function ConfiguracionSection({
           </div>
 
           {confTemp.auto_horario && (
-            <div className="space-y-3 mt-4 border-t border-gray-200 pt-4">
+            <div className="space-y-3 mt-4 border-t border-zinc-700 pt-4">
               {[
                 { id: "1", name: "Lunes" },
                 { id: "2", name: "Martes" },
@@ -132,9 +132,9 @@ export default function ConfiguracionSection({
               ].map((dia) => (
                 <div
                   key={dia.id}
-                  className="flex items-center justify-between bg-zinc-900 border-zinc-800 p-3 rounded-lg border border-gray-100"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-zinc-900 border-zinc-800 p-3 rounded-lg border border-gray-100"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center w-1/3">
+                  <div className="flex flex-col sm:flex-row sm:items-center w-full sm:w-1/3">
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
@@ -165,7 +165,7 @@ export default function ConfiguracionSection({
                   </div>
 
                   {confTemp.horarios?.[dia.id]?.abierto ? (
-                    <div className="flex gap-2 items-center w-2/3 justify-end text-sm">
+                    <div className="flex flex-wrap gap-2 items-center w-full sm:w-2/3 justify-start sm:justify-end text-sm">
                       <span className="text-white">De</span>
                       <input
                         type="time"

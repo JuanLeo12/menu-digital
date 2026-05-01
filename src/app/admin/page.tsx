@@ -394,7 +394,7 @@ export default function AdminPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2 sm:gap-3">
-                <span className="text-3xl sm:text-4xl">🍗</span>
+                <img src="/logo.png" alt="Logo" className="h-10 w-auto sm:h-12" />
                 Panel de Administración
               </h1>
               <p className="text-indigo-100 mt-1 sm:mt-2 text-sm sm:text-lg">Gestiona tu menú digital de forma moderna</p>
