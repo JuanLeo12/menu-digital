@@ -159,7 +159,12 @@ export default function Home() {
         supabase.from("platos").select("*").eq("disponible", true),
       ]);
       if (catsRes.data) setCategorias(catsRes.data);
-      if (platosRes.data) setPlatos(platosRes.data);
+      if (platosRes.data) {
+        const alpha = [...platosRes.data].sort((a, b) =>
+          a.nombre.localeCompare(b.nombre, "es", { sensitivity: "base" }),
+        );
+        setPlatos(alpha);
+      }
     };
     fetchData();
 
@@ -191,8 +196,6 @@ export default function Home() {
       : platosPorCategoria.filter(
           (p) => p.nombre.toLowerCase().includes(busqueda.toLowerCase())
         );
-
-  const productosPopulares = platos.slice(0, 6);
 
   const handleToggleFavorite = useCallback((plato: Plato) => {
     favorites.toggleFavorite({

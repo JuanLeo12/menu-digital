@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { 
@@ -41,6 +41,59 @@ type Plato = {
   categoria_id: string;
   disponible: boolean;
 };
+
+type PedidoDetalleLine = {
+  id?: string;
+  nombre?: string;
+  cantidad?: number;
+};
+
+type PedidoVentaRow = {
+  estado: string;
+  detalle: PedidoDetalleLine[] | null;
+};
+
+/** Top N platos por unidades vendidas en pedidos COMPLETADO (detalle JSON). */
+function topPlatosPorVentasConcretadas(
+  platos: Plato[],
+  pedidos: PedidoVentaRow[],
+  limit = 6,
+): Plato[] {
+  const disponibles = platos.filter((p) => p.disponible !== false);
+  const byId = new Map<string, number>();
+
+  for (const pedido of pedidos) {
+    if (pedido.estado !== "COMPLETADO") continue;
+    const det = pedido.detalle;
+    if (!Array.isArray(det)) continue;
+    for (const item of det) {
+      const qty = Number(item.cantidad) || 0;
+      if (qty <= 0) continue;
+      let key: string | undefined =
+        typeof item.id === "string" && item.id ? item.id : undefined;
+      if (!key && item.nombre) {
+        const nombreLinea = String(item.nombre).trim();
+        const match = disponibles.find((pl) => pl.nombre.trim() === nombreLinea);
+        key = match?.id;
+      }
+      if (!key) continue;
+      byId.set(key, (byId.get(key) || 0) + qty);
+    }
+  }
+
+  const ranked = disponibles
+    .map((p) => ({ p, qty: byId.get(p.id) || 0 }))
+    .sort((a, b) =>
+      b.qty !== a.qty
+        ? b.qty - a.qty
+        : a.p.nombre.localeCompare(b.p.nombre, "es", { sensitivity: "base" }),
+    );
+
+  const conVentas = ranked.filter((x) => x.qty > 0).slice(0, limit).map((x) => x.p);
+  if (conVentas.length > 0) return conVentas;
+
+  return ranked.slice(0, limit).map((x) => x.p);
+}
 
 // Variantes de animacin avanzadas
 const fadeInUp = {
@@ -111,6 +164,7 @@ function AnimatedGradientBg() {
 export default function Home() {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [platos, setPlatos] = useState<Plato[]>([]);
+  const [pedidosVentas, setPedidosVentas] = useState<PedidoVentaRow[]>([]);
   const [isStoreClosed, setIsStoreClosed] = useState(false);
   const [busqueda, setBusqueda] = useState("");
   const [categoriaActiva, setCategoriaActiva] = useState("Todos");
@@ -154,12 +208,19 @@ export default function Home() {
         setIsStoreClosed(false);
       }
       
-      const [catsRes, platosRes] = await Promise.all([
+      const [catsRes, platosRes, pedidosRes] = await Promise.all([
         supabase.from("categorias").select("*").order("orden", { ascending: true }),
         supabase.from("platos").select("*").eq("disponible", true),
+        supabase.from("pedidos").select("estado, detalle"),
       ]);
       if (catsRes.data) setCategorias(catsRes.data);
       if (platosRes.data) setPlatos(platosRes.data);
+      if (pedidosRes.error) {
+        console.warn("No se pudieron cargar pedidos para favoritos:", pedidosRes.error.message);
+        setPedidosVentas([]);
+      } else if (pedidosRes.data) {
+        setPedidosVentas(pedidosRes.data as PedidoVentaRow[]);
+      }
     };
     fetchData();
 
@@ -168,6 +229,7 @@ export default function Home() {
       .on('postgres_changes', { event: '*', schema: 'schema_menu', table: 'platos' }, () => fetchData())
       .on('postgres_changes', { event: '*', schema: 'schema_menu', table: 'categorias' }, () => fetchData())
       .on('postgres_changes', { event: '*', schema: 'schema_menu', table: 'configuracion' }, () => fetchData())
+      .on('postgres_changes', { event: '*', schema: 'schema_menu', table: 'pedidos' }, () => fetchData())
       .subscribe((status) => console.log('Client Realtime:', status));
 
     return () => {
@@ -192,7 +254,10 @@ export default function Home() {
           (p) => p.nombre.toLowerCase().includes(busqueda.toLowerCase())
         );
 
-  const productosPopulares = platos.slice(0, 6);
+  const productosPopulares = useMemo(
+    () => topPlatosPorVentasConcretadas(platos, pedidosVentas, 6),
+    [platos, pedidosVentas],
+  );
 
   const handleToggleFavorite = useCallback((plato: Plato) => {
     favorites.toggleFavorite({
