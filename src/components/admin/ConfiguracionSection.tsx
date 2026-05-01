@@ -132,9 +132,9 @@ export default function ConfiguracionSection({
               ].map((dia) => (
                 <div
                   key={dia.id}
-                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-zinc-900 border-zinc-800 p-3 rounded-lg border border-gray-100"
+                  className="bg-zinc-900 border-zinc-800 p-3 rounded-lg border border-gray-100"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center w-full sm:w-1/3">
+                  <div className="flex items-center justify-between mb-3">
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
@@ -156,17 +156,20 @@ export default function ConfiguracionSection({
                         }}
                         className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                       />
-                      <span
-                        className={`font-semibold ${confTemp.horarios?.[dia.id]?.abierto ? "text-white" : "text-white"}`}
-                      >
+                      <span className="font-semibold text-white">
                         {dia.name}
                       </span>
                     </label>
+                    {confTemp.horarios?.[dia.id]?.abierto ? (
+                      <span className="text-xs text-emerald-400 font-medium">Abierto</span>
+                    ) : (
+                      <span className="text-xs text-red-400 font-medium">Cerrado</span>
+                    )}
                   </div>
-
-                  {confTemp.horarios?.[dia.id]?.abierto ? (
-                    <div className="flex flex-wrap gap-2 items-center w-full sm:w-2/3 justify-start sm:justify-end text-sm">
-                      <span className="text-white">De</span>
+                  
+                  {confTemp.horarios?.[dia.id]?.abierto && (
+                    <div className="flex items-center gap-2 text-sm pl-6">
+                      <span className="text-zinc-400 whitespace-nowrap">De</span>
                       <input
                         type="time"
                         value={confTemp.horarios[dia.id].abre}
@@ -178,9 +181,9 @@ export default function ConfiguracionSection({
                             horarios: newHorarios,
                           });
                         }}
-                        className="p-1 border-zinc-800 rounded outline-none focus:border-blue-500"
+                        className="flex-1 min-w-0 p-2 bg-zinc-800 border-zinc-700 rounded text-white outline-none focus:border-blue-500 text-sm"
                       />
-                      <span className="text-white">a</span>
+                      <span className="text-zinc-400 whitespace-nowrap">a</span>
                       <input
                         type="time"
                         value={confTemp.horarios[dia.id].cierra}
@@ -192,11 +195,9 @@ export default function ConfiguracionSection({
                             horarios: newHorarios,
                           });
                         }}
-                        className="p-1 border-zinc-800 rounded outline-none focus:border-blue-500"
+                        className="flex-1 min-w-0 p-2 bg-zinc-800 border-zinc-700 rounded text-white outline-none focus:border-blue-500 text-sm"
                       />
                     </div>
-                  ) : (
-                    <div className="text-sm text-white italic">Cerrado todo el dia</div>
                   )}
                 </div>
               ))}

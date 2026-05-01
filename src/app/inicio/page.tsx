@@ -206,8 +206,8 @@ export default function Home() {
     const isNowFavorite = favorites.isFavorite(plato.id);
     showToast(
       isNowFavorite 
-        ? `? ${plato.nombre} agregado a favoritos` 
-        : `? ${plato.nombre} eliminado de favoritos`,
+        ? `💖 ${plato.nombre} agregado a favoritos` 
+        : `💔 ${plato.nombre} eliminado de favoritos`,
       "info"
     );
   }, [favorites, showToast]);
