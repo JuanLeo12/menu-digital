@@ -47,8 +47,40 @@ export default function ProductosSection({
   } | null>(null);
   const touchPointerIdRef = useRef<number | null>(null);
   const touchStartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const touchMovedRef = useRef(false);
-  const listRef = useRef<HTMLDivElement | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const lastFxAtRef = useRef(0);
+
+  const triggerHaptic = (ms = 12) => {
+    if (typeof navigator === "undefined" || !("vibrate" in navigator)) return;
+    navigator.vibrate(ms);
+  };
+
+  const playDropClick = () => {
+    if (typeof window === "undefined") return;
+    const now = Date.now();
+    if (now - lastFxAtRef.current < 70) return;
+    lastFxAtRef.current = now;
+
+    try {
+      const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtx) return;
+      if (!audioContextRef.current) audioContextRef.current = new AudioCtx();
+      const ctx = audioContextRef.current;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.value = 780;
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.03, ctx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.06);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.07);
+    } catch {
+      // Silencio intencional: el audio es mejora opcional de UX.
+    }
+  };
 
   useEffect(() => {
     if (!draggedId && !touchDrag) setOrderedPlatos(platos);
@@ -69,6 +101,8 @@ export default function ProductosSection({
     const payload = list.map((p, index) => ({ ...p, orden: index }));
     setOrderedPlatos(payload);
     onReorderPlatos(payload);
+    triggerHaptic(18);
+    playDropClick();
     setTimeout(() => setIsCommitting(false), 220);
   };
 
@@ -117,13 +151,13 @@ export default function ProductosSection({
     plato: Plato,
   ) => {
     if (e.pointerType !== "touch") return;
-    touchMovedRef.current = false;
     touchPointerIdRef.current = e.pointerId;
     const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
 
     if (touchStartTimerRef.current) clearTimeout(touchStartTimerRef.current);
     touchStartTimerRef.current = setTimeout(() => {
       setDraggedId(plato.id);
+      triggerHaptic(10);
       setTouchDrag({
         id: plato.id,
         x: e.clientX,
@@ -138,7 +172,6 @@ export default function ProductosSection({
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "touch") return;
-    touchMovedRef.current = true;
     if (!touchDrag || touchPointerIdRef.current !== e.pointerId) return;
 
     e.preventDefault();
