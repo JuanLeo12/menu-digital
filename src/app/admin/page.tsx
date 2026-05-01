@@ -73,6 +73,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<
     "platos" | "categorias" | "pedidos" | "metricas" | "configuracion"
   >("pedidos");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // States Formularios Platos
   const [formMode, setFormMode] = useState<"crear" | "editar" | null>(null);
@@ -410,9 +411,9 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Navegación principal */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-4 relative z-10">
-        <div className="flex flex-wrap gap-2 sm:gap-3 justify-center md:justify-start">
+      {/* Navegación principal - Desktop */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-4 relative z-10 hidden md:block">
+        <div className="flex flex-wrap gap-3 justify-center md:justify-start">
           <button
             onClick={() => setActiveTab("pedidos")}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
@@ -477,6 +478,95 @@ export default function AdminPage() {
           </button>
         </div>
       </div>
+
+      {/* Botón hamburguesa - Mobile */}
+      <div className="md:hidden max-w-7xl mx-auto px-4 -mt-4 relative z-20">
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="w-full flex items-center justify-between p-4 bg-zinc-900 border border-zinc-800 rounded-xl text-white shadow-lg"
+        >
+          <span className="font-semibold">
+            {activeTab === "pedidos" ? "📋 Pedidos" :
+             activeTab === "metricas" ? "📊 Dashboard" :
+             activeTab === "platos" ? "🍽️ Productos" :
+             activeTab === "categorias" ? "🏷️ Categorías" :
+             "⚙️ Configuración"}
+          </span>
+          <div className="flex flex-col gap-1.5">
+            <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+            <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          </div>
+        </button>
+      </div>
+
+      {/* Menú desplegable - Mobile */}
+      {mobileMenuOpen && (
+        <div className="md:hidden max-w-7xl mx-auto px-4 relative z-10 -mt-2">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-b-2xl shadow-xl p-4 space-y-2">
+            <button
+              onClick={() => { setActiveTab("pedidos"); setMobileMenuOpen(false); }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
+                activeTab === "pedidos"
+                  ? "bg-linear-to-r from-red-600 to-orange-500 text-white"
+                  : "text-white hover:bg-zinc-800"
+              }`}
+            >
+              <ListOrdered size={18} />
+              <span>Pedidos</span>
+              {pedidos.filter(p => p.estado === "PENDIENTE").length > 0 && (
+                <span className="ml-auto bg-blue-500 text-white px-2 py-0.5 rounded-full text-xs">
+                  {pedidos.filter(p => p.estado === "PENDIENTE").length}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => { setActiveTab("metricas"); setMobileMenuOpen(false); }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
+                activeTab === "metricas"
+                  ? "bg-linear-to-r from-orange-500 to-yellow-500 text-white"
+                  : "text-white hover:bg-zinc-800"
+              }`}
+            >
+              <BarChart3 size={18} />
+              <span>Dashboard</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab("platos"); setMobileMenuOpen(false); }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
+                activeTab === "platos"
+                  ? "bg-linear-to-r from-orange-500 to-amber-500 text-white"
+                  : "text-white hover:bg-zinc-800"
+              }`}
+            >
+              <UtensilsCrossed size={18} />
+              <span>Productos</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab("categorias"); setMobileMenuOpen(false); }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
+                activeTab === "categorias"
+                  ? "bg-linear-to-r from-emerald-500 to-teal-500 text-white"
+                  : "text-white hover:bg-zinc-800"
+              }`}
+            >
+              <Tag size={18} />
+              <span>Categorías</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab("configuracion"); setMobileMenuOpen(false); }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
+                activeTab === "configuracion"
+                  ? "bg-linear-to-r from-zinc-800 to-zinc-900 text-white"
+                  : "text-white hover:bg-zinc-800"
+              }`}
+            >
+              <Settings size={18} />
+              <span>Configuración</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Contenido principal */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 mt-8">
