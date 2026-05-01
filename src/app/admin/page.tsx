@@ -29,6 +29,7 @@ type Plato = {
   imagen_url: string;
   categoria_id: string;
   disponible?: boolean;
+  orden?: number;
 };
 
 type HorarioDia = { abierto: boolean; abre: string; cierra: string };
@@ -328,6 +329,27 @@ export default function AdminPage() {
     await fetchData();
   };
 
+  const reorderPlatos = async (updatedPlatos: Plato[]) => {
+    setLoading(true);
+    // Update orden for each plato
+    const updates = updatedPlatos.map((p) => ({
+      id: p.id,
+      orden: p.orden,
+    }));
+
+    const { error } = await supabase
+      .from("platos")
+      .upsert(updates, { onConflict: "id" });
+
+    if (error) {
+      showToast("Error al reordenar: " + error.message);
+    } else {
+      setPlatos(updatedPlatos);
+      showToast("¡Orden actualizado!");
+    }
+    setLoading(false);
+  };
+
   // --- CATEGORIAS ---
   const openCrearCategoria = () => {
     setCatNombre("");
@@ -586,6 +608,7 @@ export default function AdminPage() {
               onOpenCrear={openCrear}
               onOpenEditar={openEditar}
               onBorrarPlato={borrarPlato}
+              onReorderPlatos={reorderPlatos}
             />
           )}
 

@@ -1,6 +1,7 @@
 ﻿"use client";
 
-import { Edit2, Plus, Trash2 } from "lucide-react";
+import { Edit2, Plus, Search, Trash2, X } from "lucide-react";
+import { useState } from "react";
 
 type Categoria = { id: string; nombre: string; orden: number };
 
@@ -17,26 +18,54 @@ export default function CategoriasSection({
   onOpenEditarCategoria,
   onBorrarCategoria,
 }: CategoriasSectionProps) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredCategorias = categorias.filter((c) =>
+    c.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border-zinc-800">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-white">Tus Categorias</h2>
-        <button
-          onClick={onOpenCrearCategoria}
-          className="bg-emerald-500 text-white px-5 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-emerald-600 active:scale-95 transition-all shadow-sm text-sm"
-        >
-          <Plus size={18} />
-          Nueva Categoría
-        </button>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <h2 className="text-xl font-bold text-white">Tus Categorías</h2>
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="relative flex-1 sm:flex-initial">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={16} />
+            <input
+              type="text"
+              placeholder="Buscar categoría..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="bg-zinc-950 border border-zinc-700 rounded-full pl-10 pr-4 py-2 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500 transition-colors w-full sm:w-48"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+          <button
+            onClick={onOpenCrearCategoria}
+            className="bg-emerald-500 text-white px-5 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-emerald-600 active:scale-95 transition-all shadow-sm text-sm whitespace-nowrap"
+          >
+            <Plus size={18} />
+            Nueva Categoría
+          </button>
+        </div>
       </div>
 
-      {categorias.length === 0 ? (
-        <div className="bg-emerald-50 border-2 border-dashed border-emerald-200 rounded-2xl p-10 text-center text-emerald-800">
-          Agrega categorías (Ej: Combos, Bebidas, Licores) para organizar tu menú.
+      {filteredCategorias.length === 0 ? (
+        <div className="bg-zinc-800/50 border-2 border-dashed border-zinc-700 rounded-2xl p-10 text-center text-zinc-400">
+          {searchTerm
+            ? "No se encontraron categorías que coincidan con la búsqueda."
+            : "Agrega categorías (Ej: Combos, Bebidas, Licores) para organizar tu menú."}
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {categorias.map((c) => (
+          {filteredCategorias.map((c) => (
             <div
               key={c.id}
               className="flex flex-col p-4 rounded-xl bg-zinc-950 border-2 border-zinc-800 shadow-md gap-3"

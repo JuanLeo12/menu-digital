@@ -1,6 +1,7 @@
 ﻿"use client";
 
-import { CheckCircle2, Undo2, X } from "lucide-react";
+import { CheckCircle2, Search, Undo2, X } from "lucide-react";
+import { useState } from "react";
 
 type PedidoDetalle = { cantidad: number; nombre: string };
 
@@ -23,16 +24,47 @@ export default function PedidosSection({
   pedidos,
   onUpdatePedidoEstado,
 }: PedidosSectionProps) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredPedidos = pedidos.filter(
+    (p) =>
+      p.cliente_nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.tipo_pedido.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.estado.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border-zinc-800">
-      <h2 className="text-xl font-bold text-white mb-6">Pedidos Recientes</h2>
-      {pedidos.length === 0 ? (
-        <div className="bg-zinc-800/80 border-2 border-dashed border-zinc-700 rounded-2xl p-10 text-center text-white">
-          No tienes pedidos todavia.
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <h2 className="text-xl font-bold text-white">Pedidos Recientes</h2>
+        <div className="relative w-full sm:w-auto">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={16} />
+          <input
+            type="text"
+            placeholder="Buscar pedido..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="bg-zinc-950 border border-zinc-700 rounded-full pl-10 pr-4 py-2 text-sm text-white placeholder-zinc-500 outline-none focus:border-orange-500 transition-colors w-full sm:w-48"
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white"
+            >
+              <X size={14} />
+            </button>
+          )}
+        </div>
+      </div>
+      {filteredPedidos.length === 0 ? (
+        <div className="bg-zinc-800/50 border-2 border-dashed border-zinc-700 rounded-2xl p-10 text-center text-zinc-400">
+          {searchTerm
+            ? "No se encontraron pedidos que coincidan con la búsqueda."
+            : "No tienes pedidos todavía."}
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {pedidos.map((p) => (
+          {filteredPedidos.map((p) => (
             <div
               key={p.id}
               className={`p-5 rounded-2xl border ${
