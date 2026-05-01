@@ -156,15 +156,15 @@ export default function Home() {
       
       const [catsRes, platosRes] = await Promise.all([
         supabase.from("categorias").select("*").order("orden", { ascending: true }).order("nombre", { ascending: true }),
-        supabase.from("platos").select("*").eq("disponible", true),
+        supabase
+          .from("platos")
+          .select("*")
+          .eq("disponible", true)
+          .order("orden", { ascending: true, nullsFirst: false })
+          .order("nombre", { ascending: true }),
       ]);
       if (catsRes.data) setCategorias(catsRes.data);
-      if (platosRes.data) {
-        const alpha = [...platosRes.data].sort((a, b) =>
-          a.nombre.localeCompare(b.nombre, "es", { sensitivity: "base" }),
-        );
-        setPlatos(alpha);
-      }
+      if (platosRes.data) setPlatos(platosRes.data);
     };
     fetchData();
 
@@ -184,7 +184,9 @@ export default function Home() {
   let platosPorCategoria =
     categoriaActiva === "Todos"
       ? platos
-      : platos.filter((p) => p.categoria_id === currentCatId);
+      : [...platos.filter((p) => p.categoria_id === currentCatId)].sort((a, b) =>
+          a.nombre.localeCompare(b.nombre, "es", { sensitivity: "base" }),
+        );
 
   if (activeTab === "favorites") {
     platosPorCategoria = platosPorCategoria.filter(p => favorites.isFavorite(p.id));
