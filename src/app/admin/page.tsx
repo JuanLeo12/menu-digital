@@ -402,7 +402,7 @@ export default function AdminPage() {
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold text-sm border-2 border-black shadow-md w-full sm:w-auto justify-center"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold text-sm border-2 border-black shadow-md w-auto sm:w-auto justify-center mx-auto sm:mx-0"
             >
               <LogOut size={14} />
               <span>Cerrar Sesión</span>
