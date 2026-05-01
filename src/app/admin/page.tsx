@@ -401,7 +401,7 @@ export default function AdminPage() {
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-4 sm:px-4 py-2 sm:py-2 rounded-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 w-full sm:w-auto justify-center text-sm"
+              className="flex items-center gap-2 px-4 sm:px-4 py-2 sm:py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 w-full sm:w-auto justify-center text-sm sm:bg-gradient-to-r sm:from-red-600 sm:to-orange-600 sm:hover:from-red-700 sm:hover:to-orange-700"
             >
               <LogOut size={16} />
               <span>Cerrar Sesión</span>
