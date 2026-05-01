@@ -34,6 +34,7 @@ export default function ProductosSection({
   const [searchTerm, setSearchTerm] = useState("");
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [isDropping, setIsDropping] = useState(false);
 
   const filteredPlatos = platos.filter((p) =>
     p.nombre.toLowerCase().includes(searchTerm.toLowerCase())
@@ -71,6 +72,8 @@ export default function ProductosSection({
     }));
 
     onReorderPlatos(updatedPlatos);
+    setIsDropping(true);
+    setTimeout(() => setIsDropping(false), 220);
     setDraggedId(null);
     setDragOverId(null);
   };
@@ -81,7 +84,7 @@ export default function ProductosSection({
   };
 
   return (
-    <div className="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)] border-zinc-800">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 shadow-[0_0_30px_rgba(239,68,68,0.1)]">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <h2 className="text-xl font-bold text-white">Mis Productos</h2>
         <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -136,10 +139,17 @@ export default function ProductosSection({
                 onDragOver={(e) => handleDragOver(e, p.id)}
                 onDrop={(e) => handleDrop(e, p.id)}
                 onDragEnd={handleDragEnd}
-                className={`flex items-center justify-between p-3.5 rounded-xl bg-zinc-950 border-2 border-zinc-800 shadow-md gap-4 cursor-grab active:cursor-grabbing transition-all duration-200 ${
-                  isDragging ? "opacity-50 scale-95" : ""
-                } ${isDragOver ? "border-orange-500 border-2 scale-[1.02]" : ""}`}
+                className={`relative flex items-center justify-between p-3.5 rounded-xl bg-zinc-950 border-2 border-zinc-800 shadow-md gap-4 cursor-grab active:cursor-grabbing transition-all duration-200 will-change-transform ${
+                  isDragging
+                    ? "z-20 scale-110 -rotate-2 shadow-[0_14px_30px_rgba(249,115,22,0.35)] border-orange-400"
+                    : "scale-100"
+                } ${isDragOver ? "border-orange-500 scale-[1.02] bg-zinc-900" : ""} ${
+                  isDropping ? "animate-pulse" : ""
+                }`}
               >
+                {isDragOver && !isDragging && (
+                  <div className="absolute inset-0 rounded-xl border-2 border-dashed border-orange-400/70 pointer-events-none" />
+                )}
                 <div className="flex gap-3 items-center flex-1 min-w-0">
                   <div className="text-zinc-600 shrink-0">
                     <GripVertical size={16} />

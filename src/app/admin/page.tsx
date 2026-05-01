@@ -102,7 +102,11 @@ export default function AdminPage() {
       .select("*")
       .order("orden", { ascending: true })
       .order("nombre", { ascending: true });
-    const respPlat = await supabase.from("platos").select("*");
+    const respPlat = await supabase
+      .from("platos")
+      .select("*")
+      .order("orden", { ascending: true, nullsFirst: false })
+      .order("nombre", { ascending: true });
     const respPeds = await supabase
       .from("pedidos")
       .select("*")
@@ -242,7 +246,7 @@ export default function AdminPage() {
       .upsert(payload, { onConflict: "id" })
       .eq("id", 1);
     if (error) showToast("Error guardando configuración: " + error.message);
-    else showToast("¡Guardado correctaMenúte!");
+    else showToast("¡Guardado correctamente!");
     setYapeFile(null);
     setPlinFile(null);
     await fetchData();
@@ -331,20 +335,16 @@ export default function AdminPage() {
 
   const reorderPlatos = async (updatedPlatos: Plato[]) => {
     setLoading(true);
-    // Update orden for each plato
-    const updates = updatedPlatos.map((p) => ({
-      id: p.id,
-      orden: p.orden,
-    }));
+    // Persistimos solo el campo orden por id para evitar upserts incompletos.
+    const updates = updatedPlatos.map((p, index) =>
+      supabase.from("platos").update({ orden: index }).eq("id", p.id),
+    );
+    const results = await Promise.all(updates);
+    const firstError = results.find((r) => r.error)?.error;
 
-    const { error } = await supabase
-      .from("platos")
-      .upsert(updates, { onConflict: "id" });
-
-    if (error) {
-      showToast("Error al reordenar: " + error.message);
-    } else {
-      setPlatos(updatedPlatos);
+    if (firstError) showToast("Error al reordenar: " + firstError.message);
+    else {
+      setPlatos(updatedPlatos.map((p, index) => ({ ...p, orden: index })));
       showToast("¡Orden actualizado!");
     }
     setLoading(false);
