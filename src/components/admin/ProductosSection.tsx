@@ -45,6 +45,7 @@ export default function ProductosSection({
     offsetX: number;
     offsetY: number;
   } | null>(null);
+  const [touchGhostPlato, setTouchGhostPlato] = useState<Plato | null>(null);
   const touchPointerIdRef = useRef<number | null>(null);
   const touchStartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -113,6 +114,11 @@ export default function ProductosSection({
   const handleDragStart = (e: React.DragEvent, id: string) => {
     setDraggedId(id);
     e.dataTransfer.effectAllowed = "move";
+    // Empty preview keeps UI consistent with our custom card animations.
+    const img = new Image();
+    img.src =
+      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz4=";
+    e.dataTransfer.setDragImage(img, 0, 0);
   };
 
   const handleDragOver = (e: React.DragEvent, id: string) => {
@@ -143,6 +149,7 @@ export default function ProductosSection({
     if (!touchDrag) return;
     commitOrder(orderedPlatos);
     setTouchDrag(null);
+    setTouchGhostPlato(null);
     touchPointerIdRef.current = null;
   };
 
@@ -157,6 +164,7 @@ export default function ProductosSection({
     if (touchStartTimerRef.current) clearTimeout(touchStartTimerRef.current);
     touchStartTimerRef.current = setTimeout(() => {
       setDraggedId(plato.id);
+      setTouchGhostPlato(plato);
       triggerHaptic(10);
       setTouchDrag({
         id: plato.id,
@@ -201,6 +209,7 @@ export default function ProductosSection({
     }
     setDraggedId(null);
     setTouchDrag(null);
+    setTouchGhostPlato(null);
     touchPointerIdRef.current = null;
   };
 
@@ -271,7 +280,7 @@ export default function ProductosSection({
                 onPointerCancel={handlePointerCancel}
                 className={`relative flex items-center justify-between p-3.5 rounded-xl bg-zinc-950 border-2 border-zinc-800 shadow-md gap-4 cursor-grab active:cursor-grabbing transition-all duration-200 will-change-transform select-none ${
                   isDragging
-                    ? "z-20 scale-105 shadow-[0_14px_30px_rgba(249,115,22,0.35)] border-orange-400"
+                    ? "z-20 scale-[1.03] shadow-[0_14px_30px_rgba(249,115,22,0.35)] border-orange-400 ring-2 ring-orange-500/30"
                     : "scale-100"
                 } ${isCommitting ? "animate-pulse" : ""} ${
                   isTouchDragging ? "opacity-25" : ""
@@ -326,7 +335,7 @@ export default function ProductosSection({
         </div>
       )}
 
-      {touchDrag && (
+      {touchDrag && touchGhostPlato && (
         <div
           className="fixed z-50 pointer-events-none"
           style={{
@@ -334,10 +343,36 @@ export default function ProductosSection({
             top: touchDrag.y - touchDrag.offsetY,
             width: touchDrag.width,
             height: touchDrag.height,
-            transform: "scale(1.04)",
+            transform: "scale(1.04) rotate(-1deg)",
           }}
         >
-          <div className="h-full w-full rounded-xl border-2 border-orange-400 bg-zinc-900 shadow-[0_18px_45px_rgba(249,115,22,0.5)]" />
+          <div className="h-full w-full rounded-xl border-2 border-orange-400 bg-zinc-900 shadow-[0_18px_45px_rgba(249,115,22,0.5)] ring-2 ring-orange-500/30 p-3.5 flex items-center justify-between gap-4">
+            <div className="flex gap-3 items-center flex-1 min-w-0">
+              <div className="text-zinc-500 shrink-0">
+                <GripVertical size={16} />
+              </div>
+              {touchGhostPlato.imagen_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={touchGhostPlato.imagen_url}
+                  alt={touchGhostPlato.nombre}
+                  className="w-16 h-16 rounded-xl object-cover shrink-0 border border-zinc-700"
+                />
+              ) : (
+                <div className="w-16 h-16 rounded-xl shrink-0 bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-400 text-xs font-bold">
+                  Sin Img
+                </div>
+              )}
+              <div className="flex flex-col min-w-0">
+                <h3 className="font-bold text-white text-[15px] truncate leading-tight">
+                  {touchGhostPlato.nombre}
+                </h3>
+                <p className="font-bold text-orange-400 text-sm mt-1">
+                  S/ {(touchGhostPlato.precio || 0).toFixed(2)}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
