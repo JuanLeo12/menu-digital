@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { Edit2, GripVertical, Plus, Search, Trash2, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 type Categoria = { id: string; nombre: string };
 
@@ -48,8 +48,8 @@ export default function ProductosSection({
   const [touchGhostPlato, setTouchGhostPlato] = useState<Plato | null>(null);
   const touchPointerIdRef = useRef<number | null>(null);
   const touchStartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const listRef = useRef<HTMLDivElement | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
-  const lastFxAtRef = useRef(0);
 
   const triggerHaptic = (ms = 12) => {
     if (typeof navigator === "undefined" || !("vibrate" in navigator)) return;
@@ -58,10 +58,6 @@ export default function ProductosSection({
 
   const playDropClick = () => {
     if (typeof window === "undefined") return;
-    const now = Date.now();
-    if (now - lastFxAtRef.current < 70) return;
-    lastFxAtRef.current = now;
-
     try {
       const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (!AudioCtx) return;
@@ -83,10 +79,6 @@ export default function ProductosSection({
     }
   };
 
-  useEffect(() => {
-    if (!draggedId && !touchDrag) setOrderedPlatos(platos);
-  }, [platos, draggedId, touchDrag]);
-
   const movePlato = (list: Plato[], fromId: string, toId: string) => {
     const fromIndex = list.findIndex((p) => p.id === fromId);
     const toIndex = list.findIndex((p) => p.id === toId);
@@ -107,11 +99,13 @@ export default function ProductosSection({
     setTimeout(() => setIsCommitting(false), 220);
   };
 
-  const filteredPlatos = orderedPlatos.filter((p) =>
+  const visiblePlatos = draggedId || touchDrag ? orderedPlatos : platos;
+  const filteredPlatos = visiblePlatos.filter((p) =>
     p.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleDragStart = (e: React.DragEvent, id: string) => {
+    setOrderedPlatos(platos);
     setDraggedId(id);
     e.dataTransfer.effectAllowed = "move";
     // Empty preview keeps UI consistent with our custom card animations.
@@ -163,6 +157,7 @@ export default function ProductosSection({
 
     if (touchStartTimerRef.current) clearTimeout(touchStartTimerRef.current);
     touchStartTimerRef.current = setTimeout(() => {
+      setOrderedPlatos(platos);
       setDraggedId(plato.id);
       setTouchGhostPlato(plato);
       triggerHaptic(10);
