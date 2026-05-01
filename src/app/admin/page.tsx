@@ -334,8 +334,7 @@ export default function AdminPage() {
   };
 
   const reorderPlatos = async (updatedPlatos: Plato[]) => {
-    setLoading(true);
-    // Persistimos solo el campo orden por id para evitar upserts incompletos.
+    // No usar loading global: desmonta el panel y rompe drag táctil / overlay.
     const updates = updatedPlatos.map((p, index) =>
       supabase.from("platos").update({ orden: index }).eq("id", p.id),
     );
@@ -347,7 +346,6 @@ export default function AdminPage() {
       setPlatos(updatedPlatos.map((p, index) => ({ ...p, orden: index })));
       showToast("¡Orden actualizado!");
     }
-    setLoading(false);
   };
 
   // --- CATEGORIAS ---
